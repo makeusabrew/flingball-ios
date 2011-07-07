@@ -113,12 +113,12 @@ enum {
 		groundBody->CreateFixture(&groundBox,0);
 		
         ball = [CCSprite spriteWithFile:@"ball.png" rect:CGRectMake(0, 0, 64, 64)];
-        ball.position = ccp(100, 700);
+        ball.position = ccp(100, 500);
         [self addChild:ball];
         
         b2BodyDef ballBodyDef;
         ballBodyDef.type = b2_dynamicBody;
-        ballBodyDef.position.Set(100/PTM_RATIO, 700/PTM_RATIO);
+        ballBodyDef.position.Set(100/PTM_RATIO, 500/PTM_RATIO);
         ballBodyDef.userData = ball;
         body = world->CreateBody(&ballBodyDef);
         
@@ -131,6 +131,11 @@ enum {
         ballShapeDef.friction = 0.2f;
         ballShapeDef.restitution = 0.8f;
         body->CreateFixture(&ballShapeDef);
+        
+        b2Vec2 v;
+        v.x = 10;
+        v.y = 10;
+        body->SetLinearVelocity(v);
                 
         /*
 		CCLabelTTF *label = [CCLabelTTF labelWithString:@"Tap screen" fontName:@"Marker Felt" fontSize:32];
