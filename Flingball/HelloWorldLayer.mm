@@ -113,12 +113,12 @@ enum {
 		groundBody->CreateFixture(&groundBox,0);
 		
         ball = [CCSprite spriteWithFile:@"ball.png" rect:CGRectMake(0, 0, 64, 64)];
-        ball.position = ccp(100, 500);
+        ball.position = ccp(100, 100);
         [self addChild:ball];
         
         b2BodyDef ballBodyDef;
         ballBodyDef.type = b2_dynamicBody;
-        ballBodyDef.position.Set(100/PTM_RATIO, 500/PTM_RATIO);
+        ballBodyDef.position.Set(100/PTM_RATIO, 100/PTM_RATIO);
         ballBodyDef.userData = ball;
         body = world->CreateBody(&ballBodyDef);
         
@@ -131,11 +131,6 @@ enum {
         ballShapeDef.friction = 0.2f;
         ballShapeDef.restitution = 0.8f;
         body->CreateFixture(&ballShapeDef);
-        
-        b2Vec2 v;
-        v.x = 10;
-        v.y = 10;
-        body->SetLinearVelocity(v);
                 
         /*
 		CCLabelTTF *label = [CCLabelTTF labelWithString:@"Tap screen" fontName:@"Marker Felt" fontSize:32];
@@ -194,6 +189,16 @@ enum {
 	}
 }
 
+- (void)ccTouchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
+{
+    //Add a new body/atlas sprite at the touched location
+	for( UITouch *touch in touches ) {
+		startDragLocation = [touch locationInView: [touch view]];
+		
+		startDragLocation = [[CCDirector sharedDirector] convertToGL: startDragLocation];
+	}
+}
+
 - (void)ccTouchesEnded:(NSSet *)touches withEvent:(UIEvent *)event
 {
 	//Add a new body/atlas sprite at the touched location
@@ -201,9 +206,42 @@ enum {
 		CGPoint location = [touch locationInView: [touch view]];
 		
 		location = [[CCDirector sharedDirector] convertToGL: location];
+        
+        float dx = location.x - startDragLocation.x;
+        float dy = location.y - startDragLocation.y;
+        float dist = sqrt((dx*dx) + (dy*dy));
+        float vel = dist / 20.0; // hard coded for now!
+        
+        b2Vec2 v;
+        
+        if (dy < 0 && dx == 0) {	// straight up
+            v.x = 0;
+            v.y = -vel;
+        } else if (dy > 0 && dx == 0) {	// straight down
+            v.x = 0;
+            v.y = vel;
+        } else if (dx > 0 && dy == 0) {	// straight left
+            v.x = vel;
+            v.y = 0;
+        } else if (dx < 0 && dy == 0) {	// straight right
+            v.x = -vel;
+            v.y = 0;
+        } else if (dy < 0 && dx < 0) {	// bottom left of ball
+            float a = dy / dx;
+            a = atan(a);
+            v.x = cos(a) * vel;
+            v.y = sin(a) * vel;		
+        } else if (dy < 0 && dx > 0) {	// bottom right of ball
+            float a = atan2(dy, dx);		
+            v.x = -(cos(a) * vel);
+            v.y = -(sin(a) * vel);
+        }
+        
+        body->SetLinearVelocity(v);
 	}
 }
 
+/*
 - (void)accelerometer:(UIAccelerometer*)accelerometer didAccelerate:(UIAcceleration*)acceleration
 {	
 	static float prevX=0, prevY=0;
@@ -223,6 +261,7 @@ enum {
 	
 	world->SetGravity( gravity );
 }
+*/
 
 // on "dealloc" you need to release all your retained objects
 - (void) dealloc
