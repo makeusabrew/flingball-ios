@@ -112,19 +112,33 @@ enum {
 		groundBox.SetAsEdge(b2Vec2(screenSize.width/PTM_RATIO,screenSize.height/PTM_RATIO), b2Vec2(screenSize.width/PTM_RATIO,0));
 		groundBody->CreateFixture(&groundBox,0);
 		
-		
-		//Set up sprite
-		
-		CCSpriteBatchNode *batch = [CCSpriteBatchNode batchNodeWithFile:@"blocks.png" capacity:150];
-		[self addChild:batch z:0 tag:kTagBatchNode];
-		
-		[self addNewSpriteWithCoords:ccp(screenSize.width/2, screenSize.height/2)];
-		
+        ball = [CCSprite spriteWithFile:@"ball.png" rect:CGRectMake(0, 0, 64, 64)];
+        ball.position = ccp(100, 700);
+        [self addChild:ball];
+        
+        b2BodyDef ballBodyDef;
+        ballBodyDef.type = b2_dynamicBody;
+        ballBodyDef.position.Set(100/PTM_RATIO, 700/PTM_RATIO);
+        ballBodyDef.userData = ball;
+        body = world->CreateBody(&ballBodyDef);
+        
+        b2CircleShape circle;
+        circle.m_radius = 32.0/PTM_RATIO;
+        
+        b2FixtureDef ballShapeDef;
+        ballShapeDef.shape = &circle;
+        ballShapeDef.density = 1.0f;
+        ballShapeDef.friction = 0.2f;
+        ballShapeDef.restitution = 0.8f;
+        body->CreateFixture(&ballShapeDef);
+                
+        /*
 		CCLabelTTF *label = [CCLabelTTF labelWithString:@"Tap screen" fontName:@"Marker Felt" fontSize:32];
 		[self addChild:label z:0];
 		[label setColor:ccc3(0,0,255)];
 		label.position = ccp( screenSize.width/2, screenSize.height-50);
-		
+		*/
+         
 		[self schedule: @selector(tick:)];
 	}
 	return self;
@@ -147,43 +161,6 @@ enum {
 	glEnableClientState(GL_TEXTURE_COORD_ARRAY);
 
 }
-
--(void) addNewSpriteWithCoords:(CGPoint)p
-{
-	CCLOG(@"Add sprite %0.2f x %02.f",p.x,p.y);
-	CCSpriteBatchNode *batch = (CCSpriteBatchNode*) [self getChildByTag:kTagBatchNode];
-	
-	//We have a 64x64 sprite sheet with 4 different 32x32 images.  The following code is
-	//just randomly picking one of the images
-	int idx = (CCRANDOM_0_1() > .5 ? 0:1);
-	int idy = (CCRANDOM_0_1() > .5 ? 0:1);
-	CCSprite *sprite = [CCSprite spriteWithBatchNode:batch rect:CGRectMake(32 * idx,32 * idy,32,32)];
-	[batch addChild:sprite];
-	
-	sprite.position = ccp( p.x, p.y);
-	
-	// Define the dynamic body.
-	//Set up a 1m squared box in the physics world
-	b2BodyDef bodyDef;
-	bodyDef.type = b2_dynamicBody;
-
-	bodyDef.position.Set(p.x/PTM_RATIO, p.y/PTM_RATIO);
-	bodyDef.userData = sprite;
-	b2Body *body = world->CreateBody(&bodyDef);
-	
-	// Define another box shape for our dynamic body.
-	b2PolygonShape dynamicBox;
-	dynamicBox.SetAsBox(.5f, .5f);//These are mid points for our 1m box
-	
-	// Define the dynamic body fixture.
-	b2FixtureDef fixtureDef;
-	fixtureDef.shape = &dynamicBox;	
-	fixtureDef.density = 1.0f;
-	fixtureDef.friction = 0.3f;
-	body->CreateFixture(&fixtureDef);
-}
-
-
 
 -(void) tick: (ccTime) dt
 {
@@ -219,8 +196,6 @@ enum {
 		CGPoint location = [touch locationInView: [touch view]];
 		
 		location = [[CCDirector sharedDirector] convertToGL: location];
-		
-		[self addNewSpriteWithCoords: location];
 	}
 }
 
@@ -252,6 +227,8 @@ enum {
 	world = NULL;
 	
 	delete m_debugDraw;
+    
+    body = NULL;
 
 	// don't forget to call "super dealloc"
 	[super dealloc];
