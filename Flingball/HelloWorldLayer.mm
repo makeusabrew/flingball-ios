@@ -3,18 +3,15 @@
 //  Flingball
 //
 //  Created by Nicholas Payne on 06/07/2011.
-//  Copyright __MyCompanyName__ 2011. All rights reserved.
+//  Copyright Payne Digital Ltd 2011. All rights reserved.
 //
 
 
 // Import the interfaces
 #import "HelloWorldLayer.h"
+#import "Constants.h"
 
-//Pixel to metres ratio. Box2D uses metres as the unit for measurement.
-//This ratio defines how many pixels correspond to 1 Box2D "metre"
-//Box2D is optimized for objects of 1x1 metre therefore it makes sense
-//to define the ratio so that your most common object type is 1x1 metre.
-#define PTM_RATIO 32
+
 
 // enums that will be used as tags
 enum {
@@ -111,27 +108,11 @@ enum {
 		// right
 		groundBox.SetAsEdge(b2Vec2(screenSize.width/PTM_RATIO,screenSize.height/PTM_RATIO), b2Vec2(screenSize.width/PTM_RATIO,0));
 		groundBody->CreateFixture(&groundBox,0);
-		
-        ball = [CCSprite spriteWithFile:@"ball.png" rect:CGRectMake(0, 0, 64, 64)];
-        ball.position = ccp(100, 100);
-        [self addChild:ball];
         
-        b2BodyDef ballBodyDef;
-        ballBodyDef.type = b2_dynamicBody;
-        ballBodyDef.position.Set(100/PTM_RATIO, 100/PTM_RATIO);
-        ballBodyDef.userData = ball;
-        body = world->CreateBody(&ballBodyDef);
+        ball = [[Ball alloc] initWithPosition:b2Vec2(100, 100) forWorld:world];
         
-        b2CircleShape circle;
-        circle.m_radius = 32.0/PTM_RATIO;
-        
-        b2FixtureDef ballShapeDef;
-        ballShapeDef.shape = &circle;
-        ballShapeDef.density = 1.0f;
-        ballShapeDef.friction = 0.2f;
-        ballShapeDef.restitution = 0.8f;
-        body->CreateFixture(&ballShapeDef);
-                
+        [self addChild:[ball sprite]];
+		                
         /*
 		CCLabelTTF *label = [CCLabelTTF labelWithString:@"Tap screen" fontName:@"Marker Felt" fontSize:32];
 		[self addChild:label z:0];
@@ -182,9 +163,13 @@ enum {
 	{
 		if (b->GetUserData() != NULL) {
 			//Synchronize the AtlasSprites position and rotation with the corresponding body
-			CCSprite *myActor = (CCSprite*)b->GetUserData();
-			myActor.position = CGPointMake( b->GetPosition().x * PTM_RATIO, b->GetPosition().y * PTM_RATIO);
-			myActor.rotation = -1 * CC_RADIANS_TO_DEGREES(b->GetAngle());
+			//CCSprite *myActor = (CCSprite*)b->GetUserData();
+			Ball *myBall = (Ball*)b->GetUserData();
+            //myActor.position = CGPointMake( b->GetPosition().x * PTM_RATIO, b->GetPosition().y * PTM_RATIO);
+			//myActor.rotation = -1 * CC_RADIANS_TO_DEGREES(b->GetAngle());
+            b2Vec2 pos = b2Vec2(b->GetPosition().x * PTM_RATIO, b->GetPosition().y * PTM_RATIO);
+            float angle = -1 * CC_RADIANS_TO_DEGREES(b->GetAngle());
+            [myBall setSpritePosition:pos withAngle:angle];
 		}	
 	}
 }
@@ -236,7 +221,7 @@ enum {
             v.y = -(sin(a) * vel);
         }
         
-        body->ApplyLinearImpulse(v, body->GetPosition());
+        [ball fling:v];
 	}
 }
 
@@ -271,7 +256,8 @@ enum {
 	
 	delete m_debugDraw;
     
-    body = NULL;
+    [ball dealloc];
+    ball = NULL;
 
 	// don't forget to call "super dealloc"
 	[super dealloc];

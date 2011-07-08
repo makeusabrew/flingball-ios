@@ -3,7 +3,7 @@
 //  Flingball
 //
 //  Created by Nicholas Payne on 06/07/2011.
-//  Copyright __MyCompanyName__ 2011. All rights reserved.
+//  Copyright Payne Digital Ltd 2011. All rights reserved.
 //
 
 
@@ -11,15 +11,14 @@
 #import "cocos2d.h"
 #import "Box2D.h"
 #import "GLES-Render.h"
+#import "Ball.h"
 
 // HelloWorldLayer
 @interface HelloWorldLayer : CCLayer
 {
 	b2World* world;
+    Ball* ball;
 	GLESDebugDraw *m_debugDraw;
-    
-    b2Body* body;
-    CCSprite* ball;
     
     CGPoint startDragLocation;
 }

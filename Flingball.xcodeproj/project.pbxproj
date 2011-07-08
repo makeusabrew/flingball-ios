@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0125463113C72E75006C2D33 /* Ball.mm in Sources */ = {isa = PBXBuildFile; fileRef = 0125463013C72E75006C2D33 /* Ball.mm */; };
+		0125463913C72FE7006C2D33 /* Entity.mm in Sources */ = {isa = PBXBuildFile; fileRef = 0125463813C72FE7006C2D33 /* Entity.mm */; };
 		012BC81713C5E1180063DCA2 /* ball.png in Resources */ = {isa = PBXBuildFile; fileRef = 012BC81613C5E1180063DCA2 /* ball.png */; };
 		0138A14713C4EDBF003135A7 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0138A14613C4EDBF003135A7 /* QuartzCore.framework */; };
 		0138A14913C4EDBF003135A7 /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0138A14813C4EDBF003135A7 /* OpenGLES.framework */; };
@@ -163,6 +165,11 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		0125462F13C72E75006C2D33 /* Ball.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Ball.h; sourceTree = "<group>"; };
+		0125463013C72E75006C2D33 /* Ball.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = Ball.mm; sourceTree = "<group>"; };
+		0125463713C72FE7006C2D33 /* Entity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Entity.h; sourceTree = "<group>"; };
+		0125463813C72FE7006C2D33 /* Entity.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = Entity.mm; sourceTree = "<group>"; };
+		0125463A13C73D15006C2D33 /* Constants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Constants.h; sourceTree = "<group>"; };
 		012BC81613C5E1180063DCA2 /* ball.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ball.png; sourceTree = "<group>"; };
 		0138A14213C4EDBF003135A7 /* Flingball.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Flingball.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0138A14613C4EDBF003135A7 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
@@ -537,6 +544,11 @@
 				0138A31F13C4EDC3003135A7 /* RootViewController.m */,
 				0138A32113C4EDC3003135A7 /* HelloWorldLayer.h */,
 				0138A32213C4EDC3003135A7 /* HelloWorldLayer.mm */,
+				0125463A13C73D15006C2D33 /* Constants.h */,
+				0125462F13C72E75006C2D33 /* Ball.h */,
+				0125463013C72E75006C2D33 /* Ball.mm */,
+				0125463713C72FE7006C2D33 /* Entity.h */,
+				0125463813C72FE7006C2D33 /* Entity.mm */,
 				0138A32413C4EDC3003135A7 /* GLES-Render.h */,
 				0138A32513C4EDC3003135A7 /* GLES-Render.mm */,
 				0138A32713C4EDC3003135A7 /* GameConfig.h */,
@@ -1208,6 +1220,8 @@
 				0138A32013C4EDC3003135A7 /* RootViewController.m in Sources */,
 				0138A32313C4EDC3003135A7 /* HelloWorldLayer.mm in Sources */,
 				0138A32613C4EDC3003135A7 /* GLES-Render.mm in Sources */,
+				0125463113C72E75006C2D33 /* Ball.mm in Sources */,
+				0125463913C72FE7006C2D33 /* Entity.mm in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
