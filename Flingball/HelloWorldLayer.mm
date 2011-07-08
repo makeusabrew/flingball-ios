@@ -201,7 +201,6 @@ enum {
 
 - (void)ccTouchesEnded:(NSSet *)touches withEvent:(UIEvent *)event
 {
-	//Add a new body/atlas sprite at the touched location
 	for( UITouch *touch in touches ) {
 		CGPoint location = [touch locationInView: [touch view]];
 		
@@ -210,7 +209,7 @@ enum {
         float dx = location.x - startDragLocation.x;
         float dy = location.y - startDragLocation.y;
         float dist = sqrt((dx*dx) + (dy*dy));
-        float vel = dist / 20.0; // hard coded for now!
+        float vel = dist / 5.0; // hard coded for now!
         
         b2Vec2 v;
         
@@ -237,7 +236,7 @@ enum {
             v.y = -(sin(a) * vel);
         }
         
-        body->SetLinearVelocity(v);
+        body->ApplyLinearImpulse(v, body->GetPosition());
 	}
 }
 
