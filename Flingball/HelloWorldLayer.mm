@@ -112,6 +112,26 @@ enum {
         ball = [[Ball alloc] initWithPosition:b2Vec2(100, 100) forWorld:world];
         
         [self addChild:[ball sprite]];
+        
+        // temporary block stuff
+        
+        b2BodyDef blockBodyDef;
+        blockBodyDef.type = b2_staticBody;
+        blockBodyDef.position.Set(600 / PTM_RATIO, 400 / PTM_RATIO);
+        
+        b2Body *blockBody = world->CreateBody(&blockBodyDef);
+        
+        b2PolygonShape blockShape;
+        blockShape.SetAsBox(3, 0.25);
+        
+        b2FixtureDef blockShapeDef;
+        blockShapeDef.shape = &blockShape;
+        blockShapeDef.density = 10.0;
+        blockShapeDef.friction = 0.0;
+        blockShapeDef.restitution = 0.1f;
+        
+        blockBody->CreateFixture(&blockShapeDef);
+        
 		                
         /*
 		CCLabelTTF *label = [CCLabelTTF labelWithString:@"Tap screen" fontName:@"Marker Felt" fontSize:32];
@@ -162,11 +182,7 @@ enum {
 	for (b2Body* b = world->GetBodyList(); b; b = b->GetNext())
 	{
 		if (b->GetUserData() != NULL) {
-			//Synchronize the AtlasSprites position and rotation with the corresponding body
-			//CCSprite *myActor = (CCSprite*)b->GetUserData();
 			Ball *myBall = (Ball*)b->GetUserData();
-            //myActor.position = CGPointMake( b->GetPosition().x * PTM_RATIO, b->GetPosition().y * PTM_RATIO);
-			//myActor.rotation = -1 * CC_RADIANS_TO_DEGREES(b->GetAngle());
             b2Vec2 pos = b2Vec2(b->GetPosition().x * PTM_RATIO, b->GetPosition().y * PTM_RATIO);
             float angle = -1 * CC_RADIANS_TO_DEGREES(b->GetAngle());
             [myBall setSpritePosition:pos withAngle:angle];

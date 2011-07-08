@@ -25,20 +25,21 @@
     self = [self init];
     if (self) {
         
-        b2BodyDef ballBodyDef;
-        ballBodyDef.type = b2_dynamicBody;
-        ballBodyDef.userData = self;
-        body = world->CreateBody(&ballBodyDef);
+        b2BodyDef bodyDef;
+        bodyDef.type = b2_dynamicBody;
+        bodyDef.userData = self;
+        bodyDef.angularDamping = 0.1f;
+        body = world->CreateBody(&bodyDef);
         
         b2CircleShape circle;
         circle.m_radius = 32.0/PTM_RATIO;
         
-        b2FixtureDef ballShapeDef;
-        ballShapeDef.shape = &circle;
-        ballShapeDef.density = 1.0f;
-        ballShapeDef.friction = 0.2f;
-        ballShapeDef.restitution = 0.8f;
-        body->CreateFixture(&ballShapeDef);
+        b2FixtureDef shapeDef;
+        shapeDef.shape = &circle;
+        shapeDef.density = 1.0f;
+        shapeDef.friction = 0.2f;
+        shapeDef.restitution = 0.7f;
+        body->CreateFixture(&shapeDef);
         
         [self setPosition: position];
     }
