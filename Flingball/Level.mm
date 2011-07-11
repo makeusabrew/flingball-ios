@@ -32,6 +32,9 @@
 		
 		world->SetContinuousPhysics(true);
         
+        contactListener = new ContactListener();
+        world->SetContactListener(contactListener);
+        
         [self createBoundaries:CGRectMake(0, 0, width, height)];        
         
         ball = [[Ball alloc] initWithPosition:startPos forWorld:world];
@@ -58,20 +61,6 @@
     }
     
     return self;
-}
-
-// on "dealloc" you need to release all your retained objects
-- (void) dealloc
-{
-	// in case you have something to dealloc, do it in this method
-	delete world;
-	world = NULL;
-    
-    [ball dealloc];
-    ball = NULL;
-    
-	// don't forget to call "super dealloc"
-	[super dealloc];
 }
 
 - (void)createBoundaries:(CGRect)rect {
@@ -104,6 +93,23 @@
     groundBox.SetAsEdge(b2Vec2(rect.origin.x + rect.size.width/PTM_RATIO, rect.origin.y + rect.size.height/PTM_RATIO), b2Vec2(rect.origin.x + rect.size.width/PTM_RATIO, rect.origin.y));
     groundBody->CreateFixture(&groundBox,0);
 
+}
+
+// on "dealloc" you need to release all your retained objects
+- (void) dealloc
+{
+	// in case you have something to dealloc, do it in this method
+	delete world;
+	world = NULL;
+    
+    delete contactListener;
+    contactListener = NULL;
+    
+    [ball dealloc];
+    ball = NULL;
+    
+	// don't forget to call "super dealloc"
+	[super dealloc];
 }
 
 @end

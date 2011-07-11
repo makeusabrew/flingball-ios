@@ -9,6 +9,7 @@
 #import <Foundation/Foundation.h>
 #import "Box2D.h"
 #import "Ball.h"
+#import "ContactListener.h"
 
 @interface Level : NSObject {
     NSString* title;
@@ -22,6 +23,8 @@
     
     b2World* world;
     Ball* ball;
+    
+    ContactListener* contactListener;
 }
 
 @property (nonatomic, assign) b2World* world;
