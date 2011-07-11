@@ -22,7 +22,7 @@
     return self;
 }
 
-- (id)initWithPosition: (b2Vec2)position forWorld: (b2World*)world {
+- (id)initWithPosition: (b2Vec2)_position forWorld: (b2World*)world {
     self = [self init];
     if (self) {
         
@@ -42,27 +42,40 @@
         shapeDef.restitution = 0.7f;
         body->CreateFixture(&shapeDef);
         
-        [self setPosition: position];
+        [self setPosition: _position];
         
     }
     
     return self;
 }
 
-- (void)setPosition: (b2Vec2)position {
-    b2Vec2 ptmPos = b2Vec2(position.x / PTM_RATIO, position.y / PTM_RATIO);
+- (void)setPosition: (b2Vec2)_position {
+    
+    b2Vec2 ptmPos = b2Vec2(_position.x / PTM_RATIO, _position.y / PTM_RATIO);
     body->SetTransform(ptmPos, 0);
     
-    [self setSpritePosition:position withAngle:0];
+    [self setSpritePosition:_position withAngle:0];
 }
 
-- (void)setSpritePosition:(b2Vec2)position withAngle:(float)angle {
-    sprite.position = ccp(position.x, position.y);
+- (void)setSpritePosition:(b2Vec2)_position withAngle:(float)angle {
+    sprite.position = ccp(_position.x, _position.y);
     sprite.rotation = angle;
+    
+    // save our actual *entity* position too
+    position.x = _position.x;
+    position.y = _position.y;
 }
 
 - (void)fling:(b2Vec2)vector {
     body->ApplyLinearImpulse(vector, body->GetPosition());
+}
+
+- (float)getX {
+    return position.x;
+}
+
+- (float)getY {
+    return position.y;
 }
 
 - (void)dealloc {

@@ -17,4 +17,6 @@
 - (void)setPosition: (b2Vec2)position;
 - (void)setSpritePosition: (b2Vec2)position withAngle:(float)angle;
 - (void)fling: (b2Vec2)vector;
+- (float)getX;
+- (float)getY;
 @end

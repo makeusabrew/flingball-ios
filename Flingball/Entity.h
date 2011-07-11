@@ -14,6 +14,7 @@
 {
     b2Body* body;
     CCSprite* sprite;   // possibly move this out, do base entities need a sprite?
+    b2Vec2 position;
 }
 
 @property (assign) CCSprite* sprite;

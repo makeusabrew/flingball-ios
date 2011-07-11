@@ -20,8 +20,8 @@
         // hard code some stuff for now which would come from a file or whatever
 		gravity.Set(0.0f, -10.0f);
         startPos.Set(100, 64);
-        width = 1024;
-        height = 768;
+        width = 1024*2;
+        height = 768*2;
 		
 		// Do we want to let bodies sleep?
 		// This will speed up the physics simulation
@@ -82,7 +82,7 @@
     groundBody->CreateFixture(&groundBox,0);
     
     // top
-    groundBox.SetAsEdge(b2Vec2(rect.origin.x, rect.origin.y + rect.size.height/PTM_RATIO), b2Vec2(rect.origin.x, rect.origin.y + rect.size.height/PTM_RATIO));
+    groundBox.SetAsEdge(b2Vec2(rect.origin.x, rect.origin.y + rect.size.height/PTM_RATIO), b2Vec2(rect.origin.x + rect.size.width/PTM_RATIO, rect.origin.y + rect.size.height/PTM_RATIO));
     groundBody->CreateFixture(&groundBox,0);
     
     // left

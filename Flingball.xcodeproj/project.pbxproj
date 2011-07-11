@@ -164,6 +164,7 @@
 		0138A32913C4EDC3003135A7 /* blocks.png in Resources */ = {isa = PBXBuildFile; fileRef = 0138A32813C4EDC3003135A7 /* blocks.png */; };
 		015F605B13CB588500990C17 /* Level.mm in Sources */ = {isa = PBXBuildFile; fileRef = 015F605A13CB588500990C17 /* Level.mm */; };
 		015F605F13CB6E2300990C17 /* ContactListener.mm in Sources */ = {isa = PBXBuildFile; fileRef = 015F605E13CB6E2300990C17 /* ContactListener.mm */; };
+		0180ABDB13CB96CF002B3AB3 /* Camera.mm in Sources */ = {isa = PBXBuildFile; fileRef = 0180ABDA13CB96CF002B3AB3 /* Camera.mm */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -488,6 +489,8 @@
 		015F605A13CB588500990C17 /* Level.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = Level.mm; sourceTree = "<group>"; };
 		015F605D13CB6E2200990C17 /* ContactListener.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ContactListener.h; sourceTree = "<group>"; };
 		015F605E13CB6E2300990C17 /* ContactListener.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = ContactListener.mm; sourceTree = "<group>"; };
+		0180ABD913CB96CF002B3AB3 /* Camera.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Camera.h; sourceTree = "<group>"; };
+		0180ABDA13CB96CF002B3AB3 /* Camera.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = Camera.mm; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -550,6 +553,8 @@
 				0138A31F13C4EDC3003135A7 /* RootViewController.m */,
 				0138A32113C4EDC3003135A7 /* HelloWorldLayer.h */,
 				0138A32213C4EDC3003135A7 /* HelloWorldLayer.mm */,
+				0180ABD913CB96CF002B3AB3 /* Camera.h */,
+				0180ABDA13CB96CF002B3AB3 /* Camera.mm */,
 				015F605D13CB6E2200990C17 /* ContactListener.h */,
 				015F605E13CB6E2300990C17 /* ContactListener.mm */,
 				0125463A13C73D15006C2D33 /* Constants.h */,
@@ -1234,6 +1239,7 @@
 				0125463913C72FE7006C2D33 /* Entity.mm in Sources */,
 				015F605B13CB588500990C17 /* Level.mm in Sources */,
 				015F605F13CB6E2300990C17 /* ContactListener.mm in Sources */,
+				0180ABDB13CB96CF002B3AB3 /* Camera.mm in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

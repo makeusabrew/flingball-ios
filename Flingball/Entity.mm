@@ -17,6 +17,8 @@
     self = [super init];
     if (self) {
         // Initialization code here.
+        position.x = 0;
+        position.y = 0;
     }
     
     return self;

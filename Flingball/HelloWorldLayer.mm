@@ -57,8 +57,9 @@ enum {
 		CCLOG(@"Screen width %0.2f screen height %0.2f",screenSize.width,screenSize.height);
         
         level = [[Level alloc] init];
-		
-		
+        camera = [[Camera alloc] init];
+        
+        //[camera setViewport: CGRectMake(0, 0, 1024, 768)];
 		
 		// Debug Draw functions
 		m_debugDraw = new GLESDebugDraw( PTM_RATIO );
@@ -80,7 +81,7 @@ enum {
 		label.position = ccp( screenSize.width/2, screenSize.height-50);
 		*/
         
-        [self addChild:level.ball.sprite];
+        [self addChild:level.ball.sprite];      
          
 		[self schedule: @selector(tick:)];
 	}
@@ -130,6 +131,29 @@ enum {
             [myBall setSpritePosition:pos withAngle:angle];
 		}	
 	}
+    
+    // @todo take out hard coded viewport width and height references!!
+    // @todo in fact move all the edge stuff into camera too and just
+    // expose some useful methods
+    float xOver = 0.0;
+    float yOver = 0.0;
+    
+    if ([level.ball getX] > [camera getX] + 1024 - CAMERA_EDGE_THRESHOLD) {
+        xOver = [level.ball getX] - ([camera getX] + (1024 - CAMERA_EDGE_THRESHOLD));        
+    } else if ([level.ball getX] < [camera getX] + CAMERA_EDGE_THRESHOLD) {
+        xOver = [level.ball getX] - ([camera getX] + CAMERA_EDGE_THRESHOLD);
+    }
+    
+    if ([level.ball getY] > [camera getY] + 768 - CAMERA_EDGE_THRESHOLD) {
+        yOver = [level.ball getY] - ([camera getY] + (768 - CAMERA_EDGE_THRESHOLD));
+    } else if ([level.ball getY] < [camera getY] + CAMERA_EDGE_THRESHOLD) {
+        yOver = [level.ball getY] - ([camera getY] + CAMERA_EDGE_THRESHOLD);
+    }
+    
+    [camera translateBy:b2Vec2(xOver, yOver)];    
+    
+    [self.camera setEyeX:[camera getX] eyeY:[camera getY] eyeZ:[CCCamera getZEye]];
+    [self.camera setCenterX:[camera getX] centerY:[camera getY] centerZ:0];  
 }
 
 - (void)ccTouchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
@@ -211,6 +235,9 @@ enum {
 	// in case you have something to dealloc, do it in this method
 	[level dealloc];
     level = NULL;
+    
+    [camera dealloc];
+    camera = NULL;
 	
 	delete m_debugDraw;
 

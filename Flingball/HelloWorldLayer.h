@@ -13,6 +13,7 @@
 #import "GLES-Render.h"
 #import "Ball.h"
 #import "Level.h"
+#import "Camera.h"
 
 // HelloWorldLayer
 @interface HelloWorldLayer : CCLayer
@@ -22,6 +23,7 @@
     CGPoint startDragLocation;
     
     Level* level;
+    Camera* camera;
 }
 
 // returns a CCScene that contains the HelloWorldLayer as the only child
