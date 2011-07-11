@@ -3,7 +3,7 @@
 //  Flingball
 //
 //  Created by Nicholas Payne on 11/07/2011.
-//  Copyright 2011 __MyCompanyName__. All rights reserved.
+//  Copyright 2011 Payne Digital Ltd. All rights reserved.
 //
 
 #import "Level.h"
@@ -17,7 +17,11 @@
 {
     self = [super init];
     if (self) {
+        // hard code some stuff for now which would come from a file or whatever
 		gravity.Set(0.0f, -10.0f);
+        startPos.Set(100, 64);
+        width = 1024;
+        height = 768;
 		
 		// Do we want to let bodies sleep?
 		// This will speed up the physics simulation
@@ -28,10 +32,9 @@
 		
 		world->SetContinuousPhysics(true);
         
-        CGRect rect = CGRectMake(0, 0, 1024, 768);
-        [self createBoundaries:rect];        
+        [self createBoundaries:CGRectMake(0, 0, width, height)];        
         
-        ball = [[Ball alloc] initWithPosition:b2Vec2(100, 300) forWorld:world];
+        ball = [[Ball alloc] initWithPosition:startPos forWorld:world];
 
         
         // temporary block stuff

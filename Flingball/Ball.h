@@ -10,7 +10,7 @@
 
 @interface Ball : Entity
 {
-    
+    float32 radius;
 }
 
 - (id)initWithPosition: (b2Vec2)position forWorld: (b2World*)world;

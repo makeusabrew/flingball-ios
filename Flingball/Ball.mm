@@ -15,7 +15,8 @@
 {
     self = [super init];
     if (self) {
-        sprite = [CCSprite spriteWithFile:@"ball.png" rect:CGRectMake(0, 0, 64, 64)];
+        radius = 32.0;  // @todo obviously change this!
+        sprite = [CCSprite spriteWithFile:@"ball.png" rect:CGRectMake(0, 0, radius*2, radius*2)];
     }
     
     return self;
@@ -32,7 +33,7 @@
         body = world->CreateBody(&bodyDef);
         
         b2CircleShape circle;
-        circle.m_radius = 32.0/PTM_RATIO;
+        circle.m_radius = radius/PTM_RATIO;
         
         b2FixtureDef shapeDef;
         shapeDef.shape = &circle;
@@ -42,6 +43,7 @@
         body->CreateFixture(&shapeDef);
         
         [self setPosition: position];
+        
     }
     
     return self;
