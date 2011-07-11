@@ -162,6 +162,7 @@
 		0138A32313C4EDC3003135A7 /* HelloWorldLayer.mm in Sources */ = {isa = PBXBuildFile; fileRef = 0138A32213C4EDC3003135A7 /* HelloWorldLayer.mm */; };
 		0138A32613C4EDC3003135A7 /* GLES-Render.mm in Sources */ = {isa = PBXBuildFile; fileRef = 0138A32513C4EDC3003135A7 /* GLES-Render.mm */; };
 		0138A32913C4EDC3003135A7 /* blocks.png in Resources */ = {isa = PBXBuildFile; fileRef = 0138A32813C4EDC3003135A7 /* blocks.png */; };
+		015F605B13CB588500990C17 /* Level.mm in Sources */ = {isa = PBXBuildFile; fileRef = 015F605A13CB588500990C17 /* Level.mm */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -482,6 +483,8 @@
 		0138A32513C4EDC3003135A7 /* GLES-Render.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = "GLES-Render.mm"; sourceTree = "<group>"; };
 		0138A32713C4EDC3003135A7 /* GameConfig.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GameConfig.h; sourceTree = "<group>"; };
 		0138A32813C4EDC3003135A7 /* blocks.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = blocks.png; path = Resources/blocks.png; sourceTree = "<group>"; };
+		015F605913CB588500990C17 /* Level.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Level.h; sourceTree = "<group>"; };
+		015F605A13CB588500990C17 /* Level.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = Level.mm; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -549,6 +552,8 @@
 				0125463013C72E75006C2D33 /* Ball.mm */,
 				0125463713C72FE7006C2D33 /* Entity.h */,
 				0125463813C72FE7006C2D33 /* Entity.mm */,
+				015F605913CB588500990C17 /* Level.h */,
+				015F605A13CB588500990C17 /* Level.mm */,
 				0138A32413C4EDC3003135A7 /* GLES-Render.h */,
 				0138A32513C4EDC3003135A7 /* GLES-Render.mm */,
 				0138A32713C4EDC3003135A7 /* GameConfig.h */,
@@ -1222,6 +1227,7 @@
 				0138A32613C4EDC3003135A7 /* GLES-Render.mm in Sources */,
 				0125463113C72E75006C2D33 /* Ball.mm in Sources */,
 				0125463913C72FE7006C2D33 /* Entity.mm in Sources */,
+				015F605B13CB588500990C17 /* Level.mm in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
