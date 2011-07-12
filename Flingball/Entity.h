@@ -19,4 +19,7 @@
 
 @property (assign) CCSprite* sprite;
 
+- (void)setPosition: (b2Vec2)_position;
+- (void)setSpritePosition: (b2Vec2)_position withAngle:(float)angle;
+
 @end

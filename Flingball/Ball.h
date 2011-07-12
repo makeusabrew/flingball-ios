@@ -13,9 +13,7 @@
     float32 radius;
 }
 
-- (id)initWithPosition: (b2Vec2)position forWorld: (b2World*)world;
-- (void)setPosition: (b2Vec2)position;
-- (void)setSpritePosition: (b2Vec2)position withAngle:(float)angle;
+- (id)initWithPosition: (b2Vec2)_position forWorld: (b2World*)world;
 - (void)fling: (b2Vec2)vector;
 - (float)getX;
 - (float)getY;

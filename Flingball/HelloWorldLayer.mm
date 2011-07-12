@@ -125,11 +125,11 @@ enum {
 	for (b2Body* b = level.world->GetBodyList(); b; b = b->GetNext())
 	{
 		if (b->GetUserData() != NULL) {
-			Ball *myBall = (Ball*)b->GetUserData();
+			Entity *myEntity = (Entity*)b->GetUserData();
             b2Vec2 pos = b2Vec2(b->GetPosition().x * PTM_RATIO, b->GetPosition().y * PTM_RATIO);
             float angle = -1 * CC_RADIANS_TO_DEGREES(b->GetAngle());
-            [myBall setSpritePosition:pos withAngle:angle];
-		}	
+            [myEntity setSpritePosition:pos withAngle:angle];
+		}
 	}
     
     // @todo take out hard coded viewport width and height references!!
