@@ -9,7 +9,6 @@
 /* Begin PBXBuildFile section */
 		0125463113C72E75006C2D33 /* Ball.mm in Sources */ = {isa = PBXBuildFile; fileRef = 0125463013C72E75006C2D33 /* Ball.mm */; };
 		0125463913C72FE7006C2D33 /* Entity.mm in Sources */ = {isa = PBXBuildFile; fileRef = 0125463813C72FE7006C2D33 /* Entity.mm */; };
-		012BC81713C5E1180063DCA2 /* ball.png in Resources */ = {isa = PBXBuildFile; fileRef = 012BC81613C5E1180063DCA2 /* ball.png */; };
 		0138A14713C4EDBF003135A7 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0138A14613C4EDBF003135A7 /* QuartzCore.framework */; };
 		0138A14913C4EDBF003135A7 /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0138A14813C4EDBF003135A7 /* OpenGLES.framework */; };
 		0138A14B13C4EDBF003135A7 /* OpenAL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0138A14A13C4EDBF003135A7 /* OpenAL.framework */; };
@@ -170,6 +169,7 @@
 		0180ABE413CC7A08002B3AB3 /* boing.wav in Resources */ = {isa = PBXBuildFile; fileRef = 0180ABE313CC7A08002B3AB3 /* boing.wav */; };
 		0180ABE613CC7A0F002B3AB3 /* goal.wav in Resources */ = {isa = PBXBuildFile; fileRef = 0180ABE513CC7A0F002B3AB3 /* goal.wav */; };
 		0180ABE813CC7BF0002B3AB3 /* goal.png in Resources */ = {isa = PBXBuildFile; fileRef = 0180ABE713CC7BF0002B3AB3 /* goal.png */; };
+		0180ABEA13CC8470002B3AB3 /* ball.png in Resources */ = {isa = PBXBuildFile; fileRef = 0180ABE913CC8470002B3AB3 /* ball.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -178,7 +178,6 @@
 		0125463713C72FE7006C2D33 /* Entity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Entity.h; sourceTree = "<group>"; };
 		0125463813C72FE7006C2D33 /* Entity.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = Entity.mm; sourceTree = "<group>"; };
 		0125463A13C73D15006C2D33 /* Constants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Constants.h; sourceTree = "<group>"; };
-		012BC81613C5E1180063DCA2 /* ball.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ball.png; sourceTree = "<group>"; };
 		0138A14213C4EDBF003135A7 /* Flingball.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Flingball.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0138A14613C4EDBF003135A7 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		0138A14813C4EDBF003135A7 /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = System/Library/Frameworks/OpenGLES.framework; sourceTree = SDKROOT; };
@@ -503,6 +502,7 @@
 		0180ABE313CC7A08002B3AB3 /* boing.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = boing.wav; sourceTree = "<group>"; };
 		0180ABE513CC7A0F002B3AB3 /* goal.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = goal.wav; sourceTree = "<group>"; };
 		0180ABE713CC7BF0002B3AB3 /* goal.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = goal.png; sourceTree = "<group>"; };
+		0180ABE913CC8470002B3AB3 /* ball.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ball.png; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -590,7 +590,7 @@
 			children = (
 				0180ABE313CC7A08002B3AB3 /* boing.wav */,
 				0180ABE513CC7A0F002B3AB3 /* goal.wav */,
-				012BC81613C5E1180063DCA2 /* ball.png */,
+				0180ABE913CC8470002B3AB3 /* ball.png */,
 				0180ABE713CC7BF0002B3AB3 /* goal.png */,
 				0138A15813C4EDBF003135A7 /* Default.png */,
 				0138A15A13C4EDBF003135A7 /* fps_images.png */,
@@ -1117,10 +1117,10 @@
 				0138A16713C4EDBF003135A7 /* Icon@2x.png in Resources */,
 				0138A16A13C4EDBF003135A7 /* iTunesArtwork in Resources */,
 				0138A32913C4EDC3003135A7 /* blocks.png in Resources */,
-				012BC81713C5E1180063DCA2 /* ball.png in Resources */,
 				0180ABE413CC7A08002B3AB3 /* boing.wav in Resources */,
 				0180ABE613CC7A0F002B3AB3 /* goal.wav in Resources */,
 				0180ABE813CC7BF0002B3AB3 /* goal.png in Resources */,
+				0180ABEA13CC8470002B3AB3 /* ball.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
