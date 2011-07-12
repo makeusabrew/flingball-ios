@@ -45,4 +45,10 @@
     //NSLog(@"Contact");
 }
 
+- (void)dealloc {
+    body = NULL;
+    
+    [super dealloc];
+}
+
 @end

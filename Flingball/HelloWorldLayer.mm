@@ -83,7 +83,8 @@ enum {
 		label.position = ccp( screenSize.width/2, screenSize.height-50);
 		*/
         
-        [self addChild:level.ball.sprite];      
+        [self addChild:level.goal.sprite];
+        [self addChild:level.ball.sprite];
          
 		[self schedule: @selector(tick:)];
 	}

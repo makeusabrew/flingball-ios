@@ -167,6 +167,9 @@
 		0180ABDB13CB96CF002B3AB3 /* Camera.mm in Sources */ = {isa = PBXBuildFile; fileRef = 0180ABDA13CB96CF002B3AB3 /* Camera.mm */; };
 		0180ABDE13CC5DC3002B3AB3 /* SpriteEntity.mm in Sources */ = {isa = PBXBuildFile; fileRef = 0180ABDD13CC5DC2002B3AB3 /* SpriteEntity.mm */; };
 		0180ABE213CC67A4002B3AB3 /* GoalEntity.mm in Sources */ = {isa = PBXBuildFile; fileRef = 0180ABE113CC67A4002B3AB3 /* GoalEntity.mm */; };
+		0180ABE413CC7A08002B3AB3 /* boing.wav in Resources */ = {isa = PBXBuildFile; fileRef = 0180ABE313CC7A08002B3AB3 /* boing.wav */; };
+		0180ABE613CC7A0F002B3AB3 /* goal.wav in Resources */ = {isa = PBXBuildFile; fileRef = 0180ABE513CC7A0F002B3AB3 /* goal.wav */; };
+		0180ABE813CC7BF0002B3AB3 /* goal.png in Resources */ = {isa = PBXBuildFile; fileRef = 0180ABE713CC7BF0002B3AB3 /* goal.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -497,6 +500,9 @@
 		0180ABDD13CC5DC2002B3AB3 /* SpriteEntity.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = SpriteEntity.mm; sourceTree = "<group>"; };
 		0180ABE013CC67A4002B3AB3 /* GoalEntity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GoalEntity.h; sourceTree = "<group>"; };
 		0180ABE113CC67A4002B3AB3 /* GoalEntity.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = GoalEntity.mm; sourceTree = "<group>"; };
+		0180ABE313CC7A08002B3AB3 /* boing.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = boing.wav; sourceTree = "<group>"; };
+		0180ABE513CC7A0F002B3AB3 /* goal.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = goal.wav; sourceTree = "<group>"; };
+		0180ABE713CC7BF0002B3AB3 /* goal.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = goal.png; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -582,7 +588,10 @@
 		0138A15713C4EDBF003135A7 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				0180ABE313CC7A08002B3AB3 /* boing.wav */,
+				0180ABE513CC7A0F002B3AB3 /* goal.wav */,
 				012BC81613C5E1180063DCA2 /* ball.png */,
+				0180ABE713CC7BF0002B3AB3 /* goal.png */,
 				0138A15813C4EDBF003135A7 /* Default.png */,
 				0138A15A13C4EDBF003135A7 /* fps_images.png */,
 				0138A15C13C4EDBF003135A7 /* Icon-72.png */,
@@ -1109,6 +1118,9 @@
 				0138A16A13C4EDBF003135A7 /* iTunesArtwork in Resources */,
 				0138A32913C4EDC3003135A7 /* blocks.png in Resources */,
 				012BC81713C5E1180063DCA2 /* ball.png in Resources */,
+				0180ABE413CC7A08002B3AB3 /* boing.wav in Resources */,
+				0180ABE613CC7A0F002B3AB3 /* goal.wav in Resources */,
+				0180ABE813CC7BF0002B3AB3 /* goal.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

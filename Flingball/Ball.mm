@@ -8,15 +8,20 @@
 
 #import "Ball.h"
 #import "Constants.h"
+#import "SimpleAudioEngine.h"
 
 @implementation Ball
+
+@synthesize atGoal;
 
 - (id)init
 {
     self = [super init];
     if (self) {
         radius = 32.0;  // @todo obviously change this!
+        atGoal = NO;
         sprite = [CCSprite spriteWithFile:@"ball.png" rect:CGRectMake(0, 0, radius*2, radius*2)];
+        [[SimpleAudioEngine sharedEngine] preloadEffect:@"goal.wav"];
     }
     
     return self;
@@ -51,16 +56,11 @@
 
 - (void)fling:(b2Vec2)vector {
     body->ApplyLinearImpulse(vector, body->GetPosition());
+    [[SimpleAudioEngine sharedEngine] playEffect:@"boing.wav"];
 }
 
 -(void) onCollision:(Entity *)target {
     //NSLog(@"Ball Contact");
-}
-
-- (void)dealloc {
-    body = NULL;
-    
-    [super dealloc];
 }
 
 @end

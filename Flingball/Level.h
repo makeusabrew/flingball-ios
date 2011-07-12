@@ -42,6 +42,7 @@
 @property (nonatomic, assign) b2World* world;
 @property (nonatomic, assign) ContactListener* contactListener;
 @property (nonatomic, retain) Ball* ball;
+@property (nonatomic, retain) GoalEntity* goal;
 
 - (void)createBoundaries:(CGRect)rect;
 

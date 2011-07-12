@@ -6,8 +6,12 @@
 //  Copyright 2011 Payne Digital Ltd. All rights reserved.
 //
 
-#import "Entity.h"
+#import "SpriteEntity.h"
 
-@interface GoalEntity : Entity
+@interface GoalEntity : SpriteEntity {
+    
+}
+
+- (id)initWithPosition: (b2Vec2)_position forWorld: (b2World*)world;
 
 @end

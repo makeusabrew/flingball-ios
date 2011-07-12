@@ -12,7 +12,7 @@
 
 @implementation Level
 
-@synthesize world, ball, contactListener;
+@synthesize world, ball, contactListener, goal;
 
 - (id)init
 {
@@ -21,7 +21,7 @@
         // hard code some stuff for now which would come from a file or whatever
 		gravity.Set(0.0f, -10.0f);
         startPos.Set(100, 64);
-        endPos.Set(1920, 100);
+        endPos.Set(1900, 100);
         width = 1024*2;
         height = 768*2;
 		
@@ -64,21 +64,8 @@
         blockBody->CreateFixture(&blockShapeDef);
         
         // temporary end goal
-        goal = [[GoalEntity alloc] init];
-        
-        b2BodyDef bodyDef;
-        bodyDef.position.Set(endPos.x / PTM_RATIO, endPos.y / PTM_RATIO);
-        bodyDef.userData = goal;
-        
-        b2Body* body = world->CreateBody(&bodyDef);
-        
-        b2CircleShape circle;
-        circle.m_radius = 64.0/PTM_RATIO;
-        
-        b2FixtureDef shapeDef;
-        shapeDef.shape = &circle;
-        shapeDef.isSensor = true;
-        body->CreateFixture(&shapeDef);
+        goal = [[GoalEntity alloc] initWithPosition:endPos forWorld:world];
+
     }
     
     return self;
