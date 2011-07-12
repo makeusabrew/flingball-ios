@@ -42,7 +42,7 @@
 }
 
 -(void) onCollision:(Entity *)target {
-    NSLog(@"Contact");
+    //NSLog(@"Contact");
 }
 
 @end

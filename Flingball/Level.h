@@ -10,6 +10,7 @@
 #import "Box2D.h"
 #import "Ball.h"
 #import "ContactListener.h"
+#import "GoalEntity.h"
 
 @interface Level : NSObject {
     NSString* title;
@@ -26,6 +27,14 @@
     
     b2World* world;
     Ball* ball;
+    
+    // block logic
+    //NSMutableArray* blocks;
+    
+    // TEMPORARY STUFF!
+    Entity* block;
+    Entity* bounds;
+    GoalEntity* goal;
     
     ContactListener* contactListener;
 }

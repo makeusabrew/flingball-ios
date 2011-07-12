@@ -43,11 +43,12 @@
 
         
         // temporary block stuff
+        block = [[Entity alloc] init];
         
         b2BodyDef blockBodyDef;
         blockBodyDef.type = b2_staticBody;
         blockBodyDef.position.Set(600 / PTM_RATIO, 400 / PTM_RATIO);
-        blockBodyDef.userData = [[Entity alloc] init];
+        blockBodyDef.userData = block;
         
         b2Body *blockBody = world->CreateBody(&blockBodyDef);
         
@@ -63,10 +64,11 @@
         blockBody->CreateFixture(&blockShapeDef);
         
         // temporary end goal
+        goal = [[GoalEntity alloc] init];
         
         b2BodyDef bodyDef;
         bodyDef.position.Set(endPos.x / PTM_RATIO, endPos.y / PTM_RATIO);
-        bodyDef.userData = [[GoalEntity alloc] init];
+        bodyDef.userData = goal;
         
         b2Body* body = world->CreateBody(&bodyDef);
         
@@ -85,9 +87,12 @@
 - (void)createBoundaries:(CGRect)rect {
     // Define the ground body.
     
+    // temporary
+    bounds = [[Entity alloc] init];
+    
     b2BodyDef groundBodyDef;
     groundBodyDef.position.Set(0, 0); // bottom-left corner
-    groundBodyDef.userData = [[Entity alloc] init];
+    groundBodyDef.userData = bounds;
     
     // Call the body factory which allocates memory for the ground body
     // from a pool and creates the ground box shape (also from a pool).
@@ -127,6 +132,10 @@
     
     [ball dealloc];
     ball = NULL;
+    
+    [bounds dealloc];
+    [block dealloc];
+    [goal dealloc];
     
 	// don't forget to call "super dealloc"
 	[super dealloc];

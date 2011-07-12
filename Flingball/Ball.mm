@@ -53,6 +53,10 @@
     body->ApplyLinearImpulse(vector, body->GetPosition());
 }
 
+-(void) onCollision:(Entity *)target {
+    //NSLog(@"Ball Contact");
+}
+
 - (void)dealloc {
     body = NULL;
     

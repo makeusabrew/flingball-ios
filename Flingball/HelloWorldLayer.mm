@@ -142,7 +142,7 @@ enum {
     for (pos = level.contactListener->_contacts.begin(); pos != level.contactListener->_contacts.end(); ++pos) {
         Contact contact = *pos;
         Entity* entityA = (Entity*) contact.fixtureA->GetBody()->GetUserData();
-        Entity* entityB = (Entity*) contact.fixtureA->GetBody()->GetUserData();
+        Entity* entityB = (Entity*) contact.fixtureB->GetBody()->GetUserData();
         
         [entityA onCollision:entityB];
         [entityB onCollision:entityA];

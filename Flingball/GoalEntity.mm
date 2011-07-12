@@ -7,6 +7,7 @@
 //
 
 #import "GoalEntity.h"
+#import "Ball.h"
 
 @implementation GoalEntity
 
@@ -18,6 +19,13 @@
     }
     
     return self;
+}
+
+-(void) onCollision:(Entity *)target {
+    if ([target class] == [Ball class]) {
+        // amazing!
+        NSLog(@"Goal reached!");
+    }
 }
 
 @end
