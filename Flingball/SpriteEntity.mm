@@ -31,15 +31,14 @@
 - (void)setSpritePosition:(b2Vec2)_position withAngle:(float)angle {
     sprite.position = ccp(_position.x, _position.y);
     sprite.rotation = angle;
-    
-    // save our actual *entity* position too
-    position.x = _position.x;
-    position.y = _position.y;
 }
 
 - (void)updateBody:(b2Body *)b {
-    b2Vec2 pos = b2Vec2(b->GetPosition().x * PTM_RATIO, b->GetPosition().y * PTM_RATIO);
+    // parent should update actual entity position
+    [super updateBody:b];
+    
+    // now worry about sprite stuff
     float angle = -1 * CC_RADIANS_TO_DEGREES(b->GetAngle());
-    [self setSpritePosition:pos withAngle:angle];
+    [self setSpritePosition:position withAngle:angle];
 }
 @end

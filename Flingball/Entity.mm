@@ -37,8 +37,8 @@
 }
 
 -(void) updateBody:(b2Body*)b {
-    //
-    NSLog(@"Shouldn't be called for now");
+    // update entity position
+    position.Set(b->GetPosition().x * PTM_RATIO, b->GetPosition().y * PTM_RATIO);
 }
 
 @end
