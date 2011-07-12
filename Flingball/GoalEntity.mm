@@ -23,8 +23,16 @@
 
 -(void) onCollision:(Entity *)target {
     if ([target class] == [Ball class]) {
-        // amazing!
-        NSLog(@"Goal reached!");
+        // for now, goal radius = 64
+        // ball radius = 32. ok?
+        
+        float32 dx = [target getX] - [self getX];
+        float32 dy = [target getY] - [self getY];
+        float32 dist = sqrt((dx*dx) + (dy*dy));
+        
+        if (dist < 64 - (32)) {
+            NSLog(@"At goal!");
+        }
     }
 }
 
