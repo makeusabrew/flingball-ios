@@ -41,4 +41,8 @@
     position.Set(b->GetPosition().x * PTM_RATIO, b->GetPosition().y * PTM_RATIO);
 }
 
+-(void) onCollision:(Entity *)target {
+    NSLog(@"Contact");
+}
+
 @end

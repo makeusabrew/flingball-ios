@@ -20,5 +20,6 @@
 -(float) getX;
 -(float) getY;
 -(void) updateBody: (b2Body*)b;
+-(void) onCollision: (Entity*)target;
 
 @end

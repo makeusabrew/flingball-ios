@@ -8,10 +8,11 @@
 
 #import "Level.h"
 #import "Constants.h"
+#import "GoalEntity.h"
 
 @implementation Level
 
-@synthesize world, ball;
+@synthesize world, ball, contactListener;
 
 - (id)init
 {
@@ -46,6 +47,7 @@
         b2BodyDef blockBodyDef;
         blockBodyDef.type = b2_staticBody;
         blockBodyDef.position.Set(600 / PTM_RATIO, 400 / PTM_RATIO);
+        blockBodyDef.userData = [[Entity alloc] init];
         
         b2Body *blockBody = world->CreateBody(&blockBodyDef);
         
@@ -64,6 +66,7 @@
         
         b2BodyDef bodyDef;
         bodyDef.position.Set(endPos.x / PTM_RATIO, endPos.y / PTM_RATIO);
+        bodyDef.userData = [[GoalEntity alloc] init];
         
         b2Body* body = world->CreateBody(&bodyDef);
         
@@ -84,6 +87,7 @@
     
     b2BodyDef groundBodyDef;
     groundBodyDef.position.Set(0, 0); // bottom-left corner
+    groundBodyDef.userData = [[Entity alloc] init];
     
     // Call the body factory which allocates memory for the ground body
     // from a pool and creates the ground box shape (also from a pool).

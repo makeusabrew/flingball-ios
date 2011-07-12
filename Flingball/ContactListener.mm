@@ -26,7 +26,6 @@ void ContactListener::BeginContact(b2Contact *contact) {
     };
     
     _contacts.push_back(_contact);
-    NSLog(@"Contact");
 }
 
 void ContactListener::EndContact(b2Contact *contact) {

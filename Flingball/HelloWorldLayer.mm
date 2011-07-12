@@ -129,14 +129,30 @@ enum {
 	for (b2Body* b = level.world->GetBodyList(); b; b = b->GetNext())
 	{
 		if (b->GetUserData() != NULL) {
+            
+            // bear in mind that obviously different sub classes of Entity
+            // will implement their own version of updateBody
 			Entity *myEntity = (Entity*)b->GetUserData();
             [myEntity updateBody:b];
-
 		}
 	}
     
+    // process contacts
+    std::vector<Contact>::iterator pos;
+    for (pos = level.contactListener->_contacts.begin(); pos != level.contactListener->_contacts.end(); ++pos) {
+        Contact contact = *pos;
+        Entity* entityA = (Entity*) contact.fixtureA->GetBody()->GetUserData();
+        Entity* entityB = (Entity*) contact.fixtureA->GetBody()->GetUserData();
+        
+        [entityA onCollision:entityB];
+        [entityB onCollision:entityA];
+    }
+    
+    // update the camera class - it's been set up (in init) to track the
+    // level's ball entity
     [camera update];
     
+    // sync cocos2d's camera with our own
     [self.camera setEyeX:[camera getLeftEdge] eyeY:[camera getBottomEdge] eyeZ:[CCCamera getZEye]];
     [self.camera setCenterX:[camera getLeftEdge] centerY:[camera getBottomEdge] centerZ:0];  
 }
