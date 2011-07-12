@@ -20,6 +20,7 @@
         // hard code some stuff for now which would come from a file or whatever
 		gravity.Set(0.0f, -10.0f);
         startPos.Set(100, 64);
+        endPos.Set(1920, 100);
         width = 1024*2;
         height = 768*2;
 		
@@ -54,10 +55,25 @@
         b2FixtureDef blockShapeDef;
         blockShapeDef.shape = &blockShape;
         blockShapeDef.density = 10.0;
-        blockShapeDef.friction = 1.5;
+        blockShapeDef.friction = 1.0;
         blockShapeDef.restitution = 0.1f;
         
         blockBody->CreateFixture(&blockShapeDef);
+        
+        // temporary end goal
+        
+        b2BodyDef bodyDef;
+        bodyDef.position.Set(endPos.x / PTM_RATIO, endPos.y / PTM_RATIO);
+        
+        b2Body* body = world->CreateBody(&bodyDef);
+        
+        b2CircleShape circle;
+        circle.m_radius = 64.0/PTM_RATIO;
+        
+        b2FixtureDef shapeDef;
+        shapeDef.shape = &circle;
+        shapeDef.isSensor = true;
+        body->CreateFixture(&shapeDef);
     }
     
     return self;

@@ -21,6 +21,9 @@
     b2Vec2 startPos;
     b2Vec2 gravity;
     
+    // an end "position" will do for now
+    b2Vec2 endPos;
+    
     b2World* world;
     Ball* ball;
     

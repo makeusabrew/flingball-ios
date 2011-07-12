@@ -115,12 +115,14 @@ enum {
 	//You need to make an informed choice, the following URL is useful
 	//http://gafferongames.com/game-physics/fix-your-timestep/
 	
-	int32 velocityIterations = 8;
-	int32 positionIterations = 1;
+	int32 velocityIterations = 10;
+	int32 positionIterations = 10;
+    float32 timestep = 1.0f / 60.0f;
 	
 	// Instruct the world to perform a single step of simulation. It is
 	// generally best to keep the time step and iterations fixed.
-	level.world->Step(dt, velocityIterations, positionIterations);
+    
+	level.world->Step(timestep, velocityIterations, positionIterations);
 
 	
 	//Iterate over the bodies in the physics world
