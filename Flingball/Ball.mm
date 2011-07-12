@@ -53,14 +53,6 @@
     body->ApplyLinearImpulse(vector, body->GetPosition());
 }
 
-- (float)getX {
-    return position.x;
-}
-
-- (float)getY {
-    return position.y;
-}
-
 - (void)dealloc {
     body = NULL;
     

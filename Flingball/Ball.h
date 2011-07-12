@@ -15,6 +15,5 @@
 
 - (id)initWithPosition: (b2Vec2)_position forWorld: (b2World*)world;
 - (void)fling: (b2Vec2)vector;
-- (float)getX;
-- (float)getY;
+
 @end

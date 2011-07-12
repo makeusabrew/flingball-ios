@@ -42,4 +42,12 @@
     position.y = _position.y;
 }
 
+- (float)getX {
+    return position.x;
+}
+
+- (float)getY {
+    return position.y;
+}
+
 @end
