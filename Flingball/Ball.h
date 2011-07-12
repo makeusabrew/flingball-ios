@@ -6,9 +6,9 @@
 //  Copyright 2011 Payne Digital Ltd. All rights reserved.
 //
 
-#import "Entity.h"
+#import "SpriteEntity.h"
 
-@interface Ball : Entity
+@interface Ball : SpriteEntity
 {
     float32 radius;
 }

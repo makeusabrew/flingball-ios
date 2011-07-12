@@ -13,15 +13,12 @@
 @interface Entity : NSObject
 {
     b2Body* body;
-    CCSprite* sprite;   // possibly move this out, do base entities need a sprite?
     b2Vec2 position;
 }
 
-@property (assign) CCSprite* sprite;
-
-- (void)setPosition: (b2Vec2)_position;
-- (void)setSpritePosition: (b2Vec2)_position withAngle:(float)angle;
-- (float)getX;
-- (float)getY;
+-(void) setPosition: (b2Vec2)_position;
+-(float) getX;
+-(float) getY;
+-(void) updateBody: (b2Body*)b;
 
 @end

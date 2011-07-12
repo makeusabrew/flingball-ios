@@ -11,8 +11,6 @@
 
 @implementation Entity
 
-@synthesize sprite;
-
 - (id)init
 {
     self = [super init];
@@ -25,21 +23,9 @@
     return self;
 }
 
-- (void)setPosition: (b2Vec2)_position {
-    
+- (void)setPosition: (b2Vec2)_position {    
     b2Vec2 ptmPos = b2Vec2(_position.x / PTM_RATIO, _position.y / PTM_RATIO);
-    body->SetTransform(ptmPos, 0);
-    
-    [self setSpritePosition:_position withAngle:0];
-}
-
-- (void)setSpritePosition:(b2Vec2)_position withAngle:(float)angle {
-    sprite.position = ccp(_position.x, _position.y);
-    sprite.rotation = angle;
-    
-    // save our actual *entity* position too
-    position.x = _position.x;
-    position.y = _position.y;
+    body->SetTransform(ptmPos, 0);    
 }
 
 - (float)getX {
@@ -48,6 +34,11 @@
 
 - (float)getY {
     return position.y;
+}
+
+-(void) updateBody:(b2Body*)b {
+    //
+    NSLog(@"Shouldn't be called for now");
 }
 
 @end

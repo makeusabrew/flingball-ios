@@ -130,9 +130,8 @@ enum {
 	{
 		if (b->GetUserData() != NULL) {
 			Entity *myEntity = (Entity*)b->GetUserData();
-            b2Vec2 pos = b2Vec2(b->GetPosition().x * PTM_RATIO, b->GetPosition().y * PTM_RATIO);
-            float angle = -1 * CC_RADIANS_TO_DEGREES(b->GetAngle());
-            [myEntity setSpritePosition:pos withAngle:angle];
+            [myEntity updateBody:b];
+
 		}
 	}
     
