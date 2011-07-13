@@ -47,11 +47,7 @@
 
 -(void) onCollision:(Entity *)target {
     if ([target class] == [Ball class]) {
-        Ball* ball = (Ball*)target;
-        if (ball.atGoal) {
-            return;
-        }
-        
+    
         // for now, goal radius = 64
         // ball radius = 32. ok?
         

@@ -44,6 +44,7 @@
 @property (nonatomic, retain) Ball* ball;
 @property (nonatomic, retain) GoalEntity* goal;
 
-- (void)createBoundaries:(CGRect)rect;
+-(void) createBoundaries:(CGRect)rect;
+-(void) loadLevel: (NSInteger)levelIndex;
 
 @end

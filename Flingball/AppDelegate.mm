@@ -111,7 +111,7 @@
 	[self removeStartupFlicker];
 	
 	// Run the intro Scene
-	[[CCDirector sharedDirector] runWithScene: [LevelLayer scene]];
+	[[CCDirector sharedDirector] runWithScene: [LevelLayer scene:1]];
 }
 
 

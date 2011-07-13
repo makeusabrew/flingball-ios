@@ -23,10 +23,13 @@
     
     Level* level;
     Camera* camera;
+    
+    NSInteger cLevel;
 }
 
 // returns a CCScene that contains the LevelLayer as the only child
-+(CCScene *) scene;
++(CCScene *) scene: (NSInteger)levelIndex;
+-(void) setLevel:(NSInteger)levelIndex;
 -(void) ballAtGoal: (NSNotification*)notification;
 -(void) loadEndLevel;
 

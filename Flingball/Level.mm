@@ -18,12 +18,6 @@
 {
     self = [super init];
     if (self) {
-        // hard code some stuff for now which would come from a file or whatever
-		gravity.Set(0.0f, -10.0f);
-        startPos.Set(100, 64);
-        endPos.Set(1900, 100);
-        width = 1024*2;
-        height = 768*2;
 		
 		// Do we want to let bodies sleep?
 		// This will speed up the physics simulation
@@ -36,39 +30,65 @@
         
         contactListener = new ContactListener();
         world->SetContactListener(contactListener);
-        
-        [self createBoundaries:CGRectMake(0, 0, width, height)];        
-        
-        ball = [[Ball alloc] initWithPosition:startPos forWorld:world];
-
-        
-        // temporary block stuff
-        block = [[Entity alloc] init];
-        
-        b2BodyDef blockBodyDef;
-        blockBodyDef.type = b2_staticBody;
-        blockBodyDef.position.Set(600 / PTM_RATIO, 400 / PTM_RATIO);
-        blockBodyDef.userData = block;
-        
-        b2Body *blockBody = world->CreateBody(&blockBodyDef);
-        
-        b2PolygonShape blockShape;
-        blockShape.SetAsBox(0.25, 4.0);
-        
-        b2FixtureDef blockShapeDef;
-        blockShapeDef.shape = &blockShape;
-        blockShapeDef.density = 10.0;
-        blockShapeDef.friction = 1.0;
-        blockShapeDef.restitution = 0.1f;
-        
-        blockBody->CreateFixture(&blockShapeDef);
-        
-        // temporary end goal
-        goal = [[GoalEntity alloc] initWithPosition:endPos forWorld:world];
-
     }
     
     return self;
+}
+
+-(void) loadLevel:(NSInteger)levelIndex {
+    switch (levelIndex) {
+        case 1: {
+            // hard code some stuff for now which would come from a file or whatever
+            gravity.Set(0.0f, -10.0f);
+            startPos.Set(100, 64);
+            endPos.Set(1900, 100);
+            width = 1024*2;
+            height = 768*2;
+            break;
+        }
+        case 2: {
+            gravity.Set(0.0f, -20.0f);
+            startPos.Set(50, 50);
+            endPos.Set(3000, 500);
+            width = 1024*3;
+            height = 768*3;
+            break;
+        }
+        default:
+            break;
+            
+    }
+    
+    world->SetGravity(gravity);
+    
+    [self createBoundaries:CGRectMake(0, 0, width, height)];        
+    
+    ball = [[Ball alloc] initWithPosition:startPos forWorld:world];
+    
+    
+    // temporary block stuff
+    block = [[Entity alloc] init];
+    
+    b2BodyDef blockBodyDef;
+    blockBodyDef.type = b2_staticBody;
+    blockBodyDef.position.Set(600 / PTM_RATIO, 400 / PTM_RATIO);
+    blockBodyDef.userData = block;
+    
+    b2Body *blockBody = world->CreateBody(&blockBodyDef);
+    
+    b2PolygonShape blockShape;
+    blockShape.SetAsBox(0.25, 4.0);
+    
+    b2FixtureDef blockShapeDef;
+    blockShapeDef.shape = &blockShape;
+    blockShapeDef.density = 10.0;
+    blockShapeDef.friction = 1.0;
+    blockShapeDef.restitution = 0.1f;
+    
+    blockBody->CreateFixture(&blockShapeDef);
+    
+    // temporary end goal
+    goal = [[GoalEntity alloc] initWithPosition:endPos forWorld:world];
 }
 
 - (void)createBoundaries:(CGRect)rect {

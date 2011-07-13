@@ -25,13 +25,15 @@ enum {
 // LevelLayer implementation
 @implementation LevelLayer
 
-+(CCScene *) scene
++(CCScene *) scene:(NSInteger)levelIndex
 {
 	// 'scene' is an autorelease object.
 	CCScene *scene = [CCScene node];
 	
 	// 'layer' is an autorelease object.
 	LevelLayer *layer = [LevelLayer node];
+    
+    [layer setLevel:levelIndex];
 	
 	// add layer as a child to scene
 	[scene addChild: layer];
@@ -49,9 +51,6 @@ enum {
 		
 		// enable touches
 		self.isTouchEnabled = YES;
-		
-		CGSize screenSize = [CCDirector sharedDirector].winSize;
-		CCLOG(@"Screen width %0.2f screen height %0.2f",screenSize.width,screenSize.height);
         
         [[SimpleAudioEngine sharedEngine] preloadEffect:@"goal.wav"];
         
@@ -59,26 +58,34 @@ enum {
         level = [[Level alloc] init];
         camera = [[Camera alloc] init];
         
-        [camera setViewport: CGRectMake(0, 0, screenSize.width, screenSize.height)];        
-        [camera trackEntity:level.ball];
+        CGSize screenSize = [CCDirector sharedDirector].winSize;
+        CCLOG(@"Screen width %0.2f screen height %0.2f",screenSize.width,screenSize.height);
         
-        // event listeners
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(ballAtGoal:) name:@"ballAtGoal" object:nil];
-		
-		// Debug Draw functions
-		m_debugDraw = new GLESDebugDraw( PTM_RATIO );
-		level.world->SetDebugDraw(m_debugDraw);
-		
-		uint32 flags = 0;
-		flags += b2DebugDraw::e_shapeBit;
-		m_debugDraw->SetFlags(flags);
-        
-        [self addChild:level.goal.sprite];
-        [self addChild:level.ball.sprite];
-         
-		[self schedule: @selector(tick:)];
+        [camera setViewport: CGRectMake(0, 0, screenSize.width, screenSize.height)];  
 	}
 	return self;
+}
+
+-(void) setLevel:(NSInteger)levelIndex {
+    cLevel = levelIndex;
+    [level loadLevel:levelIndex];      
+    [camera trackEntity:level.ball];
+    
+    // event listeners
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(ballAtGoal:) name:@"ballAtGoal" object:nil];
+    
+    // Debug Draw functions
+    m_debugDraw = new GLESDebugDraw( PTM_RATIO );
+    level.world->SetDebugDraw(m_debugDraw);
+    
+    uint32 flags = 0;
+    flags += b2DebugDraw::e_shapeBit;
+    m_debugDraw->SetFlags(flags);
+    
+    [self addChild:level.goal.sprite];
+    [self addChild:level.ball.sprite];
+    
+    [self schedule: @selector(tick:)];
 }
 
 -(void) draw
@@ -139,7 +146,7 @@ enum {
         [entityB onCollision:entityA];
     }
     
-    // update the camera class - it's been set up (in init) to track the
+    // update the camera class - it's been set up (in setLevel) to track the
     // level's ball entity
     [camera update];
     
@@ -218,7 +225,7 @@ enum {
 -(void) loadEndLevel {
     // great! load the end level scene.
     [[CCDirector sharedDirector] replaceScene:
-     [CCTransitionCrossFade transitionWithDuration:1.0f scene:[EndLevelLayer scene]]];
+     [CCTransitionCrossFade transitionWithDuration:1.0f scene:[EndLevelLayer scene:cLevel]]];
 }
 
 // on "dealloc" you need to release all your retained objects

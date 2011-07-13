@@ -7,17 +7,20 @@
 //
 
 #import "EndLevelLayer.h"
+#import "LevelLayer.h"
 #import "Constants.h"
 
 @implementation EndLevelLayer
 
-+(CCScene *) scene
++(CCScene *) scene: (NSInteger)levelIndex
 {
 	// 'scene' is an autorelease object.
 	CCScene *scene = [CCScene node];
 	
 	// 'layer' is an autorelease object.
 	EndLevelLayer *layer = [EndLevelLayer node];
+    
+    [layer setLevel: levelIndex];
 	
 	// add layer as a child to scene
 	[scene addChild: layer];
@@ -35,9 +38,7 @@
 		
 		// enable touches
 		self.isTouchEnabled = YES;
-        
-        CGSize screenSize = [CCDirector sharedDirector].winSize;
-		
+        		
 		// Debug Draw functions
 		m_debugDraw = new GLESDebugDraw( PTM_RATIO );
 		//level.world->SetDebugDraw(m_debugDraw);
@@ -48,16 +49,27 @@
         //		flags += b2DebugDraw::e_aabbBit;
         //		flags += b2DebugDraw::e_pairBit;
         //		flags += b2DebugDraw::e_centerOfMassBit;
-		m_debugDraw->SetFlags(flags);		
-        
-        
-        
-         CCLabelTTF *label = [CCLabelTTF labelWithString:@"Level Completed" fontName:@"Georgia" fontSize:32];
-         [self addChild:label z:0];
-         [label setColor:ccc3(0,0,255)];
-         label.position = ccp( screenSize.width/2, screenSize.height-50);
+		m_debugDraw->SetFlags(flags);
 	}
 	return self;
+}
+
+-(void) setLevel:(NSInteger)levelIndex {    
+    cLevel = levelIndex;
+    CGSize screenSize = [CCDirector sharedDirector].winSize;
+    
+    NSString* str = [NSString stringWithFormat:@"Level %d Completed!", levelIndex];
+
+    CCLabelTTF *label = [CCLabelTTF labelWithString:str fontName:@"Georgia" fontSize:32];
+    [self addChild:label z:0];
+    [label setColor:ccc3(0,0,255)];
+    label.position = ccp( screenSize.width/2, screenSize.height-50);
+}
+
+- (void)ccTouchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
+{
+    [[CCDirector sharedDirector] replaceScene:
+     [CCTransitionCrossFade transitionWithDuration:1.0f scene:[LevelLayer scene:++cLevel]]];
 }
 
 -(void) draw

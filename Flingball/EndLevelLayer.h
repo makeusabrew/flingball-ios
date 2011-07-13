@@ -15,9 +15,12 @@
 @interface EndLevelLayer : CCLayer
 {
 	GLESDebugDraw *m_debugDraw;
+    
+    NSInteger cLevel;
 }
 
 // returns a CCScene that contains the EndLevelLayer as the only child
-+(CCScene *) scene;
++(CCScene *) scene: (NSInteger)leveIndex;
+-(void) setLevel: (NSInteger)levelIndex;
 
 @end
