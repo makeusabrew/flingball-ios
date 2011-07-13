@@ -210,6 +210,12 @@ enum {
     [[SimpleAudioEngine sharedEngine] playEffect:@"goal.wav"];
     NSLog(@"At goal!");
     
+    id action1 = [CCDelayTime actionWithDuration:3.0];
+    id action2 = [CCCallFunc actionWithTarget:self selector:@selector(loadEndLevel)];
+    [self runAction:[CCSequence actions:action1, action2, nil]];
+}
+
+-(void) loadEndLevel {
     // great! load the end level scene.
     [[CCDirector sharedDirector] replaceScene:
      [CCTransitionCrossFade transitionWithDuration:1.0f scene:[EndLevelLayer scene]]];
