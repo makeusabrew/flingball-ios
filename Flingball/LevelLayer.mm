@@ -48,6 +48,8 @@ enum {
 	// always call "super" init
 	// Apple recommends to re-assign "self" with the "super" return value
 	if( (self=[super init])) {
+        
+        NSLog(@"Initialising new level");
 		
 		// enable touches
 		self.isTouchEnabled = YES;
@@ -67,6 +69,7 @@ enum {
 }
 
 -(void) setLevel:(NSInteger)levelIndex {
+    NSLog(@"Setting level Index %d", levelIndex);
     cLevel = levelIndex;
     [level loadLevel:levelIndex];      
     [camera trackEntity:level.ball];
@@ -223,6 +226,7 @@ enum {
 }
 
 -(void) loadEndLevel {
+    NSLog(@"Switching scene to end level %d", cLevel);
     // great! load the end level scene.
     [[CCDirector sharedDirector] replaceScene:
      [CCTransitionCrossFade transitionWithDuration:1.0f scene:[EndLevelLayer scene:cLevel]]];
@@ -238,6 +242,8 @@ enum {
     
     [camera dealloc];
     camera = NULL;
+    
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:@"ballAtGoal" object:nil];
 	
 	delete m_debugDraw;
 

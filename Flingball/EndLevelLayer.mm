@@ -54,7 +54,8 @@
 	return self;
 }
 
--(void) setLevel:(NSInteger)levelIndex {    
+-(void) setLevel:(NSInteger)levelIndex {
+    NSLog(@"Setting End Level index to %d", levelIndex);
     cLevel = levelIndex;
     CGSize screenSize = [CCDirector sharedDirector].winSize;
     
@@ -68,8 +69,9 @@
 
 - (void)ccTouchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
 {
+    NSLog(@"About to load level %d", cLevel+1);
     [[CCDirector sharedDirector] replaceScene:
-     [CCTransitionCrossFade transitionWithDuration:1.0f scene:[LevelLayer scene:++cLevel]]];
+     [CCTransitionCrossFade transitionWithDuration:1.0f scene:[LevelLayer scene:cLevel+1]]];
 }
 
 -(void) draw
