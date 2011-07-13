@@ -158,7 +158,7 @@
 		0138A31A13C4EDC3003135A7 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 0138A31913C4EDC3003135A7 /* main.m */; };
 		0138A31D13C4EDC3003135A7 /* AppDelegate.mm in Sources */ = {isa = PBXBuildFile; fileRef = 0138A31C13C4EDC3003135A7 /* AppDelegate.mm */; };
 		0138A32013C4EDC3003135A7 /* RootViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0138A31F13C4EDC3003135A7 /* RootViewController.m */; };
-		0138A32313C4EDC3003135A7 /* HelloWorldLayer.mm in Sources */ = {isa = PBXBuildFile; fileRef = 0138A32213C4EDC3003135A7 /* HelloWorldLayer.mm */; };
+		0138A32313C4EDC3003135A7 /* LevelLayer.mm in Sources */ = {isa = PBXBuildFile; fileRef = 0138A32213C4EDC3003135A7 /* LevelLayer.mm */; };
 		0138A32613C4EDC3003135A7 /* GLES-Render.mm in Sources */ = {isa = PBXBuildFile; fileRef = 0138A32513C4EDC3003135A7 /* GLES-Render.mm */; };
 		0138A32913C4EDC3003135A7 /* blocks.png in Resources */ = {isa = PBXBuildFile; fileRef = 0138A32813C4EDC3003135A7 /* blocks.png */; };
 		015F605B13CB588500990C17 /* Level.mm in Sources */ = {isa = PBXBuildFile; fileRef = 015F605A13CB588500990C17 /* Level.mm */; };
@@ -480,11 +480,11 @@
 		0138A31813C4EDC3003135A7 /* Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Prefix.pch; sourceTree = "<group>"; };
 		0138A31913C4EDC3003135A7 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		0138A31B13C4EDC3003135A7 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
-		0138A31C13C4EDC3003135A7 /* AppDelegate.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = AppDelegate.mm; sourceTree = "<group>"; };
+		0138A31C13C4EDC3003135A7 /* AppDelegate.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; lineEnding = 0; path = AppDelegate.mm; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
 		0138A31E13C4EDC3003135A7 /* RootViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RootViewController.h; sourceTree = "<group>"; };
 		0138A31F13C4EDC3003135A7 /* RootViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RootViewController.m; sourceTree = "<group>"; };
-		0138A32113C4EDC3003135A7 /* HelloWorldLayer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HelloWorldLayer.h; sourceTree = "<group>"; };
-		0138A32213C4EDC3003135A7 /* HelloWorldLayer.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = HelloWorldLayer.mm; sourceTree = "<group>"; };
+		0138A32113C4EDC3003135A7 /* LevelLayer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = LevelLayer.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
+		0138A32213C4EDC3003135A7 /* LevelLayer.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; lineEnding = 0; path = LevelLayer.mm; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
 		0138A32413C4EDC3003135A7 /* GLES-Render.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "GLES-Render.h"; sourceTree = "<group>"; };
 		0138A32513C4EDC3003135A7 /* GLES-Render.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = "GLES-Render.mm"; sourceTree = "<group>"; };
 		0138A32713C4EDC3003135A7 /* GameConfig.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GameConfig.h; sourceTree = "<group>"; };
@@ -562,12 +562,11 @@
 				0125463713C72FE7006C2D33 /* Entity.h */,
 				0125463813C72FE7006C2D33 /* Entity.mm */,
 				0180ABDF13CC6761002B3AB3 /* Entity */,
+				01E72D7D13CDAA6800D1E763 /* Layer */,
 				0138A31B13C4EDC3003135A7 /* AppDelegate.h */,
 				0138A31C13C4EDC3003135A7 /* AppDelegate.mm */,
 				0138A31E13C4EDC3003135A7 /* RootViewController.h */,
 				0138A31F13C4EDC3003135A7 /* RootViewController.m */,
-				0138A32113C4EDC3003135A7 /* HelloWorldLayer.h */,
-				0138A32213C4EDC3003135A7 /* HelloWorldLayer.mm */,
 				0180ABD913CB96CF002B3AB3 /* Camera.h */,
 				0180ABDA13CB96CF002B3AB3 /* Camera.mm */,
 				015F605D13CB6E2200990C17 /* ContactListener.h */,
@@ -1060,6 +1059,15 @@
 			name = Entity;
 			sourceTree = "<group>";
 		};
+		01E72D7D13CDAA6800D1E763 /* Layer */ = {
+			isa = PBXGroup;
+			children = (
+				0138A32113C4EDC3003135A7 /* LevelLayer.h */,
+				0138A32213C4EDC3003135A7 /* LevelLayer.mm */,
+			);
+			name = Layer;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -1263,7 +1271,7 @@
 				0138A31A13C4EDC3003135A7 /* main.m in Sources */,
 				0138A31D13C4EDC3003135A7 /* AppDelegate.mm in Sources */,
 				0138A32013C4EDC3003135A7 /* RootViewController.m in Sources */,
-				0138A32313C4EDC3003135A7 /* HelloWorldLayer.mm in Sources */,
+				0138A32313C4EDC3003135A7 /* LevelLayer.mm in Sources */,
 				0138A32613C4EDC3003135A7 /* GLES-Render.mm in Sources */,
 				0125463113C72E75006C2D33 /* Ball.mm in Sources */,
 				0125463913C72FE7006C2D33 /* Entity.mm in Sources */,
