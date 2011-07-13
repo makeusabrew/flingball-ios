@@ -12,6 +12,7 @@
 #import "Constants.h"
 #import "Level.h"
 #import "SimpleAudioEngine.h"
+#import "EndLevelLayer.h"
 
 // enums that will be used as tags
 enum {
@@ -51,6 +52,8 @@ enum {
 		
 		CGSize screenSize = [CCDirector sharedDirector].winSize;
 		CCLOG(@"Screen width %0.2f screen height %0.2f",screenSize.width,screenSize.height);
+        
+        [[SimpleAudioEngine sharedEngine] preloadEffect:@"goal.wav"];
         
         // game logic initialisation
         level = [[Level alloc] init];
@@ -206,11 +209,16 @@ enum {
     level.ball.atGoal = true;
     [[SimpleAudioEngine sharedEngine] playEffect:@"goal.wav"];
     NSLog(@"At goal!");
+    
+    // great! load the end level scene.
+    [[CCDirector sharedDirector] replaceScene:
+     [CCTransitionCrossFade transitionWithDuration:1.0f scene:[EndLevelLayer scene]]];
 }
 
 // on "dealloc" you need to release all your retained objects
 - (void) dealloc
 {
+    NSLog(@"LevelLayer::dealloc");
 	// in case you have something to dealloc, do it in this method
 	[level dealloc];
     level = NULL;
