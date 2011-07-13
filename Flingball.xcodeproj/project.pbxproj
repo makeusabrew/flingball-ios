@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		01176D1313CDC9A9005BB432 /* level1.xml in Resources */ = {isa = PBXBuildFile; fileRef = 01176D1213CDC9A9005BB432 /* level1.xml */; };
+		01176D1613CDE6C8005BB432 /* Polygon.mm in Sources */ = {isa = PBXBuildFile; fileRef = 01176D1513CDE6C7005BB432 /* Polygon.mm */; };
+		01176D1813CE055C005BB432 /* level2.xml in Resources */ = {isa = PBXBuildFile; fileRef = 01176D1713CE055B005BB432 /* level2.xml */; };
 		0125463113C72E75006C2D33 /* Ball.mm in Sources */ = {isa = PBXBuildFile; fileRef = 0125463013C72E75006C2D33 /* Ball.mm */; };
 		0125463913C72FE7006C2D33 /* Entity.mm in Sources */ = {isa = PBXBuildFile; fileRef = 0125463813C72FE7006C2D33 /* Entity.mm */; };
 		0138A14713C4EDBF003135A7 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0138A14613C4EDBF003135A7 /* QuartzCore.framework */; };
@@ -174,6 +177,10 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		01176D1213CDC9A9005BB432 /* level1.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = level1.xml; sourceTree = "<group>"; };
+		01176D1413CDE6C7005BB432 /* Polygon.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Polygon.h; sourceTree = "<group>"; };
+		01176D1513CDE6C7005BB432 /* Polygon.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = Polygon.mm; sourceTree = "<group>"; };
+		01176D1713CE055B005BB432 /* level2.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = level2.xml; sourceTree = "<group>"; };
 		0125462F13C72E75006C2D33 /* Ball.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Ball.h; sourceTree = "<group>"; };
 		0125463013C72E75006C2D33 /* Ball.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = Ball.mm; sourceTree = "<group>"; };
 		0125463713C72FE7006C2D33 /* Entity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Entity.h; sourceTree = "<group>"; };
@@ -527,6 +534,23 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		01176D0F13CDC97F005BB432 /* data */ = {
+			isa = PBXGroup;
+			children = (
+				01176D1113CDC988005BB432 /* level */,
+			);
+			name = data;
+			sourceTree = "<group>";
+		};
+		01176D1113CDC988005BB432 /* level */ = {
+			isa = PBXGroup;
+			children = (
+				01176D1213CDC9A9005BB432 /* level1.xml */,
+				01176D1713CE055B005BB432 /* level2.xml */,
+			);
+			name = level;
+			sourceTree = "<group>";
+		};
 		0138A13713C4EDBE003135A7 = {
 			isa = PBXGroup;
 			children = (
@@ -580,6 +604,8 @@
 				0138A32413C4EDC3003135A7 /* GLES-Render.h */,
 				0138A32513C4EDC3003135A7 /* GLES-Render.mm */,
 				0138A32713C4EDC3003135A7 /* GameConfig.h */,
+				01176D1413CDE6C7005BB432 /* Polygon.h */,
+				01176D1513CDE6C7005BB432 /* Polygon.mm */,
 				0138A15713C4EDBF003135A7 /* Resources */,
 				0138A16B13C4EDBF003135A7 /* libs */,
 				0138A31713C4EDC3003135A7 /* Supporting Files */,
@@ -590,6 +616,7 @@
 		0138A15713C4EDBF003135A7 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				01176D0F13CDC97F005BB432 /* data */,
 				0180ABE313CC7A08002B3AB3 /* boing.wav */,
 				0180ABE513CC7A0F002B3AB3 /* goal.wav */,
 				0180ABE913CC8470002B3AB3 /* ball.png */,
@@ -1134,6 +1161,8 @@
 				0180ABE613CC7A0F002B3AB3 /* goal.wav in Resources */,
 				0180ABE813CC7BF0002B3AB3 /* goal.png in Resources */,
 				0180ABEA13CC8470002B3AB3 /* ball.png in Resources */,
+				01176D1313CDC9A9005BB432 /* level1.xml in Resources */,
+				01176D1813CE055C005BB432 /* level2.xml in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1286,6 +1315,7 @@
 				0180ABDE13CC5DC3002B3AB3 /* SpriteEntity.mm in Sources */,
 				0180ABE213CC67A4002B3AB3 /* GoalEntity.mm in Sources */,
 				01E72D8013CDAEE500D1E763 /* EndLevelLayer.mm in Sources */,
+				01176D1613CDE6C8005BB432 /* Polygon.mm in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

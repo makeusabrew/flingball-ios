@@ -11,8 +11,9 @@
 #import "Ball.h"
 #import "ContactListener.h"
 #import "GoalEntity.h"
+#import "Polygon.h"
 
-@interface Level : NSObject {
+@interface Level : NSObject <NSXMLParserDelegate> {
     NSString* title;
     NSString* author;
     
@@ -29,14 +30,21 @@
     Ball* ball;
     
     // block logic
-    //NSMutableArray* blocks;
     
     // TEMPORARY STUFF!
-    Entity* block;
     Entity* bounds;
     GoalEntity* goal;
     
+    NSMutableArray* polygons;
+    Polygon* currentPolygon;
+    
     ContactListener* contactListener;
+    
+    // manky XML stuff, should probably be its own class?
+    NSString* currentElem;
+    NSString* blockMode;
+    NSString* blockSubMode;
+    NSMutableString* currentElemValue;
 }
 
 @property (nonatomic, assign) b2World* world;
