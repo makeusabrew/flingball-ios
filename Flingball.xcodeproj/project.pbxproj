@@ -604,8 +604,6 @@
 				0138A32413C4EDC3003135A7 /* GLES-Render.h */,
 				0138A32513C4EDC3003135A7 /* GLES-Render.mm */,
 				0138A32713C4EDC3003135A7 /* GameConfig.h */,
-				01176D1413CDE6C7005BB432 /* Polygon.h */,
-				01176D1513CDE6C7005BB432 /* Polygon.mm */,
 				0138A15713C4EDBF003135A7 /* Resources */,
 				0138A16B13C4EDBF003135A7 /* libs */,
 				0138A31713C4EDC3003135A7 /* Supporting Files */,
@@ -1085,6 +1083,8 @@
 				0125463013C72E75006C2D33 /* Ball.mm */,
 				0180ABE013CC67A4002B3AB3 /* GoalEntity.h */,
 				0180ABE113CC67A4002B3AB3 /* GoalEntity.mm */,
+				01176D1413CDE6C7005BB432 /* Polygon.h */,
+				01176D1513CDE6C7005BB432 /* Polygon.mm */,
 			);
 			name = Entity;
 			sourceTree = "<group>";

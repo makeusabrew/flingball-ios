@@ -19,27 +19,6 @@
     if (self) {
         vertices = [[NSMutableArray alloc] init];
         vertexCount = 0;
-        // Initialization code here.
-        /*
-        b2BodyDef blockBodyDef;
-        blockBodyDef.type = b2_staticBody;
-        blockBodyDef.position.Set(600 / PTM_RATIO, 400 / PTM_RATIO);
-        blockBodyDef.userData = self;
-        
-        //body world->CreateBody(&blockBodyDef);
-        
-        b2PolygonShape blockShape;
-        //blockShape.
-        blockShape.SetAsBox(0.25, 4.0);
-        
-        b2FixtureDef blockShapeDef;
-        blockShapeDef.shape = &blockShape;
-        blockShapeDef.density = 10.0;
-        blockShapeDef.friction = 1.0;
-        blockShapeDef.restitution = 0.1f;
-        
-        blockBody->CreateFixture(&blockShapeDef);
-         */
     }
     
     return self;
@@ -50,17 +29,17 @@
     
     body = world->CreateBody(&bodyDef);
     
-    //b2Vec2 *b2Vertices;
+    b2Vec2 *_vertices;
     
-    //b2Vertices = new b2Vec2[vertexCount];
-    
-    b2Vec2 _vertices[10];
+    _vertices = new b2Vec2[vertexCount];
     
     for (int i = 0; i < vertexCount; i++) {
         NSValue *val = [vertices objectAtIndex: i];
         CGPoint p = [val CGPointValue];
         _vertices[i] = b2Vec2(p.x, p.y);
     }
+    
+    delete [] _vertices;
     
     shape.Set(_vertices, vertexCount);
     
