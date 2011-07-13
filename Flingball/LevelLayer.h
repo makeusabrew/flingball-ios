@@ -27,5 +27,6 @@
 
 // returns a CCScene that contains the LevelLayer as the only child
 +(CCScene *) scene;
+-(void) ballAtGoal: (NSNotification*)notification;
 
 @end

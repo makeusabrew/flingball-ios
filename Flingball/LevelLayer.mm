@@ -11,8 +11,7 @@
 #import "LevelLayer.h"
 #import "Constants.h"
 #import "Level.h"
-
-
+#import "SimpleAudioEngine.h"
 
 // enums that will be used as tags
 enum {
@@ -50,18 +49,18 @@ enum {
 		// enable touches
 		self.isTouchEnabled = YES;
 		
-		// enable accelerometer
-		self.isAccelerometerEnabled = YES;
-		
 		CGSize screenSize = [CCDirector sharedDirector].winSize;
 		CCLOG(@"Screen width %0.2f screen height %0.2f",screenSize.width,screenSize.height);
         
+        // game logic initialisation
         level = [[Level alloc] init];
         camera = [[Camera alloc] init];
         
-        [camera setViewport: CGRectMake(0, 0, screenSize.width, screenSize.height)];
-        
+        [camera setViewport: CGRectMake(0, 0, screenSize.width, screenSize.height)];        
         [camera trackEntity:level.ball];
+        
+        // event listeners
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(ballAtGoal:) name:@"ballAtGoal" object:nil];
 		
 		// Debug Draw functions
 		m_debugDraw = new GLESDebugDraw( PTM_RATIO );
@@ -69,19 +68,7 @@ enum {
 		
 		uint32 flags = 0;
 		flags += b2DebugDraw::e_shapeBit;
-//		flags += b2DebugDraw::e_jointBit;
-//		flags += b2DebugDraw::e_aabbBit;
-//		flags += b2DebugDraw::e_pairBit;
-//		flags += b2DebugDraw::e_centerOfMassBit;
-		m_debugDraw->SetFlags(flags);		
-                
-		                
-        /*
-		CCLabelTTF *label = [CCLabelTTF labelWithString:@"Tap screen" fontName:@"Marker Felt" fontSize:32];
-		[self addChild:label z:0];
-		[label setColor:ccc3(0,0,255)];
-		label.position = ccp( screenSize.width/2, screenSize.height-50);
-		*/
+		m_debugDraw->SetFlags(flags);
         
         [self addChild:level.goal.sprite];
         [self addChild:level.ball.sprite];
@@ -209,27 +196,17 @@ enum {
 	}
 }
 
-/*
-- (void)accelerometer:(UIAccelerometer*)accelerometer didAccelerate:(UIAcceleration*)acceleration
-{	
-	static float prevX=0, prevY=0;
-	
-	//#define kFilterFactor 0.05f
-#define kFilterFactor 1.0f	// don't use filter. the code is here just as an example
-	
-	float accelX = (float) acceleration.x * kFilterFactor + (1- kFilterFactor)*prevX;
-	float accelY = (float) acceleration.y * kFilterFactor + (1- kFilterFactor)*prevY;
-	
-	prevX = accelX;
-	prevY = accelY;
-	
-	// accelerometer values are in "Portrait" mode. Change them to Landscape left
-	// multiply the gravity by 10
-	b2Vec2 gravity( -accelY * 10, accelX * 10);
-	
-	world->SetGravity( gravity );
+/**
+ * Event Callbacks
+ */
+-(void) ballAtGoal:(NSNotification *)notification {
+    if (level.ball.atGoal) {
+        return;
+    }
+    level.ball.atGoal = true;
+    [[SimpleAudioEngine sharedEngine] playEffect:@"goal.wav"];
+    NSLog(@"At goal!");
 }
-*/
 
 // on "dealloc" you need to release all your retained objects
 - (void) dealloc

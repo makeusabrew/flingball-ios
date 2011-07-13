@@ -8,7 +8,6 @@
 
 #import "GoalEntity.h"
 #import "Ball.h"
-#import "SimpleAudioEngine.h"
 #import "Constants.h"
 
 @implementation GoalEntity
@@ -61,9 +60,7 @@
         float32 dist = sqrt((dx*dx) + (dy*dy));
         
         if (dist < 64 - (32)) {
-            ball.atGoal = true;
-            [[SimpleAudioEngine sharedEngine] playEffect:@"goal.wav"];
-            NSLog(@"At goal!");
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"ballAtGoal" object:self];
         }
     }
 }

@@ -170,6 +170,7 @@
 		0180ABE613CC7A0F002B3AB3 /* goal.wav in Resources */ = {isa = PBXBuildFile; fileRef = 0180ABE513CC7A0F002B3AB3 /* goal.wav */; };
 		0180ABE813CC7BF0002B3AB3 /* goal.png in Resources */ = {isa = PBXBuildFile; fileRef = 0180ABE713CC7BF0002B3AB3 /* goal.png */; };
 		0180ABEA13CC8470002B3AB3 /* ball.png in Resources */ = {isa = PBXBuildFile; fileRef = 0180ABE913CC8470002B3AB3 /* ball.png */; };
+		01E72D8013CDAEE500D1E763 /* EndLevelLayer.mm in Sources */ = {isa = PBXBuildFile; fileRef = 01E72D7F13CDAEE500D1E763 /* EndLevelLayer.mm */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -503,6 +504,8 @@
 		0180ABE513CC7A0F002B3AB3 /* goal.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = goal.wav; sourceTree = "<group>"; };
 		0180ABE713CC7BF0002B3AB3 /* goal.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = goal.png; sourceTree = "<group>"; };
 		0180ABE913CC8470002B3AB3 /* ball.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ball.png; sourceTree = "<group>"; };
+		01E72D7E13CDAEE500D1E763 /* EndLevelLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EndLevelLayer.h; sourceTree = "<group>"; };
+		01E72D7F13CDAEE500D1E763 /* EndLevelLayer.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = EndLevelLayer.mm; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -1064,6 +1067,8 @@
 			children = (
 				0138A32113C4EDC3003135A7 /* LevelLayer.h */,
 				0138A32213C4EDC3003135A7 /* LevelLayer.mm */,
+				01E72D7E13CDAEE500D1E763 /* EndLevelLayer.h */,
+				01E72D7F13CDAEE500D1E763 /* EndLevelLayer.mm */,
 			);
 			name = Layer;
 			sourceTree = "<group>";
@@ -1280,6 +1285,7 @@
 				0180ABDB13CB96CF002B3AB3 /* Camera.mm in Sources */,
 				0180ABDE13CC5DC3002B3AB3 /* SpriteEntity.mm in Sources */,
 				0180ABE213CC67A4002B3AB3 /* GoalEntity.mm in Sources */,
+				01E72D8013CDAEE500D1E763 /* EndLevelLayer.mm in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
