@@ -22,13 +22,12 @@
 		// Do we want to let bodies sleep?
 		// This will speed up the physics simulation
 		bool doSleep = true;
-		
+        // prep our contact listener which we'll attach to the world in a min
+		contactListener = new ContactListener();
+        
 		// Construct a world object, which will hold and simulate the rigid bodies.
 		world = new b2World(gravity, doSleep);
-		
-        world->SetContinuousPhysics(true);
-        
-        contactListener = new ContactListener();
+		world->SetContinuousPhysics(true);        
         world->SetContactListener(contactListener);
     }
     
@@ -36,29 +35,6 @@
 }
 
 -(void) loadLevel:(NSInteger)levelIndex {
-    /*
-    switch (levelIndex) {
-        case 1: {
-            // hard code some stuff for now which would come from a file or whatever
-            gravity.Set(0.0f, -20.0f);
-            startPos.Set(100, 64);
-            endPos.Set(1900, 100);
-            width = 1024*2;
-            height = 768*2;
-            break;
-        }
-        case 2: {
-            gravity.Set(0.0f, -20.0f);
-            startPos.Set(50, 50);
-            endPos.Set(3000, 500);
-            width = 1024*3;
-            height = 768*3;
-            break;
-        }
-        default:
-            break;
-            
-    }*/
     
     polygons = [[NSMutableArray alloc] init];
     
@@ -121,29 +97,6 @@
     groundBox.SetAsEdge(b2Vec2(rect.origin.x + rect.size.width/PTM_RATIO, rect.origin.y + rect.size.height/PTM_RATIO), b2Vec2(rect.origin.x + rect.size.width/PTM_RATIO, rect.origin.y));
     groundBody->CreateFixture(&groundBox,0);
 
-}
-
-// on "dealloc" you need to release all your retained objects
-- (void) dealloc
-{
-	// in case you have something to dealloc, do it in this method
-	delete world;
-	world = NULL;
-    
-    delete contactListener;
-    contactListener = nil;
-    
-    [ball release];
-    ball = nil;    
-    [bounds release];
-    bounds = nil;
-    [goal release];
-    goal = nil;    
-    [polygons release];
-    polygons = nil;
-    
-	// don't forget to call "super dealloc"
-	[super dealloc];
 }
 
 #pragma mark Start of XML parsing methods
@@ -274,4 +227,28 @@
 -(void) parser:(NSXMLParser *)parser foundIgnorableWhitespace:(NSString *)whitespaceString {
     // great
 }
+
+#pragma mark dealloc
+- (void) dealloc
+{
+	// in case you have something to dealloc, do it in this method
+	delete world;
+	world = NULL;
+    
+    delete contactListener;
+    contactListener = NULL;
+    
+    [ball release];
+    ball = nil;    
+    [bounds release];
+    bounds = nil;
+    [goal release];
+    goal = nil;    
+    [polygons release];
+    polygons = nil;
+    
+	// don't forget to call "super dealloc"
+	[super dealloc];
+}
+
 @end

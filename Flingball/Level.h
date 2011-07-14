@@ -20,31 +20,27 @@
     NSInteger width;
     NSInteger height;
     
-    b2Vec2 startPos;
     b2Vec2 gravity;
-    
-    // an end "position" will do for now
+    b2Vec2 startPos;
     b2Vec2 endPos;
     
     b2World* world;
     Ball* ball;
-    
-    // block logic
-    
-    // TEMPORARY STUFF!
     Entity* bounds;
-    GoalEntity* goal;
+    GoalEntity* goal;    
+    NSMutableArray* polygons;       // ALL world block/platform/shape data other than bounds goes in here
     
-    NSMutableArray* polygons;
-    Polygon* currentPolygon;
+    NSMutableArray* pickups;
     
     ContactListener* contactListener;
     
     // manky XML stuff, should probably be its own class?
+    Polygon* currentPolygon;
     NSString* currentElem;
     NSString* blockMode;
     NSString* blockSubMode;
     NSMutableString* currentElemValue;
+    // end manky XML stuff
 }
 
 @property (nonatomic, assign) b2World* world;

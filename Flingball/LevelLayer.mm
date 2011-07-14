@@ -85,8 +85,26 @@ enum {
     flags += b2DebugDraw::e_shapeBit;
     m_debugDraw->SetFlags(flags);
     
-    [self addChild:level.goal.sprite];
-    [self addChild:level.ball.sprite];
+    // Hmm. The below no longer cuts the mustard because we don't know what
+    // sprites will be around
+    // entities = [level getEntities]
+    for (b2Body* b = level.world->GetBodyList(); b; b = b->GetNext()) {
+        
+		if (b->GetUserData() != NULL) {            
+            // bear in mind that obviously different sub classes of Entity
+            // will implement their own version of updateBody
+			Entity *myEntity = (Entity*)b->GetUserData();
+            if ([myEntity isKindOfClass: [SpriteEntity class]]) {
+                // excellent, got a sprite?
+                SpriteEntity *spriteEntity = (SpriteEntity*)myEntity;
+                if (spriteEntity.sprite) {
+                    [self addChild: spriteEntity.sprite];
+                }
+            }
+		}
+	}
+    //[self addChild:level.goal.sprite];
+    //[self addChild:level.ball.sprite];
     
     [self schedule: @selector(tick:)];
 }
@@ -205,13 +223,22 @@ enum {
             v.y = -(sin(a) * vel);
         }
         
-        [level.ball fling:v];
+        // only fling if we've got a velocity to apply
+        if (v.x != 0 || v.y != 0) {
+            [level.ball fling:v];
+        }
 	}
 }
 
-/**
- * Event Callbacks
- */
+-(void) loadEndLevel {
+    NSLog(@"Switching scene to end level %d", cLevel);
+    // great! load the end level scene.
+    [[CCDirector sharedDirector] replaceScene:
+     [CCTransitionCrossFade transitionWithDuration:1.0f scene:[EndLevelLayer scene:cLevel]]];
+}
+
+#pragma mark Event Callbacks
+
 -(void) ballAtGoal:(NSNotification *)notification {
     if (level.ball.atGoal) {
         return;
@@ -225,25 +252,26 @@ enum {
     [self runAction:[CCSequence actions:action1, action2, nil]];
 }
 
--(void) loadEndLevel {
-    NSLog(@"Switching scene to end level %d", cLevel);
-    // great! load the end level scene.
-    [[CCDirector sharedDirector] replaceScene:
-     [CCTransitionCrossFade transitionWithDuration:1.0f scene:[EndLevelLayer scene:cLevel]]];
+-(void) ballHitPickup:(NSNotification *)notification {
+    //[notification object]
 }
 
-// on "dealloc" you need to release all your retained objects
+#pragma mark dealloc
+
 - (void) dealloc
 {
     NSLog(@"LevelLayer::dealloc");
 	// in case you have something to dealloc, do it in this method
-	[level dealloc];
-    level = NULL;
+	[level release];
+    level = nil;
     
-    [camera dealloc];
-    camera = NULL;
+    [camera release];
+    camera = nil;
+    
+    //@todo remove sprites from layer, surely?
     
     [[NSNotificationCenter defaultCenter] removeObserver:self name:@"ballAtGoal" object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:@"ballHitPickup" object:nil];
 	
 	delete m_debugDraw;
 

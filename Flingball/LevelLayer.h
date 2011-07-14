@@ -31,6 +31,7 @@
 +(CCScene *) scene: (NSInteger)levelIndex;
 -(void) setLevel:(NSInteger)levelIndex;
 -(void) ballAtGoal: (NSNotification*)notification;
+-(void) ballHitPickup: (NSNotification*)notification;
 -(void) loadEndLevel;
 
 @end
