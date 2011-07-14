@@ -49,33 +49,38 @@
     width = [[[jsonObject objectForKey:@"dimensions"] objectForKey:@"width"] intValue];
     height = [[[jsonObject objectForKey:@"dimensions"] objectForKey:@"height"] intValue];
     
+    [self createBoundaries:CGRectMake(0, 0, width, height)];
+    
     // then gravity
     gravity.Set(
         [[[jsonObject objectForKey:@"gravity"] objectForKey:@"x"] floatValue],
         [[[jsonObject objectForKey:@"gravity"] objectForKey:@"y"] floatValue]
     );
     
-    // now start and end positions
+    world->SetGravity(gravity);
+    
+    // now start & end positions
     startPos.Set(
         [[[jsonObject objectForKey:@"start"] objectForKey:@"x"] floatValue],
         [[[jsonObject objectForKey:@"start"] objectForKey:@"y"] floatValue]
-    );    
+    );
+    
+    ball = [[Ball alloc] initWithPosition:startPos forWorld:world];
+    
     endPos.Set(
         [[[jsonObject objectForKey:@"end"] objectForKey:@"x"] floatValue],
         [[[jsonObject objectForKey:@"end"] objectForKey:@"y"] floatValue]
     );
     
-    NSLog(@"Level parsed");
-    
-    world->SetGravity(gravity);
-    
-    [self createBoundaries:CGRectMake(0, 0, width, height)];        
-    
-    ball = [[Ball alloc] initWithPosition:startPos forWorld:world];
-
-    
-    // temporary end goal
     goal = [[GoalEntity alloc] initWithPosition:endPos forWorld:world];
+    
+    // have we got any poly data?
+    NSArray* polyArray = [jsonObject objectForKey:@"polygons"];
+    for (NSDictionary* poly in polyArray) {
+        //
+    }
+    
+    NSLog(@"Level parsed");
     
     //[xmlParser release];
 }
