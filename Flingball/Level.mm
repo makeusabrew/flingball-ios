@@ -9,6 +9,7 @@
 #import "Level.h"
 #import "Constants.h"
 #import "GoalEntity.h"
+#import "CJSONDeserializer.h"
 
 @implementation Level
 
@@ -38,14 +39,31 @@
     
     polygons = [[NSMutableArray alloc] init];    
     NSString *str = [NSString stringWithFormat:@"level%d", levelIndex];
-    NSString *filePath = [[NSBundle mainBundle] pathForResource:str ofType:@"xml"];
+    NSString *filePath = [[NSBundle mainBundle] pathForResource:str ofType:@"json"];
     NSData *levelData = [NSData dataWithContentsOfFile:filePath];
     
-    NSXMLParser *xmlParser = [[NSXMLParser alloc] initWithData:levelData];
+    NSError *jsonError = nil;
+    NSDictionary* jsonObject = [[CJSONDeserializer deserializer] deserialize:levelData error:&jsonError];
     
-    [xmlParser setDelegate:self];
+    // dimensions first
+    width = [[[jsonObject objectForKey:@"dimensions"] objectForKey:@"width"] intValue];
+    height = [[[jsonObject objectForKey:@"dimensions"] objectForKey:@"height"] intValue];
     
-    [xmlParser parse];
+    // then gravity
+    gravity.Set(
+        [[[jsonObject objectForKey:@"gravity"] objectForKey:@"x"] floatValue],
+        [[[jsonObject objectForKey:@"gravity"] objectForKey:@"y"] floatValue]
+    );
+    
+    // now start and end positions
+    startPos.Set(
+        [[[jsonObject objectForKey:@"start"] objectForKey:@"x"] floatValue],
+        [[[jsonObject objectForKey:@"start"] objectForKey:@"y"] floatValue]
+    );    
+    endPos.Set(
+        [[[jsonObject objectForKey:@"end"] objectForKey:@"x"] floatValue],
+        [[[jsonObject objectForKey:@"end"] objectForKey:@"y"] floatValue]
+    );
     
     NSLog(@"Level parsed");
     
@@ -59,7 +77,7 @@
     // temporary end goal
     goal = [[GoalEntity alloc] initWithPosition:endPos forWorld:world];
     
-    [xmlParser release];
+    //[xmlParser release];
 }
 
 - (void)createBoundaries:(CGRect)rect {
@@ -99,7 +117,7 @@
 }
 
 #pragma mark XML parsing methods
-
+/*
 - (void)parser:(NSXMLParser *)parser didStartElement:(NSString *)elementName
   namespaceURI:(NSString *)namespaceURI qualifiedName:(NSString *)qName 
     attributes:(NSDictionary *)attributeDict {
@@ -238,6 +256,7 @@
 -(void) parser:(NSXMLParser *)parser foundIgnorableWhitespace:(NSString *)whitespaceString {
     // great
 }
+ */
 
 #pragma mark dealloc
 - (void) dealloc
