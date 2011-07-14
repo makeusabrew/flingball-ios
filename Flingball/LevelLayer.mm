@@ -85,14 +85,11 @@ enum {
     flags += b2DebugDraw::e_shapeBit;
     m_debugDraw->SetFlags(flags);
     
-    // Hmm. The below no longer cuts the mustard because we don't know what
-    // sprites will be around
-    // entities = [level getEntities]
+    // loop through all the world bodies - if any are SpriteEntity objects
+    // then we want to add their sprites to this layer
     for (b2Body* b = level.world->GetBodyList(); b; b = b->GetNext()) {
         
 		if (b->GetUserData() != NULL) {            
-            // bear in mind that obviously different sub classes of Entity
-            // will implement their own version of updateBody
 			Entity *myEntity = (Entity*)b->GetUserData();
             if ([myEntity isKindOfClass: [SpriteEntity class]]) {
                 // excellent, got a sprite?
@@ -103,8 +100,6 @@ enum {
             }
 		}
 	}
-    //[self addChild:level.goal.sprite];
-    //[self addChild:level.ball.sprite];
     
     [self schedule: @selector(tick:)];
 }
@@ -254,6 +249,9 @@ enum {
 
 -(void) ballHitPickup:(NSNotification *)notification {
     //[notification object]
+    // we need to get the object, get its body, then
+    // removeChild (sprite)
+    // world->DestroyBody (body)
 }
 
 #pragma mark dealloc
@@ -261,14 +259,26 @@ enum {
 - (void) dealloc
 {
     NSLog(@"LevelLayer::dealloc");
-	// in case you have something to dealloc, do it in this method
+    for (b2Body* b = level.world->GetBodyList(); b; b = b->GetNext()) {
+        
+		if (b->GetUserData() != NULL) {            
+			Entity *myEntity = (Entity*)b->GetUserData();
+            if ([myEntity isKindOfClass: [SpriteEntity class]]) {
+                // excellent, got a sprite?
+                SpriteEntity *spriteEntity = (SpriteEntity*)myEntity;
+                if (spriteEntity.sprite) {
+                    NSLog(@"removing sprite from layer");
+                    [self removeChild: spriteEntity.sprite cleanup:YES];
+                }
+            }
+		}
+	}
+	
 	[level release];
     level = nil;
     
     [camera release];
     camera = nil;
-    
-    //@todo remove sprites from layer, surely?
     
     [[NSNotificationCenter defaultCenter] removeObserver:self name:@"ballAtGoal" object:nil];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:@"ballHitPickup" object:nil];

@@ -176,6 +176,7 @@
 		01E72D8013CDAEE500D1E763 /* EndLevelLayer.mm in Sources */ = {isa = PBXBuildFile; fileRef = 01E72D7F13CDAEE500D1E763 /* EndLevelLayer.mm */; };
 		01FBE9EB13CF17BB00E3CD0D /* Pickup.mm in Sources */ = {isa = PBXBuildFile; fileRef = 01FBE9EA13CF17BA00E3CD0D /* Pickup.mm */; };
 		01FBE9EE13CF1B9100E3CD0D /* pickup.png in Resources */ = {isa = PBXBuildFile; fileRef = 01FBE9ED13CF1B9100E3CD0D /* pickup.png */; };
+		01FBE9F013CF45B600E3CD0D /* level1.json in Resources */ = {isa = PBXBuildFile; fileRef = 01FBE9EF13CF45B600E3CD0D /* level1.json */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -518,6 +519,7 @@
 		01FBE9E913CF17BA00E3CD0D /* Pickup.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Pickup.h; sourceTree = "<group>"; };
 		01FBE9EA13CF17BA00E3CD0D /* Pickup.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = Pickup.mm; sourceTree = "<group>"; };
 		01FBE9ED13CF1B9100E3CD0D /* pickup.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = pickup.png; sourceTree = "<group>"; };
+		01FBE9EF13CF45B600E3CD0D /* level1.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = level1.json; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -551,6 +553,7 @@
 			isa = PBXGroup;
 			children = (
 				01176D1213CDC9A9005BB432 /* level1.xml */,
+				01FBE9EF13CF45B600E3CD0D /* level1.json */,
 				01176D1713CE055B005BB432 /* level2.xml */,
 			);
 			name = level;
@@ -1172,6 +1175,7 @@
 				01176D1313CDC9A9005BB432 /* level1.xml in Resources */,
 				01176D1813CE055C005BB432 /* level2.xml in Resources */,
 				01FBE9EE13CF1B9100E3CD0D /* pickup.png in Resources */,
+				01FBE9F013CF45B600E3CD0D /* level1.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

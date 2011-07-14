@@ -12,6 +12,7 @@
 #import "ContactListener.h"
 #import "GoalEntity.h"
 #import "Polygon.h"
+#import "Pickup.h"
 
 @interface Level : NSObject <NSXMLParserDelegate> {
     NSString* title;
@@ -36,6 +37,7 @@
     
     // manky XML stuff, should probably be its own class?
     Polygon* currentPolygon;
+    Pickup* currentPickup;    
     NSString* currentElem;
     NSString* blockMode;
     NSString* blockSubMode;

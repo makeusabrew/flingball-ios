@@ -16,4 +16,10 @@
         <x>1900</x>
         <y>64</y>
     </end>
+    <pickups>
+        <pickup>
+            <x>600</x>
+            <y>500</y>
+        </pickup>
+    </pickups>
 </level>

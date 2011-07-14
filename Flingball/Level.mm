@@ -36,8 +36,7 @@
 
 -(void) loadLevel:(NSInteger)levelIndex {
     
-    polygons = [[NSMutableArray alloc] init];
-    
+    polygons = [[NSMutableArray alloc] init];    
     NSString *str = [NSString stringWithFormat:@"level%d", levelIndex];
     NSString *filePath = [[NSBundle mainBundle] pathForResource:str ofType:@"xml"];
     NSData *levelData = [NSData dataWithContentsOfFile:filePath];
@@ -99,7 +98,7 @@
 
 }
 
-#pragma mark Start of XML parsing methods
+#pragma mark XML parsing methods
 
 - (void)parser:(NSXMLParser *)parser didStartElement:(NSString *)elementName
   namespaceURI:(NSString *)namespaceURI qualifiedName:(NSString *)qName 
@@ -109,7 +108,8 @@
         [elementName isEqualToString:@"gravity"]    ||
         [elementName isEqualToString:@"start"]      ||
         [elementName isEqualToString:@"end"]        ||
-        [elementName isEqualToString:@"block"]
+        [elementName isEqualToString:@"block"]      ||
+        [elementName isEqualToString:@"pickup"]
     ) {        
         currentElem = elementName;
     }
@@ -117,6 +117,10 @@
     if ([elementName isEqualToString:@"block"]) {
         NSLog(@"starting new poly");
         currentPolygon = [[Polygon alloc] init];
+    }
+    
+    if ([elementName isEqualToString:@"pickup"]) {
+        currentPickup = [[Pickup alloc] init];
     }
     
     if ([currentElem isEqualToString:@"block"] &&
@@ -174,6 +178,13 @@
             endPos.x = [currentElemValue floatValue];
         } else if ([elementName isEqualToString:@"y"]) {
             endPos.y = [currentElemValue floatValue];
+        }
+    } else if ([currentElem isEqualToString:@"pickup"]) {
+        if ([elementName isEqualToString:@"pickup"]) {
+            [pickups addObject:currentPickup];
+            
+            [currentPickup release];
+            currentPickup = nil;
         }
     } else if ([currentElem isEqualToString:@"block"]) {
         // cool, we're in block creation mode
