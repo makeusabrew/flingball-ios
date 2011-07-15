@@ -14,7 +14,7 @@
 #import "Polygon.h"
 #import "Pickup.h"
 
-@interface Level : NSObject <NSXMLParserDelegate> {
+@interface Level : NSObject {
     NSString* title;
     NSString* author;
     
@@ -34,15 +34,6 @@
     NSMutableArray* pickups;
     
     ContactListener* contactListener;
-    
-    // manky XML stuff, should probably be its own class?
-    Polygon* currentPolygon;
-    Pickup* currentPickup;    
-    NSString* currentElem;
-    NSString* blockMode;
-    NSString* blockSubMode;
-    NSMutableString* currentElemValue;
-    // end manky XML stuff
 }
 
 @property (nonatomic, assign) b2World* world;
