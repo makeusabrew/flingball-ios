@@ -67,7 +67,6 @@
     if ([target isKindOfClass:[Polygon class]]) {
         // add bounce, but only if we're currently 'active'
         if ([GameStatistics sharedGameStatistics].ballFlings > 0 && atGoal == NO) {
-            NSLog(@"adding bounce");
             [GameStatistics sharedGameStatistics].ballBounces ++;
         }
     }

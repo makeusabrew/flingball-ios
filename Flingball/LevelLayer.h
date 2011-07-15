@@ -19,7 +19,10 @@
 {
 	GLESDebugDraw *m_debugDraw;
     
+    // drag related logic, probably to be improved...
     CGPoint startDragLocation;
+    CGPoint currentDragLocation;    
+    BOOL isDragging;
     
     Level* level;
     Camera* camera;

@@ -126,6 +126,25 @@ enum {
 	glDisableClientState(GL_TEXTURE_COORD_ARRAY);
 	
 	level.world->DrawDebugData();
+    
+    if (isDragging) {
+        // crude drag path
+        
+        // we have to counter the natural effects of the camera trying
+        // to adjust the position of the drags
+        CGPoint screenStart;
+        screenStart.x = startDragLocation.x + [camera getLeftEdge];
+        screenStart.y = startDragLocation.y + [camera getBottomEdge];
+        
+        CGPoint screenCurrent;
+        screenCurrent.x = currentDragLocation.x + [camera getLeftEdge];
+        screenCurrent.y = currentDragLocation.y + [camera getBottomEdge];
+        
+        glColor4f(1.0, 1.0, 1.0, 1.0);
+        glLineWidth(4.0);
+        ccDrawLine(screenStart, screenCurrent);
+        glLineWidth(1.0);
+    }
 	
 	// restore default GL states
 	glEnable(GL_TEXTURE_2D);
@@ -186,63 +205,71 @@ enum {
 
 - (void)ccTouchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
 {
-    //Add a new body/atlas sprite at the touched location
-	for( UITouch *touch in touches ) {
-		startDragLocation = [touch locationInView: [touch view]];
+    UITouch *touch = [touches anyObject];
+    startDragLocation = [touch locationInView: [touch view]];
 		
-		startDragLocation = [[CCDirector sharedDirector] convertToGL: startDragLocation];
-	}
+    startDragLocation = [[CCDirector sharedDirector] convertToGL: startDragLocation];
+    currentDragLocation = startDragLocation;
+    isDragging = YES;
+}
+
+-(void) ccTouchesMoved:(NSSet *)touches withEvent:(UIEvent *)event {
+    UITouch* touch = [touches anyObject];
+    currentDragLocation = [touch locationInView:[touch view]];
+    currentDragLocation = [[CCDirector sharedDirector] convertToGL: currentDragLocation];
 }
 
 - (void)ccTouchesEnded:(NSSet *)touches withEvent:(UIEvent *)event
 {
-	for( UITouch *touch in touches ) {
-		CGPoint location = [touch locationInView: [touch view]];
+	UITouch* touch = [touches anyObject];
+    
+    CGPoint location = [touch locationInView: [touch view]];
 		
-		location = [[CCDirector sharedDirector] convertToGL: location];
+    location = [[CCDirector sharedDirector] convertToGL: location];
         
-        float dx = location.x - startDragLocation.x;
-        float dy = location.y - startDragLocation.y;
-        float dist = sqrt((dx*dx) + (dy*dy));
-        float vel = dist / 5.0; // hard coded for now!
+    float dx = location.x - startDragLocation.x;
+    float dy = location.y - startDragLocation.y;
+    float dist = sqrt((dx*dx) + (dy*dy));
+    float vel = dist / 5.0; // hard coded for now!
         
-        b2Vec2 v;
-        v.SetZero();
+    b2Vec2 v;
+    v.SetZero();
         
-        if (dy < 0 && dx == 0) {	// straight up
-            v.x = 0;
-            v.y = -vel;
-        } else if (dy > 0 && dx == 0) {	// straight down
-            v.x = 0;
-            v.y = vel;
-        } else if (dx > 0 && dy == 0) {	// straight left
-            v.x = vel;
-            v.y = 0;
-        } else if (dx < 0 && dy == 0) {	// straight right
-            v.x = -vel;
-            v.y = 0;
-        } else if (dy < 0 && dx < 0) {	// bottom left of ball
-            float a = dy / dx;
-            a = atan(a);
-            v.x = cos(a) * vel;
-            v.y = sin(a) * vel;		
-        } else if (dy < 0 && dx > 0) {	// bottom right of ball
-            float a = atan2(dy, dx);		
-            v.x = -(cos(a) * vel);
-            v.y = -(sin(a) * vel);
+    if (dy < 0 && dx == 0) {	// straight up
+        v.x = 0;
+        v.y = -vel;
+    } else if (dy > 0 && dx == 0) {	// straight down
+        v.x = 0;
+        v.y = vel;
+    } else if (dx > 0 && dy == 0) {	// straight left
+        v.x = vel;
+        v.y = 0;
+    } else if (dx < 0 && dy == 0) {	// straight right
+        v.x = -vel;
+        v.y = 0;
+    } else if (dy < 0 && dx < 0) {	// bottom left of ball
+        float a = dy / dx;
+        a = atan(a);
+        v.x = cos(a) * vel;
+        v.y = sin(a) * vel;		
+    } else if (dy < 0 && dx > 0) {	// bottom right of ball
+        float a = atan2(dy, dx);		
+        v.x = -(cos(a) * vel);
+        v.y = -(sin(a) * vel);
+    }
+        
+    // only fling if we've got a velocity to apply        
+    if (v.x != 0 || v.y != 0) {
+        NSLog(@"fling velocity [%.2f, %.2f]", v.x, v.y);
+        [level.ball fling:v];
+        if ([GameStatistics sharedGameStatistics].ballFlings == 1) {
+            // first fling, so start timer
+            [GameStatistics sharedGameStatistics].startTime = [NSDate timeIntervalSinceReferenceDate];
+            NSLog(@"start time %.2f", [GameStatistics sharedGameStatistics].startTime);
         }
+    }
         
-        // only fling if we've got a velocity to apply        
-        if (v.x != 0 || v.y != 0) {
-            NSLog(@"fling velocity [%.2f, %.2f]", v.x, v.y);
-            [level.ball fling:v];
-            if ([GameStatistics sharedGameStatistics].ballFlings == 1) {
-                // first fling, so start timer
-                [GameStatistics sharedGameStatistics].startTime = [NSDate timeIntervalSinceReferenceDate];
-                NSLog(@"start time %.2f", [GameStatistics sharedGameStatistics].startTime);
-            }
-        }
-	}
+    isDragging = NO;
 }
 
 -(void) loadEndLevel {
