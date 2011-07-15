@@ -77,7 +77,52 @@
     // have we got any poly data?
     NSArray* polyArray = [jsonObject objectForKey:@"polygons"];
     for (NSDictionary* poly in polyArray) {
-        //
+        b2BodyDef bodyDef;
+        bodyDef.position.Set(
+            [[[poly objectForKey:@"bodyDef"] objectForKey:@"x"] floatValue] / PTM_RATIO,
+            [[[poly objectForKey:@"bodyDef"] objectForKey:@"y"] floatValue] / PTM_RATIO
+        );
+        // @todo parse from file properly
+        bodyDef.type = b2_staticBody;
+        
+        b2PolygonShape shapeDef;
+        NSArray* vertexArray = [[poly objectForKey:@"shapeDef"] objectForKey:@"vertices"];
+        NSInteger vertexCount = [[[poly objectForKey:@"shapeDef"] objectForKey:@"vertexCount"] intValue];
+        
+        b2Vec2 *_vertices = new b2Vec2[vertexCount];
+        int i = 0;
+        for (NSDictionary* vertex in vertexArray) {
+            float32 x = [[vertex objectForKey:@"x"] floatValue] / PTM_RATIO;
+            float32 y = [[vertex objectForKey:@"y"] floatValue] / PTM_RATIO;
+            _vertices[i++] = b2Vec2(x, y);
+        }
+
+        shapeDef.Set(_vertices, vertexCount);
+        
+        delete [] _vertices;
+        
+        // lastly, fixture definition
+        b2FixtureDef fixtureDef;
+        fixtureDef.density = [[[poly objectForKey:@"fixtureDef"] objectForKey:@"density"] floatValue];
+        fixtureDef.friction = [[[poly objectForKey:@"fixtureDef"] objectForKey:@"friction"] floatValue];
+        fixtureDef.restitution = [[[poly objectForKey:@"fixtureDef"] objectForKey:@"restitution"] floatValue];
+        
+        Polygon *polygon = [[Polygon alloc] init];
+        
+        // these don't work direct, for some reason we have to use their setter methods
+        //polygon.bodyDef = bodyDef;
+        //polygon.shapeDef = shapeDef;
+        //polygon.fixtureDef = fixtureDef;
+        
+        [polygon setBodyDef: bodyDef];
+        [polygon setShapeDef: shapeDef];
+        [polygon setFixtureDef: fixtureDef];
+        
+        [polygon createForWorld: world];
+        
+        [polygons addObject:polygon];
+        
+        [polygon release];
     }
     
     NSLog(@"Level parsed");

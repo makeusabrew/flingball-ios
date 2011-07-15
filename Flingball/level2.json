@@ -1,0 +1,89 @@
+{
+    "dimensions": {
+        "width": "3000",
+        "height": "1536"
+    },
+    "gravity": {
+        "x": "0.0",
+        "y": "-15.0"
+    },
+    "start": {
+        "x": "100",
+        "y": "64"
+    },
+    "end": {
+        "x": "2900",
+        "y": "200"
+    },
+    "polygons": [
+                 {
+                 "bodyDef": {
+                 "x": "600",
+                 "y": "400",
+                 "type": "static"
+                 },
+                 "shapeDef": {
+                 "vertexCount": 3,
+                 "vertices": [
+                              {
+                              "x": "0",
+                              "y": "0"
+                              },
+                              {
+                              "x": "100",
+                              "y": "0"
+                              },
+                              {
+                              "x": "50",
+                              "y": "100"
+                              }
+                              ]
+                 },
+                 "fixtureDef": {
+                 "density": "10.0",
+                 "friction": "1.0",
+                 "restitution": "0.7"
+                 }
+                 },
+                 {
+                 "bodyDef": {
+                 "x": "1000",
+                 "y": "400",
+                 "type": "static"
+                 },
+                 "shapeDef": {
+                 "vertexCount": 4,
+                 "vertices": [
+                              {
+                              "x": "0",
+                              "y": "0"
+                              },
+                              {
+                              "x": "100",
+                              "y": "0"
+                              },
+                              {
+                              "x": "100",
+                              "y": "100"
+                              },
+                              {
+                              "x": "0",
+                              "y": "100"
+                              }
+                              ]
+                 },
+                 "fixtureDef": {
+                 "density": "10.0",
+                 "friction": "1.0",
+                 "restitution": "0.7"
+                 }
+                 }
+                 ],
+    "pickups": [
+                {
+                "x": "600",
+                "y": "500"
+                }
+                
+                ]
+}
