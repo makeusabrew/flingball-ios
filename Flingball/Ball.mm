@@ -62,14 +62,17 @@
     [GameStatistics sharedGameStatistics].ballFlings ++;
 }
 
--(void) onCollision:(Entity *)target {
-    //NSLog(@"Ball Contact");
+-(void) onCollisionStart:(Entity *)target {
     if ([target isKindOfClass:[Polygon class]]) {
         // add bounce, but only if we're currently 'active'
         if ([GameStatistics sharedGameStatistics].ballFlings > 0 && atGoal == NO) {
             [GameStatistics sharedGameStatistics].ballBounces ++;
         }
     }
+}
+
+-(void) onCollision:(Entity *)target {
+    
 }
 
 @end

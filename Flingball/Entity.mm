@@ -46,6 +46,14 @@
     //NSLog(@"Contact");
 }
 
+-(void) onCollisionStart:(Entity *)target {
+    
+}
+
+-(void) onCollisionEnd:(Entity *)target {
+    
+}
+
 -(b2Body*) getBody {
     return body;
 }
