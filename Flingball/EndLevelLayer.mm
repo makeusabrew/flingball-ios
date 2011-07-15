@@ -61,10 +61,10 @@
     
     NSString* str = [NSString stringWithFormat:@"Level %d Completed!", levelIndex];
 
-    CCLabelTTF *label = [CCLabelTTF labelWithString:str fontName:@"Georgia" fontSize:32];
+    CCLabelTTF *label = [CCLabelTTF labelWithString:str fontName:@"Georgia" fontSize:64];
     [self addChild:label z:0];
     [label setColor:ccc3(0,0,255)];
-    label.position = ccp( screenSize.width/2, screenSize.height-50);
+    label.position = ccp( screenSize.width/2, screenSize.height/2);
 }
 
 - (void)ccTouchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
