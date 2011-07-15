@@ -15,9 +15,10 @@
 {
     self = [super init];
     if (self) {
-        // Initialization code here.
         position.x = 0;
         position.y = 0;
+        
+        dead = NO;
     }
     
     return self;
@@ -43,6 +44,10 @@
 
 -(void) onCollision:(Entity *)target {
     //NSLog(@"Contact");
+}
+
+-(b2Body*) getBody {
+    return body;
 }
 
 - (void)dealloc {

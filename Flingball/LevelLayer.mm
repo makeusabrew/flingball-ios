@@ -63,7 +63,9 @@ enum {
         CGSize screenSize = [CCDirector sharedDirector].winSize;
         CCLOG(@"Screen width %0.2f screen height %0.2f",screenSize.width,screenSize.height);
         
-        [camera setViewport: CGRectMake(0, 0, screenSize.width, screenSize.height)];  
+        [camera setViewport: CGRectMake(0, 0, screenSize.width, screenSize.height)];
+        
+        entitiesToDelete = [[NSMutableArray alloc] init];
 	}
 	return self;
 }
@@ -76,6 +78,7 @@ enum {
     
     // event listeners
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(ballAtGoal:) name:@"ballAtGoal" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(ballHitPickup:) name:@"ballHitPickup" object:nil];
     
     // Debug Draw functions
     m_debugDraw = new GLESDebugDraw( PTM_RATIO );
@@ -124,26 +127,33 @@ enum {
 
 -(void) tick: (ccTime) dt
 {
-	//It is recommended that a fixed time step is used with Box2D for stability
-	//of the simulation, however, we are using a variable time step here.
-	//You need to make an informed choice, the following URL is useful
-	//http://gafferongames.com/game-physics/fix-your-timestep/
-	
-	int32 velocityIterations = 10;
+    // before anything, let's clean up any objects which need deleting
+    for (Entity* object in entitiesToDelete) {
+        NSLog(@"removing object marked for deletion");
+        if ([object isKindOfClass: [SpriteEntity class]]) {
+            SpriteEntity* spriteEntity = (SpriteEntity*) object;
+            NSLog(@"removing sprite");
+            [self removeChild: spriteEntity.sprite cleanup:YES];           
+        }
+        level.world->DestroyBody([object getBody]);
+    }
+    [entitiesToDelete removeAllObjects];
+    
+    // now things can carry on as normal
+    
+   	int32 velocityIterations = 10;
 	int32 positionIterations = 10;
     float32 timestep = 1.0f / 60.0f;
 	
 	// Instruct the world to perform a single step of simulation. It is
-	// generally best to keep the time step and iterations fixed.
-    
+	// generally best to keep the time step and iterations fixed.    
 	level.world->Step(timestep, velocityIterations, positionIterations);
 
 	
 	//Iterate over the bodies in the physics world
 	for (b2Body* b = level.world->GetBodyList(); b; b = b->GetNext())
 	{
-		if (b->GetUserData() != NULL) {
-            
+		if (b->GetUserData() != NULL) {            
             // bear in mind that obviously different sub classes of Entity
             // will implement their own version of updateBody
 			Entity *myEntity = (Entity*)b->GetUserData();
@@ -248,10 +258,14 @@ enum {
 }
 
 -(void) ballHitPickup:(NSNotification *)notification {
-    //[notification object]
-    // we need to get the object, get its body, then
-    // removeChild (sprite)
-    // world->DestroyBody (body)
+    NSLog(@"pickup callback");
+    
+    // we can't just delete the pickup (sprite, body etc) here, because
+    // we don't know when this event handler was actually triggered
+    // instead, we need to schedule the pickup to be deleted on the next tick
+    // when we know that the world won't be mid simulation or anything :)
+    Pickup *pickup = (Pickup*)[notification object];
+    [entitiesToDelete addObject:pickup];     
 }
 
 #pragma mark dealloc
@@ -279,6 +293,9 @@ enum {
     
     [camera release];
     camera = nil;
+    
+    [entitiesToDelete release];
+    entitiesToDelete = nil;
     
     [[NSNotificationCenter defaultCenter] removeObserver:self name:@"ballAtGoal" object:nil];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:@"ballHitPickup" object:nil];

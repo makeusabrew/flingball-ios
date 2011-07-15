@@ -173,8 +173,8 @@
 		0180ABEA13CC8470002B3AB3 /* ball.png in Resources */ = {isa = PBXBuildFile; fileRef = 0180ABE913CC8470002B3AB3 /* ball.png */; };
 		01E72D8013CDAEE500D1E763 /* EndLevelLayer.mm in Sources */ = {isa = PBXBuildFile; fileRef = 01E72D7F13CDAEE500D1E763 /* EndLevelLayer.mm */; };
 		01F8BB1713D04D6B00FF18A0 /* level2.json in Resources */ = {isa = PBXBuildFile; fileRef = 01F8BB1613D04D6B00FF18A0 /* level2.json */; };
+		01F8BB1C13D0553200FF18A0 /* pickup.png in Resources */ = {isa = PBXBuildFile; fileRef = 01F8BB1B13D0553200FF18A0 /* pickup.png */; };
 		01FBE9EB13CF17BB00E3CD0D /* Pickup.mm in Sources */ = {isa = PBXBuildFile; fileRef = 01FBE9EA13CF17BA00E3CD0D /* Pickup.mm */; };
-		01FBE9EE13CF1B9100E3CD0D /* pickup.png in Resources */ = {isa = PBXBuildFile; fileRef = 01FBE9ED13CF1B9100E3CD0D /* pickup.png */; };
 		01FBE9F013CF45B600E3CD0D /* level1.json in Resources */ = {isa = PBXBuildFile; fileRef = 01FBE9EF13CF45B600E3CD0D /* level1.json */; };
 /* End PBXBuildFile section */
 
@@ -514,9 +514,9 @@
 		01E72D7E13CDAEE500D1E763 /* EndLevelLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EndLevelLayer.h; sourceTree = "<group>"; };
 		01E72D7F13CDAEE500D1E763 /* EndLevelLayer.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = EndLevelLayer.mm; sourceTree = "<group>"; };
 		01F8BB1613D04D6B00FF18A0 /* level2.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = level2.json; sourceTree = "<group>"; };
+		01F8BB1B13D0553200FF18A0 /* pickup.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = pickup.png; sourceTree = "<group>"; };
 		01FBE9E913CF17BA00E3CD0D /* Pickup.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Pickup.h; sourceTree = "<group>"; };
 		01FBE9EA13CF17BA00E3CD0D /* Pickup.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = Pickup.mm; sourceTree = "<group>"; };
-		01FBE9ED13CF1B9100E3CD0D /* pickup.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = pickup.png; sourceTree = "<group>"; };
 		01FBE9EF13CF45B600E3CD0D /* level1.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = level1.json; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -624,7 +624,7 @@
 				0180ABE513CC7A0F002B3AB3 /* goal.wav */,
 				0180ABE913CC8470002B3AB3 /* ball.png */,
 				0180ABE713CC7BF0002B3AB3 /* goal.png */,
-				01FBE9ED13CF1B9100E3CD0D /* pickup.png */,
+				01F8BB1B13D0553200FF18A0 /* pickup.png */,
 				0138A15813C4EDBF003135A7 /* Default.png */,
 				0138A15A13C4EDBF003135A7 /* fps_images.png */,
 				0138A15C13C4EDBF003135A7 /* Icon-72.png */,
@@ -1169,9 +1169,9 @@
 				0180ABE613CC7A0F002B3AB3 /* goal.wav in Resources */,
 				0180ABE813CC7BF0002B3AB3 /* goal.png in Resources */,
 				0180ABEA13CC8470002B3AB3 /* ball.png in Resources */,
-				01FBE9EE13CF1B9100E3CD0D /* pickup.png in Resources */,
 				01FBE9F013CF45B600E3CD0D /* level1.json in Resources */,
 				01F8BB1713D04D6B00FF18A0 /* level2.json in Resources */,
+				01F8BB1C13D0553200FF18A0 /* pickup.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -47,7 +47,7 @@
 }
 
 -(void) onCollision:(Entity *)target {
-    if ([target class] == [Ball class]) {        
+    if ([target class] == [Ball class]) {
         [[NSNotificationCenter defaultCenter] postNotificationName:@"ballHitPickup" object:self];
     }
 }

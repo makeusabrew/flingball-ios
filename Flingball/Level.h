@@ -28,10 +28,9 @@
     b2World* world;
     Ball* ball;
     Entity* bounds;
-    GoalEntity* goal;    
-    NSMutableArray* polygons;       // ALL world block/platform/shape data other than bounds goes in here
+    GoalEntity* goal;
     
-    NSMutableArray* pickups;
+    NSMutableArray* entities;
     
     ContactListener* contactListener;
 }

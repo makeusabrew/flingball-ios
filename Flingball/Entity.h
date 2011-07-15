@@ -14,6 +14,7 @@
 {
     b2Body* body;
     b2Vec2 position;
+    BOOL dead;
 }
 
 -(void) setPosition: (b2Vec2)_position;
@@ -21,5 +22,6 @@
 -(float) getY;
 -(void) updateBody: (b2Body*)b;
 -(void) onCollision: (Entity*)target;
+-(b2Body*) getBody;
 
 @end

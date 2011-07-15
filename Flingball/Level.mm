@@ -37,7 +37,8 @@
 
 -(void) loadLevel:(NSInteger)levelIndex {
     
-    polygons = [[NSMutableArray alloc] init];    
+    entities = [[NSMutableArray alloc] init];
+    
     NSString *str = [NSString stringWithFormat:@"level%d", levelIndex];
     NSString *filePath = [[NSBundle mainBundle] pathForResource:str ofType:@"json"];
     NSData *levelData = [NSData dataWithContentsOfFile:filePath];
@@ -120,14 +121,29 @@
         
         [polygon createForWorld: world];
         
-        [polygons addObject:polygon];
+        [entities addObject:polygon];
         
         [polygon release];
     }
     
-    NSLog(@"Level parsed");
+    // what about pickups - any joy?
+    NSArray* pickupArray = [jsonObject objectForKey:@"pickups"];
+    for (NSDictionary* pickupData in pickupArray) {
+        b2Vec2 position = b2Vec2(
+            [[pickupData objectForKey:@"x"] floatValue],
+            [[pickupData objectForKey:@"y"] floatValue]
+        );
+        
+        Pickup *pickup = [[Pickup alloc] init];
+        
+        [pickup initWithPosition:position forWorld: world];
+        
+        [entities addObject: pickup];
+        
+        [pickup release];
+    }
     
-    //[xmlParser release];
+    NSLog(@"Level parsed");
 }
 
 - (void)createBoundaries:(CGRect)rect {
@@ -182,8 +198,9 @@
     bounds = nil;
     [goal release];
     goal = nil;    
-    [polygons release];
-    polygons = nil;
+    
+    [entities release];
+    entities = nil;
     
 	// don't forget to call "super dealloc"
 	[super dealloc];

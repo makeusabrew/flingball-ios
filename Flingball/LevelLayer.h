@@ -25,6 +25,8 @@
     Camera* camera;
     
     NSInteger cLevel;
+    
+    NSMutableArray *entitiesToDelete;
 }
 
 // returns a CCScene that contains the LevelLayer as the only child
