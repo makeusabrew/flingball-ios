@@ -203,6 +203,7 @@ enum {
         float vel = dist / 5.0; // hard coded for now!
         
         b2Vec2 v;
+        v.SetZero();
         
         if (dy < 0 && dx == 0) {	// straight up
             v.x = 0;
@@ -227,8 +228,9 @@ enum {
             v.y = -(sin(a) * vel);
         }
         
-        // only fling if we've got a velocity to apply
+        // only fling if we've got a velocity to apply        
         if (v.x != 0 || v.y != 0) {
+            NSLog(@"fling velocity [%.2f, %.2f]", v.x, v.y);
             [level.ball fling:v];
         }
 	}
