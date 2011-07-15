@@ -75,18 +75,12 @@ enum {
     cLevel = levelIndex;
     [level loadLevel:levelIndex];      
     [camera trackEntity:level.ball];
+    // force the camera into the correct position
+    [self updateCamera];
     
     // event listeners
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(ballAtGoal:) name:@"ballAtGoal" object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(ballHitPickup:) name:@"ballHitPickup" object:nil];
-    
-    // Debug Draw functions
-    m_debugDraw = new GLESDebugDraw( PTM_RATIO );
-    level.world->SetDebugDraw(m_debugDraw);
-    
-    uint32 flags = 0;
-    flags += b2DebugDraw::e_shapeBit;
-    m_debugDraw->SetFlags(flags);
     
     // loop through all the world bodies - if any are SpriteEntity objects
     // then we want to add their sprites to this layer
@@ -99,10 +93,21 @@ enum {
                 SpriteEntity *spriteEntity = (SpriteEntity*)myEntity;
                 if (spriteEntity.sprite) {
                     [self addChild: spriteEntity.sprite];
+                    // manually update the position of the entity so it draws correctly
+                    // before the first tick happens
+                    [spriteEntity updateBody:b];
                 }
             }
 		}
 	}
+    
+    // Debug Draw functions
+    m_debugDraw = new GLESDebugDraw( PTM_RATIO );
+    level.world->SetDebugDraw(m_debugDraw);
+    
+    uint32 flags = 0;
+    flags += b2DebugDraw::e_shapeBit;
+    m_debugDraw->SetFlags(flags);
     
     [self schedule: @selector(tick:)];
 }
@@ -171,14 +176,8 @@ enum {
         [entityA onCollision:entityB];
         [entityB onCollision:entityA];
     }
-    
-    // update the camera class - it's been set up (in setLevel) to track the
-    // level's ball entity
-    [camera update];
-    
-    // sync cocos2d's camera with our own
-    [self.camera setEyeX:[camera getLeftEdge] eyeY:[camera getBottomEdge] eyeZ:[CCCamera getZEye]];
-    [self.camera setCenterX:[camera getLeftEdge] centerY:[camera getBottomEdge] centerZ:0];  
+
+    [self updateCamera];
 }
 
 - (void)ccTouchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
@@ -240,6 +239,16 @@ enum {
     // great! load the end level scene.
     [[CCDirector sharedDirector] replaceScene:
      [CCTransitionCrossFade transitionWithDuration:1.0f scene:[EndLevelLayer scene:cLevel]]];
+}
+
+-(void) updateCamera {    
+    // update the camera class - it's been set up (in setLevel) to track the
+    // level's ball entity
+    [camera update];
+    
+    // sync cocos2d's camera with our own
+    [self.camera setEyeX:[camera getLeftEdge] eyeY:[camera getBottomEdge] eyeZ:[CCCamera getZEye]];
+    [self.camera setCenterX:[camera getLeftEdge] centerY:[camera getBottomEdge] centerZ:0];  
 }
 
 #pragma mark Event Callbacks

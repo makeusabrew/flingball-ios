@@ -35,5 +35,6 @@
 -(void) ballAtGoal: (NSNotification*)notification;
 -(void) ballHitPickup: (NSNotification*)notification;
 -(void) loadEndLevel;
+-(void) updateCamera;
 
 @end
