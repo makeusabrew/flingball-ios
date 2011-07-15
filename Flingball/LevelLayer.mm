@@ -196,8 +196,16 @@ enum {
         Entity* entityA = (Entity*) contact.fixtureA->GetBody()->GetUserData();
         Entity* entityB = (Entity*) contact.fixtureB->GetBody()->GetUserData();
         
+        // new contact?
+        if (pos->isNew) {            
+            [entityA onCollisionStart: entityB];
+            [entityB onCollisionStart: entityA];            
+            // remember, we need to update the actual contact, not our copy of it
+            pos->isNew = false;
+        }
+        
         [entityA onCollision:entityB];
-        [entityB onCollision:entityA];
+        [entityB onCollision:entityA];        
     }
 
     [self updateCamera];
