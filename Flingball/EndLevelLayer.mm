@@ -9,6 +9,7 @@
 #import "EndLevelLayer.h"
 #import "LevelLayer.h"
 #import "Constants.h"
+#import "GameStatistics.h"
 
 @implementation EndLevelLayer
 
@@ -64,7 +65,26 @@
     CCLabelTTF *label = [CCLabelTTF labelWithString:str fontName:@"Georgia" fontSize:64];
     [self addChild:label z:0];
     [label setColor:ccc3(0,0,255)];
-    label.position = ccp( screenSize.width/2, screenSize.height/2);
+    label.position = ccp( screenSize.width/2, (screenSize.height/2) + 100);
+    
+    str = [NSString stringWithFormat:@"Ball Flings: %d", [GameStatistics sharedGameStatistics].ballFlings];
+    label = [CCLabelTTF labelWithString:str fontName:@"Georgia" fontSize:32];
+    [self addChild:label];
+    [label setColor:ccc3(0, 0, 255)];
+    label.position = ccp(screenSize.width/2, (screenSize.height/2) + 50);
+    
+    str = [NSString stringWithFormat:@"Ball Bounces: %d", [GameStatistics sharedGameStatistics].ballBounces];
+    label = [CCLabelTTF labelWithString:str fontName:@"Georgia" fontSize:32];
+    [self addChild:label];
+    [label setColor:ccc3(0, 0, 255)];
+    label.position = ccp(screenSize.width/2, (screenSize.height/2) + 0);
+    
+    double timeTaken = [GameStatistics sharedGameStatistics].endTime - [GameStatistics sharedGameStatistics].startTime;
+    str = [NSString stringWithFormat:@"Time Taken: %.2f seconds", timeTaken];
+    label = [CCLabelTTF labelWithString:str fontName:@"Georgia" fontSize:32];
+    [self addChild:label];
+    [label setColor:ccc3(0, 0, 255)];
+    label.position = ccp(screenSize.width/2, (screenSize.height/2) - 50);
 }
 
 - (void)ccTouchesBegan:(NSSet *)touches withEvent:(UIEvent *)event

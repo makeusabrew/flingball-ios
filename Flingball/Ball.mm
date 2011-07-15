@@ -9,6 +9,8 @@
 #import "Ball.h"
 #import "Constants.h"
 #import "SimpleAudioEngine.h"
+#import "Polygon.h"
+#import "GameStatistics.h"
 
 @implementation Ball
 
@@ -57,10 +59,18 @@
 - (void)fling:(b2Vec2)vector {
     body->ApplyLinearImpulse(vector, body->GetPosition());
     [[SimpleAudioEngine sharedEngine] playEffect:@"boing.wav"];
+    [GameStatistics sharedGameStatistics].ballFlings ++;
 }
 
 -(void) onCollision:(Entity *)target {
     //NSLog(@"Ball Contact");
+    if ([target isKindOfClass:[Polygon class]]) {
+        // add bounce, but only if we're currently 'active'
+        if ([GameStatistics sharedGameStatistics].ballFlings > 0 && atGoal == NO) {
+            NSLog(@"adding bounce");
+            [GameStatistics sharedGameStatistics].ballBounces ++;
+        }
+    }
 }
 
 @end

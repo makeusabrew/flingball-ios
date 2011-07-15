@@ -174,6 +174,7 @@
 		01E72D8013CDAEE500D1E763 /* EndLevelLayer.mm in Sources */ = {isa = PBXBuildFile; fileRef = 01E72D7F13CDAEE500D1E763 /* EndLevelLayer.mm */; };
 		01F8BB1713D04D6B00FF18A0 /* level2.json in Resources */ = {isa = PBXBuildFile; fileRef = 01F8BB1613D04D6B00FF18A0 /* level2.json */; };
 		01F8BB1C13D0553200FF18A0 /* pickup.png in Resources */ = {isa = PBXBuildFile; fileRef = 01F8BB1B13D0553200FF18A0 /* pickup.png */; };
+		01F8BB1F13D0763600FF18A0 /* GameStatistics.mm in Sources */ = {isa = PBXBuildFile; fileRef = 01F8BB1E13D0763500FF18A0 /* GameStatistics.mm */; };
 		01FBE9EB13CF17BB00E3CD0D /* Pickup.mm in Sources */ = {isa = PBXBuildFile; fileRef = 01FBE9EA13CF17BA00E3CD0D /* Pickup.mm */; };
 		01FBE9F013CF45B600E3CD0D /* level1.json in Resources */ = {isa = PBXBuildFile; fileRef = 01FBE9EF13CF45B600E3CD0D /* level1.json */; };
 /* End PBXBuildFile section */
@@ -515,6 +516,8 @@
 		01E72D7F13CDAEE500D1E763 /* EndLevelLayer.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = EndLevelLayer.mm; sourceTree = "<group>"; };
 		01F8BB1613D04D6B00FF18A0 /* level2.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = level2.json; sourceTree = "<group>"; };
 		01F8BB1B13D0553200FF18A0 /* pickup.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = pickup.png; sourceTree = "<group>"; };
+		01F8BB1D13D0763400FF18A0 /* GameStatistics.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameStatistics.h; sourceTree = "<group>"; };
+		01F8BB1E13D0763500FF18A0 /* GameStatistics.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = GameStatistics.mm; sourceTree = "<group>"; };
 		01FBE9E913CF17BA00E3CD0D /* Pickup.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Pickup.h; sourceTree = "<group>"; };
 		01FBE9EA13CF17BA00E3CD0D /* Pickup.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = Pickup.mm; sourceTree = "<group>"; };
 		01FBE9EF13CF45B600E3CD0D /* level1.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = level1.json; sourceTree = "<group>"; };
@@ -609,6 +612,8 @@
 				0138A32413C4EDC3003135A7 /* GLES-Render.h */,
 				0138A32513C4EDC3003135A7 /* GLES-Render.mm */,
 				0138A32713C4EDC3003135A7 /* GameConfig.h */,
+				01F8BB1D13D0763400FF18A0 /* GameStatistics.h */,
+				01F8BB1E13D0763500FF18A0 /* GameStatistics.mm */,
 				0138A15713C4EDBF003135A7 /* Resources */,
 				0138A16B13C4EDBF003135A7 /* libs */,
 				0138A31713C4EDC3003135A7 /* Supporting Files */,
@@ -1326,6 +1331,7 @@
 				01E72D8013CDAEE500D1E763 /* EndLevelLayer.mm in Sources */,
 				01176D1613CDE6C8005BB432 /* Polygon.mm in Sources */,
 				01FBE9EB13CF17BB00E3CD0D /* Pickup.mm in Sources */,
+				01F8BB1F13D0763600FF18A0 /* GameStatistics.mm in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

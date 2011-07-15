@@ -13,6 +13,7 @@
 #import "Level.h"
 #import "SimpleAudioEngine.h"
 #import "EndLevelLayer.h"
+#import "GameStatistics.h"
 
 // enums that will be used as tags
 enum {
@@ -72,6 +73,9 @@ enum {
 
 -(void) setLevel:(NSInteger)levelIndex {
     NSLog(@"Setting level Index %d", levelIndex);
+    
+    [[GameStatistics sharedGameStatistics] reset];
+    
     cLevel = levelIndex;
     [level loadLevel:levelIndex];      
     [camera trackEntity:level.ball];
@@ -232,6 +236,11 @@ enum {
         if (v.x != 0 || v.y != 0) {
             NSLog(@"fling velocity [%.2f, %.2f]", v.x, v.y);
             [level.ball fling:v];
+            if ([GameStatistics sharedGameStatistics].ballFlings == 1) {
+                // first fling, so start timer
+                [GameStatistics sharedGameStatistics].startTime = [NSDate timeIntervalSinceReferenceDate];
+                NSLog(@"start time %.2f", [GameStatistics sharedGameStatistics].startTime);
+            }
         }
 	}
 }
@@ -262,6 +271,9 @@ enum {
     level.ball.atGoal = true;
     [[SimpleAudioEngine sharedEngine] playEffect:@"goal.wav"];
     NSLog(@"At goal!");
+    
+    [GameStatistics sharedGameStatistics].endTime = [NSDate timeIntervalSinceReferenceDate];
+    NSLog(@"end time %.2f", [GameStatistics sharedGameStatistics].endTime);
     
     id action1 = [CCDelayTime actionWithDuration:3.0];
     id action2 = [CCCallFunc actionWithTarget:self selector:@selector(loadEndLevel)];

@@ -158,7 +158,7 @@
     // Define the ground body.
     
     // temporary
-    bounds = [[Entity alloc] init];
+    bounds = [[Polygon alloc] init];
     
     b2BodyDef groundBodyDef;
     groundBodyDef.position.Set(0, 0); // bottom-left corner
