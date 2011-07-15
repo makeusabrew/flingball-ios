@@ -16,7 +16,8 @@
 {
     self = [super init];
     if (self) {
-        sprite = [CCSprite spriteWithFile:@"goal.png" rect:CGRectMake(0, 0, 128, 128)];
+        radius = 64.0;
+        sprite = [CCSprite spriteWithFile:@"goal.png" rect:CGRectMake(0, 0, radius*2, radius*2)];
     }
     
     return self;
@@ -32,7 +33,7 @@
         body = world->CreateBody(&bodyDef);
         
         b2CircleShape circle;
-        circle.m_radius = 64.0/PTM_RATIO;
+        circle.m_radius = radius/PTM_RATIO;
         
         b2FixtureDef shapeDef;
         shapeDef.shape = &circle;
@@ -47,14 +48,14 @@
 
 -(void) onCollision:(Entity *)target {
     if ([target class] == [Ball class]) {
-        // for now, goal radius = 64
-        // ball radius = 32. ok?
+        Ball* ball = (Ball*) target;
         
-        float32 dx = [target getX] - [self getX];
-        float32 dy = [target getY] - [self getY];
+        float32 dx = [ball getX] - [self getX];
+        float32 dy = [ball getY] - [self getY];
         float32 dist = sqrt((dx*dx) + (dy*dy));
         
-        if (dist < 64 - (32)) {
+        // if the ball is *entirely* within the goal's radius
+        if (dist < radius - [ball radius]) {
             [[NSNotificationCenter defaultCenter] postNotificationName:@"ballAtGoal" object:self];
         }
     }

@@ -12,7 +12,7 @@
 
 @implementation Ball
 
-@synthesize atGoal;
+@synthesize atGoal, radius;
 
 - (id)init
 {

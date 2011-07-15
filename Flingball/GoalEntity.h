@@ -9,7 +9,7 @@
 #import "SpriteEntity.h"
 
 @interface GoalEntity : SpriteEntity {
-    
+    float32 radius;
 }
 
 - (id)initWithPosition: (b2Vec2)_position forWorld: (b2World*)world;
