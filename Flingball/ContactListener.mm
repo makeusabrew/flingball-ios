@@ -23,7 +23,8 @@ void ContactListener::BeginContact(b2Contact *contact) {
     Contact _contact = {
         contact->GetFixtureA(),
         contact->GetFixtureB(),
-        true
+        true,
+        false
     };
     
     _contacts.push_back(_contact);
@@ -33,22 +34,15 @@ void ContactListener::EndContact(b2Contact *contact) {
     Contact _contact = {
         contact->GetFixtureA(),
         contact->GetFixtureB(),
-        false
+        false,
+        true
     };
-    
-    /*
-      @todo how are we going to handle this?
-    Entity* entityA = (Entity*)_contact.fixtureA->GetBody()->GetUserData();
-    Entity* entityB = (Entity*)_contact.fixtureB->GetBody()->GetUserData();
-    
-    [entityA onCollisionEnd: entityB];
-    [entityB onCollisionEnd: entityA];
-    */
     
     vector<Contact>::iterator pos;
     pos = find(_contacts.begin(), _contacts.end(), _contact);
     if (pos != _contacts.end()) {
-        _contacts.erase(pos);
+        pos->isEnding = true;
+        //_contacts.erase(pos);
     }
 }
 

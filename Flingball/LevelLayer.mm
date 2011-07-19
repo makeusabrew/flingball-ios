@@ -190,11 +190,13 @@ enum {
 	}
     
     // process contacts
-    std::vector<Contact>::iterator pos;
-    for (pos = level.contactListener->_contacts.begin(); pos != level.contactListener->_contacts.end(); ++pos) {
-        Contact contact = *pos;
-        Entity* entityA = (Entity*) contact.fixtureA->GetBody()->GetUserData();
-        Entity* entityB = (Entity*) contact.fixtureB->GetBody()->GetUserData();
+    std::vector<Contact>::iterator pos = level.contactListener->_contacts.begin();
+    
+    // we can't use a for because of the two ways we might alter pos
+    while (pos != level.contactListener->_contacts.end()) {
+        //Contact contact = *pos;
+        Entity* entityA = (Entity*) pos->fixtureA->GetBody()->GetUserData();
+        Entity* entityB = (Entity*) pos->fixtureB->GetBody()->GetUserData();
         
         // new contact?
         if (pos->isNew) {            
@@ -205,8 +207,27 @@ enum {
         }
         
         [entityA onCollision:entityB];
-        [entityB onCollision:entityA];        
+        [entityB onCollision:entityA];
+        
+        // contact over?
+        if (pos->isEnding) {
+            [entityA onCollisionEnd: entityB];
+            [entityB onCollisionEnd: entityA];
+            
+            // re-assign the pointer since it'll be invalidated after the .erase()
+            pos = level.contactListener->_contacts.erase(pos);
+        } else {
+            // under normal circumstances, simply iterate to the next contact
+            ++pos;
+        }
     }
+    
+    // final sweep to actually remove finished contacts
+    //for (pos = level.contactListener->_contacts.begin(); pos != level.contactListener->_contacts.end(); ++pos) {
+    //    if (pos->isEnding) {
+            
+     //   }
+    //}
 
     [self updateCamera];
 }

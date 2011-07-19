@@ -16,6 +16,7 @@ struct Contact {
     b2Fixture *fixtureA;
     b2Fixture *fixtureB;
     bool isNew;
+    bool isEnding;
     bool operator==(const Contact& other) const {
         return (fixtureA == other.fixtureA && fixtureB == other.fixtureB);
     }

@@ -75,4 +75,8 @@
     
 }
 
+-(void) onCollisionEnd:(Entity *)target {
+
+}
+
 @end
