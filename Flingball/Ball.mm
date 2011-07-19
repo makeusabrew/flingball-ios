@@ -72,11 +72,30 @@
 }
 
 -(void) onCollision:(Entity *)target {
-    
+    // each bounce seems to trigger two collisions so we need
+    // this variable to be an integer. It's not ideal but it'll
+    // do for now
+    if (inContactTicks > 2) {
+        [self doRollingFriction];
+    }
+    inContactTicks++;
 }
 
 -(void) onCollisionEnd:(Entity *)target {
+    inContactTicks = 0;
+}
 
+-(void) doRollingFriction {
+    float32 v = body->GetAngularVelocity();
+    if (v > 0) {
+        v -= BALL_ROLLING_FRICTION;
+    } else if (v < 0) {
+        v += BALL_ROLLING_FRICTION;
+    }
+    if (abs(v) <= BALL_ROLLING_FRICTION) {
+        v = 0.0f;
+    }
+    body->SetAngularVelocity(v);
 }
 
 @end

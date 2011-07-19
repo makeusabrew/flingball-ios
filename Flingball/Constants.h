@@ -17,4 +17,6 @@
 
 #define CAMERA_EDGE_THRESHOLD 180
 
+const float32 BALL_ROLLING_FRICTION = 0.04f;
+
 #endif

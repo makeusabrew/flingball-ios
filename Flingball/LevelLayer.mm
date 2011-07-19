@@ -221,13 +221,6 @@ enum {
             ++pos;
         }
     }
-    
-    // final sweep to actually remove finished contacts
-    //for (pos = level.contactListener->_contacts.begin(); pos != level.contactListener->_contacts.end(); ++pos) {
-    //    if (pos->isEnding) {
-            
-     //   }
-    //}
 
     [self updateCamera];
 }
