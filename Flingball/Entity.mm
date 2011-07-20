@@ -37,6 +37,10 @@
     return position.y;
 }
 
+-(b2Vec2) getPosition {
+    return position;
+}
+
 -(void) updateBody:(b2Body*)b {
     // update entity position
     position.Set(b->GetPosition().x * PTM_RATIO, b->GetPosition().y * PTM_RATIO);

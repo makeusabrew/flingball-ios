@@ -20,6 +20,7 @@
 -(void) setPosition: (b2Vec2)_position;
 -(float) getX;
 -(float) getY;
+-(b2Vec2) getPosition;
 -(void) updateBody: (b2Body*)b;
 -(void) onCollision: (Entity*)target;
 -(void) onCollisionStart: (Entity*)target;

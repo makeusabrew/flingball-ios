@@ -153,6 +153,8 @@ enum {
 
 }
 
+#pragma mark main game loop
+
 -(void) tick: (ccTime) dt
 {
     // before anything, let's clean up any objects which need deleting
@@ -225,14 +227,26 @@ enum {
     [self updateCamera];
 }
 
+#pragma mark touch handlers
+
 - (void)ccTouchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
 {
     UITouch *touch = [touches anyObject];
     startDragLocation = [touch locationInView: [touch view]];
 		
     startDragLocation = [[CCDirector sharedDirector] convertToGL: startDragLocation];
-    currentDragLocation = startDragLocation;
-    isDragging = YES;
+    
+    b2Vec2 ballPos = [level.ball getPosition];
+    
+    float32 dx = ballPos.x - (startDragLocation.x + [camera getLeftEdge]);
+    float32 dy = ballPos.y - (startDragLocation.y + [camera getBottomEdge]);
+    // @todo we must be able to do some prelim checks to avoid sqrt below!
+    float32 dist = sqrt((dx*dx) + (dy*dy));
+    
+    if (dist < [level.ball radius]) {    
+        currentDragLocation = startDragLocation;
+        isDragging = YES;
+    }
 }
 
 -(void) ccTouchesMoved:(NSSet *)touches withEvent:(UIEvent *)event {
@@ -243,6 +257,11 @@ enum {
 
 - (void)ccTouchesEnded:(NSSet *)touches withEvent:(UIEvent *)event
 {
+    if (!isDragging) {
+        // for now, we're not interested in any any end event if we're not
+        // even in drag mode
+        return;
+    }
 	UITouch* touch = [touches anyObject];
     
     CGPoint location = [touch locationInView: [touch view]];
