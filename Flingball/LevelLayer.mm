@@ -130,19 +130,10 @@ enum {
     if (isDragging) {
         // crude drag path
         
-        // we have to counter the natural effects of the camera trying
-        // to adjust the position of the drags
-        CGPoint screenStart;
-        screenStart.x = startDragLocation.x + [camera getLeftEdge];
-        screenStart.y = startDragLocation.y + [camera getBottomEdge];
-        
-        CGPoint screenCurrent;
-        screenCurrent.x = currentDragLocation.x + [camera getLeftEdge];
-        screenCurrent.y = currentDragLocation.y + [camera getBottomEdge];
-        
         glColor4f(1.0, 1.0, 1.0, 1.0);
-        glLineWidth(4.0);
-        ccDrawLine(screenStart, screenCurrent);
+        glLineWidth(2.0);
+        // the locations have already been adjusted for camera offset
+        ccDrawLine(startDragLocation, currentDragLocation);
         glLineWidth(1.0);
     }
 	
@@ -236,11 +227,15 @@ enum {
 		
     startDragLocation = [[CCDirector sharedDirector] convertToGL: startDragLocation];
     
-    b2Vec2 ballPos = [level.ball getPosition];
+    // we *have* to convert the start location to a real world coordinate,
+    // other wise it becomes a PITA later if the drag moves the camera
+    startDragLocation.x += [camera getLeftEdge];
+    startDragLocation.y += [camera getBottomEdge];
     
-    float32 dx = ballPos.x - (startDragLocation.x + [camera getLeftEdge]);
-    float32 dy = ballPos.y - (startDragLocation.y + [camera getBottomEdge]);
     // @todo we must be able to do some prelim checks to avoid sqrt below!
+    b2Vec2 ballPos = [level.ball getPosition];
+    float32 dx = ballPos.x - startDragLocation.x;
+    float32 dy = ballPos.y - startDragLocation.y;
     float32 dist = sqrt((dx*dx) + (dy*dy));
     
     if (dist < [level.ball radius]) {    
@@ -253,6 +248,36 @@ enum {
     UITouch* touch = [touches anyObject];
     currentDragLocation = [touch locationInView:[touch view]];
     currentDragLocation = [[CCDirector sharedDirector] convertToGL: currentDragLocation];
+    
+    currentDragLocation.x += [camera getLeftEdge];
+    currentDragLocation.y += [camera getBottomEdge];
+    
+    CGPoint screenCurrent;
+    screenCurrent.x = currentDragLocation.x;
+    screenCurrent.y = currentDragLocation.y;
+    
+    // @todo let's look at refactoring all this stuff into the camera object
+    // itself
+    float xOver = 0.0;
+    float yOver = 0.0;
+    
+    if (screenCurrent.x > [camera getRightEdge] - CAMERA_DRAG_EDGE_THRESHOLD) {
+        xOver = screenCurrent.x - ([camera getRightEdge] - CAMERA_DRAG_EDGE_THRESHOLD);        
+    } else if (screenCurrent.x < [camera getLeftEdge] + CAMERA_DRAG_EDGE_THRESHOLD) {
+        xOver = screenCurrent.x - ([camera getLeftEdge] + CAMERA_DRAG_EDGE_THRESHOLD);
+    }
+    
+    if (screenCurrent.y > [camera getTopEdge] - CAMERA_DRAG_EDGE_THRESHOLD) {
+        yOver = screenCurrent.y - ([camera getTopEdge] - CAMERA_DRAG_EDGE_THRESHOLD);        
+    } else if (screenCurrent.y < [camera getBottomEdge] + CAMERA_DRAG_EDGE_THRESHOLD) {
+        yOver = screenCurrent.y - ([camera getBottomEdge] + CAMERA_DRAG_EDGE_THRESHOLD);
+    }
+    
+    if (xOver != 0.0 || yOver != 0.0) {
+        // detach from the ball
+        [camera trackEntity:nil];
+        [camera translateBy:b2Vec2(xOver, yOver)];
+    }   
 }
 
 - (void)ccTouchesEnded:(NSSet *)touches withEvent:(UIEvent *)event
@@ -267,6 +292,9 @@ enum {
     CGPoint location = [touch locationInView: [touch view]];
 		
     location = [[CCDirector sharedDirector] convertToGL: location];
+    
+    location.x += [camera getLeftEdge];
+    location.y += [camera getBottomEdge];
         
     float dx = location.x - startDragLocation.x;
     float dy = location.y - startDragLocation.y;
@@ -302,6 +330,9 @@ enum {
     // only fling if we've got a velocity to apply        
     if (v.x != 0 || v.y != 0) {
         NSLog(@"fling velocity [%.2f, %.2f]", v.x, v.y);
+        
+        // since we're about to fling, track the ball again (if we weren't already)
+        [camera trackEntity:level.ball];
         [level.ball fling:v];
         if ([GameStatistics sharedGameStatistics].ballFlings == 1) {
             // first fling, so start timer

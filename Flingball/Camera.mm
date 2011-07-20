@@ -60,7 +60,7 @@
 }
 
 -(void) update {
-    if (trackedEntity == NULL) {
+    if (trackedEntity == nil) {
         return;
     }
 
