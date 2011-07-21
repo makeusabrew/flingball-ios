@@ -232,46 +232,58 @@ enum {
     startDragLocation.x += [camera getLeftEdge];
     startDragLocation.y += [camera getBottomEdge];
     
-    // @todo we must be able to do some prelim checks to avoid sqrt below!
     b2Vec2 ballPos = [level.ball getPosition];
-    float32 dx = ballPos.x - startDragLocation.x;
-    float32 dy = ballPos.y - startDragLocation.y;
-    float32 dist = sqrt((dx*dx) + (dy*dy));
+    float32 radius = [level.ball radius];
     
-    if (dist < [level.ball radius]) {    
-        currentDragLocation = startDragLocation;
-        isDragging = YES;
-    }
+    if (startDragLocation.x > (ballPos.x - radius) && 
+        startDragLocation.x < (ballPos.x + radius) &&
+        startDragLocation.y > (ballPos.y - radius) && 
+        startDragLocation.y < (ballPos.y + radius)) {
+        
+        float32 dx = ballPos.x - startDragLocation.x;
+        float32 dy = ballPos.y - startDragLocation.y;
+        float32 dist = sqrt((dx*dx) + (dy*dy));
+        
+        if (dist < [level.ball radius]) {    
+            currentDragLocation = startDragLocation;
+            isDragging = YES;
+        }
+    }    
 }
 
 -(void) ccTouchesMoved:(NSSet *)touches withEvent:(UIEvent *)event {
     UITouch* touch = [touches anyObject];
     if (isDragging) {
-        currentDragLocation = [touch locationInView:[touch view]];
-        currentDragLocation = [[CCDirector sharedDirector] convertToGL: currentDragLocation];
+        CGPoint dragPosition = [touch locationInView:[touch view]];
+        dragPosition = [[CCDirector sharedDirector] convertToGL: dragPosition];
         
-        currentDragLocation.x += [camera getLeftEdge];
-        currentDragLocation.y += [camera getBottomEdge];
+        dragPosition.x += [camera getLeftEdge];
+        dragPosition.y += [camera getBottomEdge];
         
-        CGPoint screenCurrent;
-        screenCurrent.x = currentDragLocation.x;
-        screenCurrent.y = currentDragLocation.y;
+        float32 dx = dragPosition.x - startDragLocation.x;
+        float32 dy = dragPosition.y - startDragLocation.y;
+        float32 dist = sqrt((dx*dx) + (dy*dy));
+        
+        if (dist < MAX_DRAG_DISTANCE) {
+            currentDragLocation = dragPosition;
+        }
+        
         
         // @todo let's look at refactoring all this stuff into the camera object
         // itself
         float xOver = 0.0;
         float yOver = 0.0;
         
-        if (screenCurrent.x > [camera getRightEdge] - CAMERA_DRAG_EDGE_THRESHOLD) {
-            xOver = screenCurrent.x - ([camera getRightEdge] - CAMERA_DRAG_EDGE_THRESHOLD);        
-        } else if (screenCurrent.x < [camera getLeftEdge] + CAMERA_DRAG_EDGE_THRESHOLD) {
-            xOver = screenCurrent.x - ([camera getLeftEdge] + CAMERA_DRAG_EDGE_THRESHOLD);
+        if (currentDragLocation.x > [camera getRightEdge] - CAMERA_DRAG_EDGE_THRESHOLD) {
+            xOver = currentDragLocation.x - ([camera getRightEdge] - CAMERA_DRAG_EDGE_THRESHOLD);        
+        } else if (currentDragLocation.x < [camera getLeftEdge] + CAMERA_DRAG_EDGE_THRESHOLD) {
+            xOver = currentDragLocation.x - ([camera getLeftEdge] + CAMERA_DRAG_EDGE_THRESHOLD);
         }
         
-        if (screenCurrent.y > [camera getTopEdge] - CAMERA_DRAG_EDGE_THRESHOLD) {
-            yOver = screenCurrent.y - ([camera getTopEdge] - CAMERA_DRAG_EDGE_THRESHOLD);        
-        } else if (screenCurrent.y < [camera getBottomEdge] + CAMERA_DRAG_EDGE_THRESHOLD) {
-            yOver = screenCurrent.y - ([camera getBottomEdge] + CAMERA_DRAG_EDGE_THRESHOLD);
+        if (currentDragLocation.y > [camera getTopEdge] - CAMERA_DRAG_EDGE_THRESHOLD) {
+            yOver = currentDragLocation.y - ([camera getTopEdge] - CAMERA_DRAG_EDGE_THRESHOLD);        
+        } else if (currentDragLocation.y < [camera getBottomEdge] + CAMERA_DRAG_EDGE_THRESHOLD) {
+            yOver = currentDragLocation.y - ([camera getBottomEdge] + CAMERA_DRAG_EDGE_THRESHOLD);
         }
         
         if (xOver != 0.0 || yOver != 0.0) {
@@ -301,7 +313,12 @@ enum {
     float dx = location.x - startDragLocation.x;
     float dy = location.y - startDragLocation.y;
     float dist = sqrt((dx*dx) + (dy*dy));
-    float vel = dist / 5.0; // hard coded for now!
+    if (dist > MAX_DRAG_DISTANCE) {
+        dist = MAX_DRAG_DISTANCE;
+    }
+    NSLog(@"drag distance %.2f", dist);
+    float vel = dist * DIST_TO_FLING_FACTOR;
+    NSLog(@"total fling velocity %.2f", vel);
         
     b2Vec2 v;
     v.SetZero();
