@@ -351,7 +351,7 @@ enum {
         NSLog(@"fling velocity [%.2f, %.2f]", v.x, v.y);
         
         // since we're about to fling, track the ball again (if we weren't already)
-        [camera trackEntity:level.ball];
+        [camera seekToEntity:level.ball];
         [level.ball fling:v];
         if ([GameStatistics sharedGameStatistics].ballFlings == 1) {
             // first fling, so start timer

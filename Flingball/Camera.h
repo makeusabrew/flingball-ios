@@ -17,6 +17,9 @@
     NSInteger height;
     
     Entity* trackedEntity;
+    
+    float32 seekSpeed;
+    BOOL isSeeking;
 }
 
 -(void) translateBy: (b2Vec2)vector;
@@ -25,7 +28,10 @@
 -(float) getRightEdge;
 -(float) getTopEdge;
 -(float) getBottomEdge;
+-(float) getCenterX;
+-(float) getCenterY;
 -(void) setViewport: (CGRect)viewport;
+-(void) seekToEntity: (Entity*)entity;
 -(void) trackEntity: (Entity*)entity;
 -(void) update;
 
