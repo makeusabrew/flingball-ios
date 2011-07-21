@@ -39,7 +39,7 @@
         
         CCMenuItem *startMenuItem = [CCMenuItemImage itemFromNormalImage:@"startButton.png" selectedImage:@"startButtonSelected.png" block:^(id object) {
             [[CCDirector sharedDirector] replaceScene:
-             [CCTransitionCrossFade transitionWithDuration:1.0f scene:[LevelLayer scene:1]]];
+             [CCTransitionCrossFade transitionWithDuration:0.5f scene:[LevelLayer scene:1]]];
         }];
         
         startMenuItem.position = ccp(screenSize.width/2, (screenSize.height/2) - 100);

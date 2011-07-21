@@ -73,6 +73,19 @@
     trackedEntity = entity;
 }
 
+-(BOOL) isEntityInShot:(Entity *)entity {
+    // considered "in shot" if they're within our edge thresholds
+    if (
+        [entity getX] >= ([self getLeftEdge] + CAMERA_EDGE_THRESHOLD) &&
+        [entity getX] <= ([self getRightEdge] - CAMERA_EDGE_THRESHOLD) &&
+        [entity getY] >= ([self getBottomEdge] + CAMERA_EDGE_THRESHOLD) &&
+        [entity getY] <= ([self getTopEdge] - CAMERA_EDGE_THRESHOLD)
+        ) {
+        return YES;
+    }
+    return NO;
+}
+
 -(void) update {
     if (trackedEntity == nil) {
         return;
@@ -95,9 +108,9 @@
         xOver = cos(angle) * seekSpeed;
         yOver = sin(angle) * seekSpeed;
         
-        float32 dist = sqrt((dx*dx) + (dy*dy));
+        [self translateBy:b2Vec2(xOver, yOver)];
         
-        if (dist < CAMERA_SEEK_FOUND_THRESHOLD) {
+        if ([self isEntityInShot: trackedEntity]) {
             isSeeking = NO;
         }        
     } else {
@@ -112,9 +125,11 @@
         } else if ([trackedEntity getY] < [self getBottomEdge] + CAMERA_EDGE_THRESHOLD) {
             yOver = [trackedEntity getY] - ([self getBottomEdge] + CAMERA_EDGE_THRESHOLD);
         }
+        
+        [self translateBy:b2Vec2(xOver, yOver)];
     }
     
-    [self translateBy:b2Vec2(xOver, yOver)];
+    
 }
 
 @end

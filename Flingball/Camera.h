@@ -33,6 +33,7 @@
 -(void) setViewport: (CGRect)viewport;
 -(void) seekToEntity: (Entity*)entity;
 -(void) trackEntity: (Entity*)entity;
+-(BOOL) isEntityInShot: (Entity*)entity;
 -(void) update;
 
 @end
