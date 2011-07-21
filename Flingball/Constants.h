@@ -31,4 +31,6 @@ const int CAMERA_MODE_NORMAL = 0;
 const int CAMERA_MODE_SEEKING = 1;
 const int CAMERA_MODE_MANUAL = 2;
 
+const float32 MIN_CAMERA_ZEYE = 0.000001f;
+
 #endif

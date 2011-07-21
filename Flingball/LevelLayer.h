@@ -29,7 +29,8 @@
     
     NSInteger cLevel;
     
-    NSMutableArray *entitiesToDelete;
+    NSMutableArray* entitiesToDelete;
+    NSMutableArray* storedTouches;
 }
 
 // returns a CCScene that contains the LevelLayer as the only child

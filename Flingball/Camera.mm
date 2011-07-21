@@ -11,6 +11,8 @@
 
 @implementation Camera
 
+@synthesize zIndex;
+
 - (id)init
 {
     self = [super init];

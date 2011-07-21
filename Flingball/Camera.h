@@ -16,12 +16,16 @@
     NSInteger width;
     NSInteger height;
     
+    float32 zIndex;
+    
     Entity* trackedEntity;
     
     float32 moveSpeed;
     float32 moveAngle;
     NSInteger mode;
 }
+
+@property float32 zIndex;
 
 -(void) translateBy: (b2Vec2)vector;
 -(void) translateBy: (b2Vec2)vector withDistance: (float32)dist andAngle: (float32) angle;
