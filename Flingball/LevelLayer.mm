@@ -223,29 +223,29 @@ enum {
 - (void)ccTouchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
 {
     UITouch *touch = [touches anyObject];
-    startDragLocation = [touch locationInView: [touch view]];
+    CGPoint touchPosition = [touch locationInView: [touch view]];
 		
-    startDragLocation = [[CCDirector sharedDirector] convertToGL: startDragLocation];
+    touchPosition = [[CCDirector sharedDirector] convertToGL: touchPosition];
     
     // we *have* to convert the start location to a real world coordinate,
     // other wise it becomes a PITA later if the drag moves the camera
-    startDragLocation.x += [camera getLeftEdge];
-    startDragLocation.y += [camera getBottomEdge];
+    touchPosition.x += [camera getLeftEdge];
+    touchPosition.y += [camera getBottomEdge];
     
     b2Vec2 ballPos = [level.ball getPosition];
     float32 radius = [level.ball radius];
     
-    if (startDragLocation.x > (ballPos.x - radius) && 
-        startDragLocation.x < (ballPos.x + radius) &&
-        startDragLocation.y > (ballPos.y - radius) && 
-        startDragLocation.y < (ballPos.y + radius)) {
+    if (touchPosition.x > (ballPos.x - radius) && 
+        touchPosition.x < (ballPos.x + radius) &&
+        touchPosition.y > (ballPos.y - radius) && 
+        touchPosition.y < (ballPos.y + radius)) {
         
-        float32 dx = ballPos.x - startDragLocation.x;
-        float32 dy = ballPos.y - startDragLocation.y;
+        float32 dx = ballPos.x - touchPosition.x;
+        float32 dy = ballPos.y - touchPosition.y;
         float32 dist = sqrt((dx*dx) + (dy*dy));
         
         if (dist < [level.ball radius]) {    
-            currentDragLocation = startDragLocation;
+            currentDragLocation = startDragLocation = touchPosition;
             isDragging = YES;
         }
     }    
@@ -253,19 +253,19 @@ enum {
 
 -(void) ccTouchesMoved:(NSSet *)touches withEvent:(UIEvent *)event {
     UITouch* touch = [touches anyObject];
-    if (isDragging) {
-        CGPoint dragPosition = [touch locationInView:[touch view]];
-        dragPosition = [[CCDirector sharedDirector] convertToGL: dragPosition];
+    CGPoint touchPosition = [touch locationInView:[touch view]];
+    touchPosition = [[CCDirector sharedDirector] convertToGL: touchPosition];
+    
+    if (isDragging) {        
+        touchPosition.x += [camera getLeftEdge];
+        touchPosition.y += [camera getBottomEdge];
         
-        dragPosition.x += [camera getLeftEdge];
-        dragPosition.y += [camera getBottomEdge];
-        
-        float32 dx = dragPosition.x - startDragLocation.x;
-        float32 dy = dragPosition.y - startDragLocation.y;
+        float32 dx = touchPosition.x - startDragLocation.x;
+        float32 dy = touchPosition.y - startDragLocation.y;
         float32 dist = sqrt((dx*dx) + (dy*dy));
         
         if (dist < MAX_DRAG_DISTANCE) {
-            currentDragLocation = dragPosition;
+            currentDragLocation = touchPosition;
         }
         
         
@@ -291,6 +291,22 @@ enum {
             [camera trackEntity:nil];
             [camera translateBy:b2Vec2(xOver, yOver)];
         }
+    } else {
+        // hey ho, detach the camera
+        CGPoint prevPosition = [touch previousLocationInView: [touch view]];
+        prevPosition = [[CCDirector sharedDirector] convertToGL: prevPosition];
+        
+        // note that it's important that we subtract the *current* position
+        // from the *previous* (not the other way round) - otherwise the camera
+        // tracks the inverse direction
+        float32 dx = prevPosition.x - touchPosition.x;
+        float32 dy = prevPosition.y - touchPosition.y;
+        float32 dist = sqrt((dx*dx) + (dy*dy));
+        float32 angle = atan2(dy, dx);
+        b2Vec2 diff = b2Vec2(dx, dy);
+        
+        [camera trackEntity: nil];
+        [camera translateBy:diff withDistance:dist andAngle:angle];
     }
 }
 

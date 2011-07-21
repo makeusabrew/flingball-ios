@@ -18,11 +18,13 @@
     
     Entity* trackedEntity;
     
-    float32 seekSpeed;
-    BOOL isSeeking;
+    float32 moveSpeed;
+    float32 moveAngle;
+    NSInteger mode;
 }
 
 -(void) translateBy: (b2Vec2)vector;
+-(void) translateBy: (b2Vec2)vector withDistance: (float32)dist andAngle: (float32) angle;
 -(void) translateTo: (b2Vec2)vector;
 -(float) getLeftEdge;
 -(float) getRightEdge;
