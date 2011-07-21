@@ -20,7 +20,7 @@
 }
 
 // returns a CCScene that contains the EndLevelLayer as the only child
-+(CCScene *) scene: (NSInteger)leveIndex;
++(CCScene *) scene: (NSInteger)levelIndex;
 -(void) setLevel: (NSInteger)levelIndex;
 
 @end

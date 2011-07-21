@@ -246,38 +246,40 @@ enum {
 
 -(void) ccTouchesMoved:(NSSet *)touches withEvent:(UIEvent *)event {
     UITouch* touch = [touches anyObject];
-    currentDragLocation = [touch locationInView:[touch view]];
-    currentDragLocation = [[CCDirector sharedDirector] convertToGL: currentDragLocation];
-    
-    currentDragLocation.x += [camera getLeftEdge];
-    currentDragLocation.y += [camera getBottomEdge];
-    
-    CGPoint screenCurrent;
-    screenCurrent.x = currentDragLocation.x;
-    screenCurrent.y = currentDragLocation.y;
-    
-    // @todo let's look at refactoring all this stuff into the camera object
-    // itself
-    float xOver = 0.0;
-    float yOver = 0.0;
-    
-    if (screenCurrent.x > [camera getRightEdge] - CAMERA_DRAG_EDGE_THRESHOLD) {
-        xOver = screenCurrent.x - ([camera getRightEdge] - CAMERA_DRAG_EDGE_THRESHOLD);        
-    } else if (screenCurrent.x < [camera getLeftEdge] + CAMERA_DRAG_EDGE_THRESHOLD) {
-        xOver = screenCurrent.x - ([camera getLeftEdge] + CAMERA_DRAG_EDGE_THRESHOLD);
+    if (isDragging) {
+        currentDragLocation = [touch locationInView:[touch view]];
+        currentDragLocation = [[CCDirector sharedDirector] convertToGL: currentDragLocation];
+        
+        currentDragLocation.x += [camera getLeftEdge];
+        currentDragLocation.y += [camera getBottomEdge];
+        
+        CGPoint screenCurrent;
+        screenCurrent.x = currentDragLocation.x;
+        screenCurrent.y = currentDragLocation.y;
+        
+        // @todo let's look at refactoring all this stuff into the camera object
+        // itself
+        float xOver = 0.0;
+        float yOver = 0.0;
+        
+        if (screenCurrent.x > [camera getRightEdge] - CAMERA_DRAG_EDGE_THRESHOLD) {
+            xOver = screenCurrent.x - ([camera getRightEdge] - CAMERA_DRAG_EDGE_THRESHOLD);        
+        } else if (screenCurrent.x < [camera getLeftEdge] + CAMERA_DRAG_EDGE_THRESHOLD) {
+            xOver = screenCurrent.x - ([camera getLeftEdge] + CAMERA_DRAG_EDGE_THRESHOLD);
+        }
+        
+        if (screenCurrent.y > [camera getTopEdge] - CAMERA_DRAG_EDGE_THRESHOLD) {
+            yOver = screenCurrent.y - ([camera getTopEdge] - CAMERA_DRAG_EDGE_THRESHOLD);        
+        } else if (screenCurrent.y < [camera getBottomEdge] + CAMERA_DRAG_EDGE_THRESHOLD) {
+            yOver = screenCurrent.y - ([camera getBottomEdge] + CAMERA_DRAG_EDGE_THRESHOLD);
+        }
+        
+        if (xOver != 0.0 || yOver != 0.0) {
+            // detach from the ball
+            [camera trackEntity:nil];
+            [camera translateBy:b2Vec2(xOver, yOver)];
+        }
     }
-    
-    if (screenCurrent.y > [camera getTopEdge] - CAMERA_DRAG_EDGE_THRESHOLD) {
-        yOver = screenCurrent.y - ([camera getTopEdge] - CAMERA_DRAG_EDGE_THRESHOLD);        
-    } else if (screenCurrent.y < [camera getBottomEdge] + CAMERA_DRAG_EDGE_THRESHOLD) {
-        yOver = screenCurrent.y - ([camera getBottomEdge] + CAMERA_DRAG_EDGE_THRESHOLD);
-    }
-    
-    if (xOver != 0.0 || yOver != 0.0) {
-        // detach from the ball
-        [camera trackEntity:nil];
-        [camera translateBy:b2Vec2(xOver, yOver)];
-    }   
 }
 
 - (void)ccTouchesEnded:(NSSet *)touches withEvent:(UIEvent *)event

@@ -171,6 +171,9 @@
 		0180ABE613CC7A0F002B3AB3 /* goal.wav in Resources */ = {isa = PBXBuildFile; fileRef = 0180ABE513CC7A0F002B3AB3 /* goal.wav */; };
 		0180ABE813CC7BF0002B3AB3 /* goal.png in Resources */ = {isa = PBXBuildFile; fileRef = 0180ABE713CC7BF0002B3AB3 /* goal.png */; };
 		0180ABEA13CC8470002B3AB3 /* ball.png in Resources */ = {isa = PBXBuildFile; fileRef = 0180ABE913CC8470002B3AB3 /* ball.png */; };
+		01864C4913D82F4800F4E90E /* MenuLayer.mm in Sources */ = {isa = PBXBuildFile; fileRef = 01864C4813D82F4800F4E90E /* MenuLayer.mm */; };
+		01864C4E13D835F400F4E90E /* startButtonSelected.png in Resources */ = {isa = PBXBuildFile; fileRef = 01864C4D13D835F400F4E90E /* startButtonSelected.png */; };
+		01864C5013D8363E00F4E90E /* startButton.png in Resources */ = {isa = PBXBuildFile; fileRef = 01864C4F13D8363E00F4E90E /* startButton.png */; };
 		01E72D8013CDAEE500D1E763 /* EndLevelLayer.mm in Sources */ = {isa = PBXBuildFile; fileRef = 01E72D7F13CDAEE500D1E763 /* EndLevelLayer.mm */; };
 		01F8BB1713D04D6B00FF18A0 /* level2.json in Resources */ = {isa = PBXBuildFile; fileRef = 01F8BB1613D04D6B00FF18A0 /* level2.json */; };
 		01F8BB1C13D0553200FF18A0 /* pickup.png in Resources */ = {isa = PBXBuildFile; fileRef = 01F8BB1B13D0553200FF18A0 /* pickup.png */; };
@@ -512,6 +515,10 @@
 		0180ABE513CC7A0F002B3AB3 /* goal.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = goal.wav; sourceTree = "<group>"; };
 		0180ABE713CC7BF0002B3AB3 /* goal.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = goal.png; sourceTree = "<group>"; };
 		0180ABE913CC8470002B3AB3 /* ball.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ball.png; sourceTree = "<group>"; };
+		01864C4713D82F4800F4E90E /* MenuLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MenuLayer.h; sourceTree = "<group>"; };
+		01864C4813D82F4800F4E90E /* MenuLayer.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = MenuLayer.mm; sourceTree = "<group>"; };
+		01864C4D13D835F400F4E90E /* startButtonSelected.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = startButtonSelected.png; sourceTree = "<group>"; };
+		01864C4F13D8363E00F4E90E /* startButton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = startButton.png; sourceTree = "<group>"; };
 		01E72D7E13CDAEE500D1E763 /* EndLevelLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EndLevelLayer.h; sourceTree = "<group>"; };
 		01E72D7F13CDAEE500D1E763 /* EndLevelLayer.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = EndLevelLayer.mm; sourceTree = "<group>"; };
 		01F8BB1613D04D6B00FF18A0 /* level2.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = level2.json; sourceTree = "<group>"; };
@@ -627,6 +634,8 @@
 				01176D0F13CDC97F005BB432 /* data */,
 				0180ABE313CC7A08002B3AB3 /* boing.wav */,
 				0180ABE513CC7A0F002B3AB3 /* goal.wav */,
+				01864C4F13D8363E00F4E90E /* startButton.png */,
+				01864C4D13D835F400F4E90E /* startButtonSelected.png */,
 				0180ABE913CC8470002B3AB3 /* ball.png */,
 				0180ABE713CC7BF0002B3AB3 /* goal.png */,
 				01F8BB1B13D0553200FF18A0 /* pickup.png */,
@@ -1109,6 +1118,8 @@
 				0138A32213C4EDC3003135A7 /* LevelLayer.mm */,
 				01E72D7E13CDAEE500D1E763 /* EndLevelLayer.h */,
 				01E72D7F13CDAEE500D1E763 /* EndLevelLayer.mm */,
+				01864C4713D82F4800F4E90E /* MenuLayer.h */,
+				01864C4813D82F4800F4E90E /* MenuLayer.mm */,
 			);
 			name = Layer;
 			sourceTree = "<group>";
@@ -1177,6 +1188,8 @@
 				01FBE9F013CF45B600E3CD0D /* level1.json in Resources */,
 				01F8BB1713D04D6B00FF18A0 /* level2.json in Resources */,
 				01F8BB1C13D0553200FF18A0 /* pickup.png in Resources */,
+				01864C4E13D835F400F4E90E /* startButtonSelected.png in Resources */,
+				01864C5013D8363E00F4E90E /* startButton.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1332,6 +1345,7 @@
 				01176D1613CDE6C8005BB432 /* Polygon.mm in Sources */,
 				01FBE9EB13CF17BB00E3CD0D /* Pickup.mm in Sources */,
 				01F8BB1F13D0763600FF18A0 /* GameStatistics.mm in Sources */,
+				01864C4913D82F4800F4E90E /* MenuLayer.mm in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
