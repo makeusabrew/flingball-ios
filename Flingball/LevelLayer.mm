@@ -320,12 +320,10 @@ enum {
                 // tracks the inverse direction
                 float32 dx = prevPosition.x - touchPosition.x;
                 float32 dy = prevPosition.y - touchPosition.y;
-                float32 dist = sqrt((dx*dx) + (dy*dy));
-                float32 angle = atan2(dy, dx);
                 b2Vec2 diff = b2Vec2(dx, dy);
                 
                 [camera trackEntity: nil];
-                [camera translateBy:diff withDistance:dist andAngle:angle];
+                [camera translateBy:diff];
             }
             break;
         }
@@ -376,71 +374,95 @@ enum {
     
 	UITouch* touch = [[touches allObjects] objectAtIndex:0];
     
+    switch ([storedTouches count]) {
+        case 1: {
+            if (isDragging) {
+                
+                CGPoint location = [touch locationInView: [touch view]];
+                
+                location = [[CCDirector sharedDirector] convertToGL: location];
+                
+                location.x += [camera getLeftEdge];
+                location.y += [camera getBottomEdge];
+                
+                float dx = location.x - startDragLocation.x;
+                float dy = location.y - startDragLocation.y;
+                float dist = sqrt((dx*dx) + (dy*dy));
+                if (dist > MAX_DRAG_DISTANCE) {
+                    dist = MAX_DRAG_DISTANCE;
+                }
+                NSLog(@"drag distance %.2f", dist);
+                float vel = dist * DIST_TO_FLING_FACTOR;
+                NSLog(@"total fling velocity %.2f", vel);
+                
+                b2Vec2 v;
+                v.SetZero();
+                
+                if (dy < 0 && dx == 0) {	// straight up
+                    v.x = 0;
+                    v.y = -vel;
+                } else if (dy > 0 && dx == 0) {	// straight down
+                    v.x = 0;
+                    v.y = vel;
+                } else if (dx > 0 && dy == 0) {	// straight left
+                    v.x = vel;
+                    v.y = 0;
+                } else if (dx < 0 && dy == 0) {	// straight right
+                    v.x = -vel;
+                    v.y = 0;
+                } else if (dy < 0 && dx < 0) {	// bottom left of ball
+                    float a = dy / dx;
+                    a = atan(a);
+                    v.x = cos(a) * vel;
+                    v.y = sin(a) * vel;		
+                } else if (dy < 0 && dx > 0) {	// bottom right of ball
+                    float a = atan2(dy, dx);		
+                    v.x = -(cos(a) * vel);
+                    v.y = -(sin(a) * vel);
+                }
+                
+                // only fling if we've got a velocity to apply        
+                if (v.x != 0 || v.y != 0) {
+                    NSLog(@"fling velocity [%.2f, %.2f]", v.x, v.y);
+                    
+                    // since we're about to fling, track the ball again (if we weren't already)
+                    [camera seekToEntity:level.ball];
+                    [level.ball fling:v];
+                    if ([GameStatistics sharedGameStatistics].ballFlings == 1) {
+                        // first fling, so start timer
+                        [GameStatistics sharedGameStatistics].startTime = [NSDate timeIntervalSinceReferenceDate];
+                        NSLog(@"start time %.2f", [GameStatistics sharedGameStatistics].startTime);
+                    }
+                }
+                
+                isDragging = NO;
+            } else {
+                // one drag let go means we were moving the camera - so add some
+                // speed to it
+                CGPoint touchPosition = [touch locationInView: [touch view]];
+                touchPosition = [[CCDirector sharedDirector] convertToGL: touchPosition];
+                
+                CGPoint prevPosition = [touch previousLocationInView: [touch view]];
+                prevPosition = [[CCDirector sharedDirector] convertToGL: prevPosition];
+                
+                // note that it's important that we subtract the *current* position
+                // from the *previous* (not the other way round) - otherwise the camera
+                // tracks the inverse direction
+                float32 dx = prevPosition.x - touchPosition.x;
+                float32 dy = prevPosition.y - touchPosition.y;
+                float32 dist = sqrt((dx*dx) + (dy*dy));
+                float32 angle = atan2(dy, dx);
+                b2Vec2 diff = b2Vec2(dx, dy);
+                
+                [camera translateBy:diff withDistance:dist andAngle:angle];
+            }
+            break;
+        }
+    }    
+    
     [storedTouches removeObjectsInArray: [touches allObjects]];
     
     NSLog(@"touch count %d", [storedTouches count]);
-    
-    if (isDragging) {
-    
-        CGPoint location = [touch locationInView: [touch view]];
-            
-        location = [[CCDirector sharedDirector] convertToGL: location];
-        
-        location.x += [camera getLeftEdge];
-        location.y += [camera getBottomEdge];
-            
-        float dx = location.x - startDragLocation.x;
-        float dy = location.y - startDragLocation.y;
-        float dist = sqrt((dx*dx) + (dy*dy));
-        if (dist > MAX_DRAG_DISTANCE) {
-            dist = MAX_DRAG_DISTANCE;
-        }
-        NSLog(@"drag distance %.2f", dist);
-        float vel = dist * DIST_TO_FLING_FACTOR;
-        NSLog(@"total fling velocity %.2f", vel);
-            
-        b2Vec2 v;
-        v.SetZero();
-            
-        if (dy < 0 && dx == 0) {	// straight up
-            v.x = 0;
-            v.y = -vel;
-        } else if (dy > 0 && dx == 0) {	// straight down
-            v.x = 0;
-            v.y = vel;
-        } else if (dx > 0 && dy == 0) {	// straight left
-            v.x = vel;
-            v.y = 0;
-        } else if (dx < 0 && dy == 0) {	// straight right
-            v.x = -vel;
-            v.y = 0;
-        } else if (dy < 0 && dx < 0) {	// bottom left of ball
-            float a = dy / dx;
-            a = atan(a);
-            v.x = cos(a) * vel;
-            v.y = sin(a) * vel;		
-        } else if (dy < 0 && dx > 0) {	// bottom right of ball
-            float a = atan2(dy, dx);		
-            v.x = -(cos(a) * vel);
-            v.y = -(sin(a) * vel);
-        }
-            
-        // only fling if we've got a velocity to apply        
-        if (v.x != 0 || v.y != 0) {
-            NSLog(@"fling velocity [%.2f, %.2f]", v.x, v.y);
-            
-            // since we're about to fling, track the ball again (if we weren't already)
-            [camera seekToEntity:level.ball];
-            [level.ball fling:v];
-            if ([GameStatistics sharedGameStatistics].ballFlings == 1) {
-                // first fling, so start timer
-                [GameStatistics sharedGameStatistics].startTime = [NSDate timeIntervalSinceReferenceDate];
-                NSLog(@"start time %.2f", [GameStatistics sharedGameStatistics].startTime);
-            }
-        }
-            
-        isDragging = NO;
-    }
 }
 
 -(void) loadEndLevel {
