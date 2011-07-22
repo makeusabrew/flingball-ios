@@ -225,14 +225,13 @@ enum {
 
 - (void)ccTouchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
 {
-    UITouch* touch = [[touches allObjects] objectAtIndex:0];
-    
     [storedTouches addObjectsFromArray: [touches allObjects]];
     
     NSLog(@"touch count %d", [storedTouches count]);
     
     switch ([storedTouches count]) {
         case 1: {
+            UITouch* touch = [[touches allObjects] objectAtIndex:0];
             CGPoint touchPosition = [touch locationInView: [touch view]];
             
             touchPosition = [[CCDirector sharedDirector] convertToGL: touchPosition];
@@ -269,12 +268,12 @@ enum {
 }
 
 -(void) ccTouchesMoved:(NSSet *)touches withEvent:(UIEvent *)event {
-    UITouch* touch = [touches anyObject];
-    CGPoint touchPosition = [touch locationInView:[touch view]];
-    touchPosition = [[CCDirector sharedDirector] convertToGL: touchPosition];
     
     switch ([storedTouches count]) {
         case 1: {
+            UITouch* touch = [touches anyObject];
+            CGPoint touchPosition = [touch locationInView:[touch view]];
+            touchPosition = [[CCDirector sharedDirector] convertToGL: touchPosition];
             if (isDragging) {        
                 touchPosition.x += [camera getLeftEdge];
                 touchPosition.y += [camera getBottomEdge];
