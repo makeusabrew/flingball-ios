@@ -11,13 +11,14 @@
 
 @implementation Camera
 
-@synthesize zIndex;
+@synthesize scale;
 
 - (id)init
 {
     self = [super init];
     if (self) {
         mode = CAMERA_MODE_NORMAL;
+        scale = 1.0;
     }
     
     return self;
@@ -46,7 +47,7 @@
 }
 
 -(float) getRightEdge {
-    return position.x + width;
+    return position.x + (width/scale);
 }
 
 -(float) getBottomEdge {
@@ -54,23 +55,23 @@
 }
 
 -(float) getTopEdge {
-    return position.y + height;
+    return position.y + (height/scale);
 }
 
 -(float) getCenterX {
-    return position.x + (width/2);
+    return position.x + ((width/scale) / 2);
 }
 
 -(float) getCenterY {
-    return position.y + (height/2);
+    return position.y + ((height/scale) / 2);
 }
 
--(void) setViewport:(CGRect)viewport {
-    position.x = viewport.origin.x;
-    position.y = viewport.origin.y;
-    
+-(void) setViewport:(CGRect)viewport {    
     width = viewport.size.width;
     height = viewport.size.height;
+    
+    position.x = viewport.origin.x;
+    position.y = viewport.origin.y;
 }
 
 -(void) seekToEntity:(Entity *)entity {
@@ -98,7 +99,7 @@
 }
 
 -(void) update {
-    
+    //NSLog(@"[%.2f, %.2f] [%.2f, %.2f], [%.2f, %.2f]", [self getLeftEdge], [self getBottomEdge], [self getRightEdge], [self getTopEdge], [self getCenterX], [self getCenterY]);
     float xOver = 0.0;
     float yOver = 0.0;
     
@@ -156,7 +157,7 @@
             }
             break;
         }
-    }    
+    }
 }
 
 @end

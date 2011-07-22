@@ -13,10 +13,10 @@
 @interface Camera : NSObject {
     b2Vec2 position;
     
-    NSInteger width;
-    NSInteger height;
+    float32 width;
+    float32 height;
     
-    float32 zIndex;
+    float32 scale;
     
     Entity* trackedEntity;
     
@@ -25,7 +25,7 @@
     NSInteger mode;
 }
 
-@property float32 zIndex;
+@property float32 scale;
 
 -(void) translateBy: (b2Vec2)vector;
 -(void) translateBy: (b2Vec2)vector withDistance: (float32)dist andAngle: (float32) angle;

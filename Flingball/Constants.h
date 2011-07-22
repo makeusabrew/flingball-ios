@@ -15,8 +15,8 @@
 //to define the ratio so that your most common object type is 1x1 metre.
 const float32 PTM_RATIO = 32.0f;
 
-const int CAMERA_EDGE_THRESHOLD = 180;
-const int CAMERA_DRAG_EDGE_THRESHOLD = 90;
+const int CAMERA_EDGE_THRESHOLD = 180.0;
+const int CAMERA_DRAG_EDGE_THRESHOLD = 90.0;
 
 const float32 BALL_ROLLING_FRICTION = 0.04f;
 
@@ -32,5 +32,8 @@ const int CAMERA_MODE_SEEKING = 1;
 const int CAMERA_MODE_MANUAL = 2;
 
 const float32 MIN_CAMERA_ZEYE = 0.000001f;
+const float32 MAX_CAMERA_ZEYE = 1.0f;
+const float32 MAX_CAMERA_SCALE = 1.0;
+const float32 MIN_CAMERA_SCALE = 0.25;
 
 #endif

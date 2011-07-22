@@ -65,7 +65,6 @@ enum {
         CCLOG(@"Screen width %0.2f screen height %0.2f",screenSize.width,screenSize.height);
         
         [camera setViewport: CGRectMake(0, 0, screenSize.width, screenSize.height)];
-        camera.zIndex = MIN_CAMERA_ZEYE; //[CCCamera getZEye];
         
         //NSLog(@"camera Z %.8f", [CCCamera getZEye]);
         
@@ -359,10 +358,12 @@ enum {
             
             //NSLog(@"zIndex %.2f, new dist %.2f", camera.zIndex, (currentDistance - previousDistance));
             
-            camera.zIndex -= (currentDistance - previousDistance);
+            camera.scale += (currentDistance - previousDistance) / 500;
             
-            if (camera.zIndex < MIN_CAMERA_ZEYE) {
-                camera.zIndex = MIN_CAMERA_ZEYE;
+            if (camera.scale < MIN_CAMERA_SCALE) {
+                camera.scale = MIN_CAMERA_SCALE;
+            } else if (camera.scale > MAX_CAMERA_SCALE) {
+                camera.scale = MAX_CAMERA_SCALE;
             }
             
             break;
@@ -455,8 +456,10 @@ enum {
     [camera update];
     
     // sync cocos2d's camera with our own
-    [self.camera setEyeX:[camera getLeftEdge] eyeY:[camera getBottomEdge] eyeZ:[camera zIndex]];
-    [self.camera setCenterX:[camera getLeftEdge] centerY:[camera getBottomEdge] centerZ:0];  
+    [self.camera setEyeX:[camera getLeftEdge] eyeY:[camera getBottomEdge] eyeZ:1];
+    [self.camera setCenterX:[camera getLeftEdge] centerY:[camera getBottomEdge] centerZ:0];
+    
+    self.scale = camera.scale;
 }
 
 #pragma mark Event Callbacks
