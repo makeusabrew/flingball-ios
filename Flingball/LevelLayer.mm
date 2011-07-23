@@ -291,9 +291,18 @@ enum {
                 // scale max dist
                 float32 maxDist = scale(MAX_DRAG_DISTANCE);
                 
-                if (dist < maxDist) {
-                    currentDragLocation = touchPosition;
+                if (dist > maxDist) {
+                    dist = maxDist;
+                    //currentDragLocation = touchPosition;
                 }
+                
+                // now, get the angle between touchPos and startPos, and calculate
+                // that * dist as our line
+                // @see https://projects.paynedigital.com/issues/101
+                
+                float a = atan2(dy, dx);
+                currentDragLocation.x = startDragLocation.x + (cos(a) * dist);
+                currentDragLocation.y = startDragLocation.y + (sin(a) * dist);
                 
                 b2Vec2 distRequired = [camera getDistanceRequiredToFocusVector: b2Vec2(currentDragLocation.x, currentDragLocation.y)];
                 
