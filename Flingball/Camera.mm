@@ -19,6 +19,8 @@
     if (self) {
         mode = CAMERA_MODE_NORMAL;
         scale = 1.0;
+        //scale = 0.46875;  // more natural on iPhone
+        edgeThreshold = 0.0;
     }
     
     return self;
@@ -67,11 +69,11 @@
 }
 
 -(void) setViewport:(CGRect)viewport {    
-    width = viewport.size.width;
-    height = viewport.size.height;
-    
     position.x = viewport.origin.x;
     position.y = viewport.origin.y;
+    
+    width = viewport.size.width;
+    height = viewport.size.height;
 }
 
 -(void) seekToEntity:(Entity *)entity {
@@ -88,10 +90,10 @@
 -(BOOL) isEntityInShot:(Entity *)entity {
     // considered "in shot" if they're within our edge thresholds
     if (
-        [entity getX] >= ([self getLeftEdge] + CAMERA_EDGE_THRESHOLD) &&
-        [entity getX] <= ([self getRightEdge] - CAMERA_EDGE_THRESHOLD) &&
-        [entity getY] >= ([self getBottomEdge] + CAMERA_EDGE_THRESHOLD) &&
-        [entity getY] <= ([self getTopEdge] - CAMERA_EDGE_THRESHOLD)
+        [entity getX] >= ([self getLeftEdge] + [self getEdgeThreshold]) &&
+        [entity getX] <= ([self getRightEdge] - [self getEdgeThreshold]) &&
+        [entity getY] >= ([self getBottomEdge] + [self getEdgeThreshold]) &&
+        [entity getY] <= ([self getTopEdge] - [self getEdgeThreshold])
         ) {
         return YES;
     }
@@ -108,16 +110,16 @@
             if (trackedEntity == nil) {
                 return;
             }
-            if ([trackedEntity getX] > [self getRightEdge] - CAMERA_EDGE_THRESHOLD) {
-                xOver = [trackedEntity getX] - ([self getRightEdge] - CAMERA_EDGE_THRESHOLD);        
-            } else if ([trackedEntity getX] < [self getLeftEdge] + CAMERA_EDGE_THRESHOLD) {
-                xOver = [trackedEntity getX] - ([self getLeftEdge] + CAMERA_EDGE_THRESHOLD);
+            if ([trackedEntity getX] > [self getRightEdge] - [self getEdgeThreshold]) {
+                xOver = [trackedEntity getX] - ([self getRightEdge] - [self getEdgeThreshold]);        
+            } else if ([trackedEntity getX] < [self getLeftEdge] + [self getEdgeThreshold]) {
+                xOver = [trackedEntity getX] - ([self getLeftEdge] + [self getEdgeThreshold]);
             }
             
-            if ([trackedEntity getY] > [self getTopEdge] - CAMERA_EDGE_THRESHOLD) {
-                yOver = [trackedEntity getY] - ([self getTopEdge] - CAMERA_EDGE_THRESHOLD);
-            } else if ([trackedEntity getY] < [self getBottomEdge] + CAMERA_EDGE_THRESHOLD) {
-                yOver = [trackedEntity getY] - ([self getBottomEdge] + CAMERA_EDGE_THRESHOLD);
+            if ([trackedEntity getY] > [self getTopEdge] - [self getEdgeThreshold]) {
+                yOver = [trackedEntity getY] - ([self getTopEdge] - [self getEdgeThreshold]);
+            } else if ([trackedEntity getY] < [self getBottomEdge] + [self getEdgeThreshold]) {
+                yOver = [trackedEntity getY] - ([self getBottomEdge] + [self getEdgeThreshold]);
             }
             
             [self translateBy:b2Vec2(xOver, yOver)];
@@ -158,6 +160,31 @@
             break;
         }
     }
+}
+
+-(float32) getEdgeThreshold {
+    if (edgeThreshold == 0.0) {  
+        edgeThreshold = scale(CAMERA_EDGE_THRESHOLD);
+    }
+    return edgeThreshold;
+}
+
+-(b2Vec2) getDistanceRequiredToFocusVector:(b2Vec2)vector {
+    b2Vec2 over;
+    over.SetZero();
+    float32 threshold = [self getEdgeThreshold];
+    if (vector.x > [self getRightEdge] - threshold) {
+        over.x = vector.x - ([self getRightEdge] - threshold);        
+    } else if (vector.x < [self getLeftEdge] + threshold) {
+        over.x = vector.x - ([self getLeftEdge] + threshold);
+    }
+    
+    if (vector.y > [self getTopEdge] - threshold) {
+        over.y = vector.y - ([self getTopEdge] - threshold);        
+    } else if (vector.y < [self getBottomEdge] + threshold) {
+        over.y = vector.y - ([self getBottomEdge] + threshold);
+    }
+    return over;
 }
 
 @end

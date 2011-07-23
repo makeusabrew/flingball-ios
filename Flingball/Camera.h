@@ -23,6 +23,9 @@
     float32 moveSpeed;
     float32 moveAngle;
     NSInteger mode;
+    
+    // cache stuff
+    float32 edgeThreshold;
 }
 
 @property float32 scale;
@@ -41,5 +44,7 @@
 -(void) trackEntity: (Entity*)entity;
 -(BOOL) isEntityInShot: (Entity*)entity;
 -(void) update;
+-(float32) getEdgeThreshold;
+-(b2Vec2) getDistanceRequiredToFocusVector: (b2Vec2)vector;
 
 @end

@@ -1149,6 +1149,9 @@
 /* Begin PBXProject section */
 		0138A13913C4EDBE003135A7 /* Project object */ = {
 			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0420;
+			};
 			buildConfigurationList = 0138A13C13C4EDBE003135A7 /* Build configuration list for PBXProject "Flingball" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;

@@ -8,6 +8,7 @@
 
 #import "MenuLayer.h"
 #import "LevelLayer.h"
+#import "Constants.h"
 
 @implementation MenuLayer
 
@@ -33,16 +34,17 @@
         
         CGSize screenSize = [[CCDirector sharedDirector] winSize];
         
-        CCLabelTTF* label = [CCLabelTTF labelWithString:@"FlingBall!" fontName:@"Georgia" fontSize:64.0];
+        CCLabelTTF* label = [CCLabelTTF labelWithString:@"FlingBall!" fontName:@"Georgia" fontSize: scale(64.0)];
         [self addChild: label];
-        label.position = ccp(screenSize.width/2, (screenSize.height/2) + 100);
+        label.position = ccp(screenSize.width/2, (screenSize.height/2) + scale(100));
         
         CCMenuItem *startMenuItem = [CCMenuItemImage itemFromNormalImage:@"startButton.png" selectedImage:@"startButtonSelected.png" block:^(id object) {
             [[CCDirector sharedDirector] replaceScene:
              [CCTransitionCrossFade transitionWithDuration:0.5f scene:[LevelLayer scene:1]]];
         }];
+        startMenuItem.scale = scale(startMenuItem.scale);
         
-        startMenuItem.position = ccp(screenSize.width/2, (screenSize.height/2) - 100);
+        startMenuItem.position = ccp(screenSize.width/2, (screenSize.height/2) - scale(100));
         
         CCMenu* menu = [CCMenu menuWithItems:startMenuItem, nil];
         menu.position = CGPointZero;

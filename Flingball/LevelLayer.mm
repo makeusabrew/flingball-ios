@@ -244,6 +244,12 @@ enum {
             b2Vec2 ballPos = [level.ball getPosition];
             float32 radius = [level.ball radius];
             
+            NSLog(@"touch pos [%.2f, %.2f], ball pos [%.2f, %.2f], scale [%.2f]",
+                  touchPosition.x, touchPosition.y,
+                  ballPos.x, ballPos.y,
+                  [camera scale]
+                  );
+            
             if (touchPosition.x > (ballPos.x - radius) && 
                 touchPosition.x < (ballPos.x + radius) &&
                 touchPosition.y > (ballPos.y - radius) && 
@@ -282,32 +288,19 @@ enum {
                 float32 dy = touchPosition.y - startDragLocation.y;
                 float32 dist = sqrt((dx*dx) + (dy*dy));
                 
-                if (dist < MAX_DRAG_DISTANCE) {
+                // scale max dist
+                float32 maxDist = scale(MAX_DRAG_DISTANCE);
+                
+                if (dist < maxDist) {
                     currentDragLocation = touchPosition;
                 }
                 
+                b2Vec2 distRequired = [camera getDistanceRequiredToFocusVector: b2Vec2(currentDragLocation.x, currentDragLocation.y)];
                 
-                // @todo let's look at refactoring all this stuff into the camera object
-                // itself
-                float xOver = 0.0;
-                float yOver = 0.0;
-                
-                if (currentDragLocation.x > [camera getRightEdge] - CAMERA_DRAG_EDGE_THRESHOLD) {
-                    xOver = currentDragLocation.x - ([camera getRightEdge] - CAMERA_DRAG_EDGE_THRESHOLD);        
-                } else if (currentDragLocation.x < [camera getLeftEdge] + CAMERA_DRAG_EDGE_THRESHOLD) {
-                    xOver = currentDragLocation.x - ([camera getLeftEdge] + CAMERA_DRAG_EDGE_THRESHOLD);
-                }
-                
-                if (currentDragLocation.y > [camera getTopEdge] - CAMERA_DRAG_EDGE_THRESHOLD) {
-                    yOver = currentDragLocation.y - ([camera getTopEdge] - CAMERA_DRAG_EDGE_THRESHOLD);        
-                } else if (currentDragLocation.y < [camera getBottomEdge] + CAMERA_DRAG_EDGE_THRESHOLD) {
-                    yOver = currentDragLocation.y - ([camera getBottomEdge] + CAMERA_DRAG_EDGE_THRESHOLD);
-                }
-                
-                if (xOver != 0.0 || yOver != 0.0) {
+                if (distRequired.x != 0.0 || distRequired.y != 0.0) {
                     // detach from the ball
-                    [camera trackEntity:nil];
-                    [camera translateBy:b2Vec2(xOver, yOver)];
+                    [camera trackEntity: nil];
+                    [camera translateBy: distRequired];
                 }
             } else {
                 // hey ho, detach the camera
@@ -387,11 +380,15 @@ enum {
                 float dx = location.x - startDragLocation.x;
                 float dy = location.y - startDragLocation.y;
                 float dist = sqrt((dx*dx) + (dy*dy));
-                if (dist > MAX_DRAG_DISTANCE) {
-                    dist = MAX_DRAG_DISTANCE;
+                float maxDist = scale(MAX_DRAG_DISTANCE);
+                
+                if (dist > maxDist) {
+                    dist = maxDist;
                 }
-                NSLog(@"drag distance %.2f", dist);
-                float vel = dist * DIST_TO_FLING_FACTOR;
+                float distPc = dist / maxDist;
+                float vel = distPc * MAX_FLING_VELOCITY;
+                
+                NSLog(@"drag distance %.2f (pc %.2f)", dist, distPc);                
                 NSLog(@"total fling velocity %.2f", vel);
                 
                 b2Vec2 v;

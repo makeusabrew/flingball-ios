@@ -15,14 +15,23 @@
 //to define the ratio so that your most common object type is 1x1 metre.
 const float32 PTM_RATIO = 32.0f;
 
-const int CAMERA_EDGE_THRESHOLD = 180.0;
-const int CAMERA_DRAG_EDGE_THRESHOLD = 90.0;
+// any pixel values here are defined for a resolution of 1024x768
+// therefore, they will be scaled appropriately if shown on anything else
+// (e.g. iPhone)
+const float32 TARGET_WIDTH = 1024;
+const float32 TARGET_HEIGHT = 768;
+
+// handy iPhone / iPad scale converter
+#define scale(x) (x * ([CCDirector sharedDirector].winSize.width / TARGET_WIDTH))
 
 const float32 BALL_ROLLING_FRICTION = 0.04f;
 
+const int CAMERA_EDGE_THRESHOLD = 180.0;
+const int CAMERA_DRAG_EDGE_THRESHOLD = 90.0;
+
 const float32 MAX_DRAG_DISTANCE = 300.0;
 const float32 MAX_FLING_VELOCITY = 120.0f;  // m/s?
-const float32 DIST_TO_FLING_FACTOR = MAX_FLING_VELOCITY / MAX_DRAG_DISTANCE;
+//const float32 DIST_TO_FLING_FACTOR = MAX_FLING_VELOCITY / MAX_DRAG_DISTANCE;
 
 const float32 DEFAULT_CAMERA_SEEK_SPEED = 30.0;
 const float32 CAMERA_SLOWDOWN_SPEED = 0.45;
