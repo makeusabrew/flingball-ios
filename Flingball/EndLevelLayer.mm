@@ -67,13 +67,13 @@
     [label setColor:ccc3(0,0,255)];
     label.position = ccp( screenSize.width/2, (screenSize.height/2) + scale(100));
     
-    str = [NSString stringWithFormat:@"Ball Flings: %d", [GameState sharedGameState].ballFlings];
+    str = [NSString stringWithFormat:@"Ball Flings: %d", [[GameState sharedGameState] getValueAsInt: @"ballFlings"]];
     label = [CCLabelTTF labelWithString:str fontName:@"Georgia" fontSize: scale(32)];
     [self addChild:label];
     [label setColor:ccc3(0, 0, 255)];
     label.position = ccp(screenSize.width/2, (screenSize.height/2) + scale(50));
     
-    str = [NSString stringWithFormat:@"Ball Bounces: %d", [GameState sharedGameState].ballBounces];
+    str = [NSString stringWithFormat:@"Ball Bounces: %d", [[GameState sharedGameState] getValueAsInt: @"ballBounces"]];
     label = [CCLabelTTF labelWithString:str fontName:@"Georgia" fontSize: scale(32)];
     [self addChild:label];
     [label setColor:ccc3(0, 0, 255)];

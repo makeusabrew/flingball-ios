@@ -32,18 +32,16 @@
 }
 
 -(NSString*) getStatus {
-    double elapsedTime;
-    if ([[GameState sharedGameState] levelStarted] == YES) {
-        //elapsedTime = ;
+    double elapsedTime = 0.0;
+    
+    if ([[GameState sharedGameState] getValueAsBool: @"levelStarted"] == YES) {
         elapsedTime = [[GameState sharedGameState] getElapsedTime];
-    } else {
-        elapsedTime = 0.0;
     }
     
     return [NSString stringWithFormat:@"%@, Flings: %d, Bounces: %d, Level Time %.2f",
-                [[GameState sharedGameState] levelTitle],
-                [[GameState sharedGameState] ballFlings],
-                [[GameState sharedGameState] ballBounces],
+                [[GameState sharedGameState] getValue: @"levelTitle"],
+                [[GameState sharedGameState] getValueAsInt: @"ballFlings"],
+                [[GameState sharedGameState] getValueAsInt: @"ballBounces"],
                 elapsedTime];
 }
 

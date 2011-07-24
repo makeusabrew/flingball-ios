@@ -59,14 +59,14 @@
 - (void)fling:(b2Vec2)vector {
     body->ApplyLinearImpulse(vector, body->GetPosition());
     [[SimpleAudioEngine sharedEngine] playEffect:@"boing.wav"];
-    [GameState sharedGameState].ballFlings ++;
+    [[GameState sharedGameState] addFling];
 }
 
 -(void) onCollisionStart:(Entity *)target {
     if ([target isKindOfClass:[Polygon class]]) {
         // add bounce, but only if we're currently 'active'
-        if ([GameState sharedGameState].ballFlings > 0 && atGoal == NO) {
-            [GameState sharedGameState].ballBounces ++;
+        if ([[GameState sharedGameState] getValueAsInt: @"ballFlings"] > 0 && atGoal == NO) {
+            [[GameState sharedGameState] addBounce];
         }
     }
 }

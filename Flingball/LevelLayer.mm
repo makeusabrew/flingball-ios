@@ -90,7 +90,7 @@ enum {
     // force the camera into the correct position
     [self updateCamera];
     
-    [GameState sharedGameState].levelTitle = [level getTitle];
+    [[GameState sharedGameState] updateKey: @"levelTitle" withValue: [level getTitle]];
     
     // event listeners
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(ballAtGoal:) name:@"ballAtGoal" object:nil];
@@ -440,11 +440,11 @@ enum {
                     // since we're about to fling, track the ball again (if we weren't already)
                     [camera seekToEntity:level.ball];
                     [level.ball fling:v];
-                    if ([GameState sharedGameState].ballFlings == 1) {
+                    if ([[GameState sharedGameState] getValueAsInt: @"ballFlings"] == 1) {
                         // first fling, so start timer
-                        [GameState sharedGameState].levelStarted = YES;
-                        [GameState sharedGameState].startTime = [NSDate timeIntervalSinceReferenceDate];
-                        NSLog(@"start time %.2f", [GameState sharedGameState].startTime);
+                        [[GameState sharedGameState] updateKey: @"levelStarted" withBool: YES];
+                        [[GameState sharedGameState] updateKey: @"startTime" withDouble: [NSDate timeIntervalSinceReferenceDate]];
+                        NSLog(@"start time %.2f", [[GameState sharedGameState] getValueAsDouble: @"startTime"]);
                     }
                 }
                 
@@ -507,8 +507,8 @@ enum {
     [[SimpleAudioEngine sharedEngine] playEffect:@"goal.wav"];
     NSLog(@"At goal!");
     
-    [GameState sharedGameState].endTime = [NSDate timeIntervalSinceReferenceDate];
-    NSLog(@"end time %.2f", [GameState sharedGameState].endTime);
+    [[GameState sharedGameState] updateKey: @"endTime" withDouble: [NSDate timeIntervalSinceReferenceDate]];
+    NSLog(@"end time %.2f", [[GameState sharedGameState] getValueAsDouble: @"endTime"]);
     
     id action1 = [CCDelayTime actionWithDuration:3.0];
     id action2 = [CCCallFunc actionWithTarget:self selector:@selector(loadEndLevel)];
