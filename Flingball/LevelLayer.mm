@@ -13,7 +13,7 @@
 #import "Level.h"
 #import "SimpleAudioEngine.h"
 #import "EndLevelLayer.h"
-#import "GameStatistics.h"
+#import "GameState.h"
 #import "HUDLayer.h"
 
 // enums that will be used as tags
@@ -82,7 +82,7 @@ enum {
 -(void) setLevel:(NSInteger)levelIndex {
     NSLog(@"Setting level Index %d", levelIndex);
     
-    [[GameStatistics sharedGameStatistics] reset];
+    [[GameState sharedGameState] reset];
     
     cLevel = levelIndex;
     [level loadLevel:levelIndex];      
@@ -90,7 +90,7 @@ enum {
     // force the camera into the correct position
     [self updateCamera];
     
-    [GameStatistics sharedGameStatistics].levelTitle = [level getTitle];
+    [GameState sharedGameState].levelTitle = [level getTitle];
     
     // event listeners
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(ballAtGoal:) name:@"ballAtGoal" object:nil];
@@ -440,11 +440,11 @@ enum {
                     // since we're about to fling, track the ball again (if we weren't already)
                     [camera seekToEntity:level.ball];
                     [level.ball fling:v];
-                    if ([GameStatistics sharedGameStatistics].ballFlings == 1) {
+                    if ([GameState sharedGameState].ballFlings == 1) {
                         // first fling, so start timer
-                        [GameStatistics sharedGameStatistics].levelStarted = YES;
-                        [GameStatistics sharedGameStatistics].startTime = [NSDate timeIntervalSinceReferenceDate];
-                        NSLog(@"start time %.2f", [GameStatistics sharedGameStatistics].startTime);
+                        [GameState sharedGameState].levelStarted = YES;
+                        [GameState sharedGameState].startTime = [NSDate timeIntervalSinceReferenceDate];
+                        NSLog(@"start time %.2f", [GameState sharedGameState].startTime);
                     }
                 }
                 
@@ -507,8 +507,8 @@ enum {
     [[SimpleAudioEngine sharedEngine] playEffect:@"goal.wav"];
     NSLog(@"At goal!");
     
-    [GameStatistics sharedGameStatistics].endTime = [NSDate timeIntervalSinceReferenceDate];
-    NSLog(@"end time %.2f", [GameStatistics sharedGameStatistics].endTime);
+    [GameState sharedGameState].endTime = [NSDate timeIntervalSinceReferenceDate];
+    NSLog(@"end time %.2f", [GameState sharedGameState].endTime);
     
     id action1 = [CCDelayTime actionWithDuration:3.0];
     id action2 = [CCCallFunc actionWithTarget:self selector:@selector(loadEndLevel)];

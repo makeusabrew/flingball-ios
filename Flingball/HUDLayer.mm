@@ -8,7 +8,7 @@
 
 #import "HUDLayer.h"
 #import "Constants.h"
-#import "GameStatistics.h"
+#import "GameState.h"
 
 @implementation HUDLayer
 
@@ -33,17 +33,17 @@
 
 -(NSString*) getStatus {
     double elapsedTime;
-    if ([[GameStatistics sharedGameStatistics] levelStarted] == YES) {
+    if ([[GameState sharedGameState] levelStarted] == YES) {
         //elapsedTime = ;
-        elapsedTime = [[GameStatistics sharedGameStatistics] getElapsedTime];
+        elapsedTime = [[GameState sharedGameState] getElapsedTime];
     } else {
         elapsedTime = 0.0;
     }
     
     return [NSString stringWithFormat:@"%@, Flings: %d, Bounces: %d, Level Time %.2f",
-                [[GameStatistics sharedGameStatistics] levelTitle],
-                [[GameStatistics sharedGameStatistics] ballFlings],
-                [[GameStatistics sharedGameStatistics] ballBounces],
+                [[GameState sharedGameState] levelTitle],
+                [[GameState sharedGameState] ballFlings],
+                [[GameState sharedGameState] ballBounces],
                 elapsedTime];
 }
 

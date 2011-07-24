@@ -10,7 +10,7 @@
 #import "Constants.h"
 #import "SimpleAudioEngine.h"
 #import "Polygon.h"
-#import "GameStatistics.h"
+#import "GameState.h"
 
 @implementation Ball
 
@@ -59,14 +59,14 @@
 - (void)fling:(b2Vec2)vector {
     body->ApplyLinearImpulse(vector, body->GetPosition());
     [[SimpleAudioEngine sharedEngine] playEffect:@"boing.wav"];
-    [GameStatistics sharedGameStatistics].ballFlings ++;
+    [GameState sharedGameState].ballFlings ++;
 }
 
 -(void) onCollisionStart:(Entity *)target {
     if ([target isKindOfClass:[Polygon class]]) {
         // add bounce, but only if we're currently 'active'
-        if ([GameStatistics sharedGameStatistics].ballFlings > 0 && atGoal == NO) {
-            [GameStatistics sharedGameStatistics].ballBounces ++;
+        if ([GameState sharedGameState].ballFlings > 0 && atGoal == NO) {
+            [GameState sharedGameState].ballBounces ++;
         }
     }
 }

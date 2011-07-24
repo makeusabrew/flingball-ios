@@ -9,7 +9,7 @@
 #import "EndLevelLayer.h"
 #import "LevelLayer.h"
 #import "Constants.h"
-#import "GameStatistics.h"
+#import "GameState.h"
 
 @implementation EndLevelLayer
 
@@ -67,19 +67,19 @@
     [label setColor:ccc3(0,0,255)];
     label.position = ccp( screenSize.width/2, (screenSize.height/2) + scale(100));
     
-    str = [NSString stringWithFormat:@"Ball Flings: %d", [GameStatistics sharedGameStatistics].ballFlings];
+    str = [NSString stringWithFormat:@"Ball Flings: %d", [GameState sharedGameState].ballFlings];
     label = [CCLabelTTF labelWithString:str fontName:@"Georgia" fontSize: scale(32)];
     [self addChild:label];
     [label setColor:ccc3(0, 0, 255)];
     label.position = ccp(screenSize.width/2, (screenSize.height/2) + scale(50));
     
-    str = [NSString stringWithFormat:@"Ball Bounces: %d", [GameStatistics sharedGameStatistics].ballBounces];
+    str = [NSString stringWithFormat:@"Ball Bounces: %d", [GameState sharedGameState].ballBounces];
     label = [CCLabelTTF labelWithString:str fontName:@"Georgia" fontSize: scale(32)];
     [self addChild:label];
     [label setColor:ccc3(0, 0, 255)];
     label.position = ccp(screenSize.width/2, (screenSize.height/2) + 0);
     
-    double timeTaken = [[GameStatistics sharedGameStatistics] getElapsedTime];
+    double timeTaken = [[GameState sharedGameState] getElapsedTime];
     str = [NSString stringWithFormat:@"Time Taken: %.2f seconds", timeTaken];
     label = [CCLabelTTF labelWithString:str fontName:@"Georgia" fontSize: scale(32)];
     [self addChild:label];
