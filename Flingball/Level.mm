@@ -48,6 +48,9 @@
     NSError *jsonError = nil;
     NSDictionary* jsonObject = [[CJSONDeserializer deserializer] deserialize:levelData error:&jsonError];
     
+    // hello title
+    title = [NSString stringWithString: [jsonObject objectForKey:@"title"]];
+    
     // dimensions first
     width = [[[jsonObject objectForKey:@"dimensions"] objectForKey:@"width"] intValue];
     height = [[[jsonObject objectForKey:@"dimensions"] objectForKey:@"height"] intValue];
@@ -188,6 +191,10 @@
     groundBox.SetAsEdge(b2Vec2(rect.origin.x + rect.size.width/PTM_RATIO, rect.origin.y + rect.size.height/PTM_RATIO), b2Vec2(rect.origin.x + rect.size.width/PTM_RATIO, rect.origin.y));
     groundBody->CreateFixture(&groundBox,0);
 
+}
+
+-(NSString*) getTitle {
+    return title;
 }
 
 #pragma mark dealloc

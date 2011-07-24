@@ -14,6 +14,7 @@
 #import "SimpleAudioEngine.h"
 #import "EndLevelLayer.h"
 #import "GameStatistics.h"
+#import "HUDLayer.h"
 
 // enums that will be used as tags
 enum {
@@ -38,6 +39,10 @@ enum {
 	
 	// add layer as a child to scene
 	[scene addChild: layer];
+    
+    HUDLayer* hudLayer = [HUDLayer node];
+    
+    [scene addChild: hudLayer];
 	
 	// return the scene
 	return scene;
@@ -84,6 +89,8 @@ enum {
     [camera trackEntity:level.ball];
     // force the camera into the correct position
     [self updateCamera];
+    
+    [GameStatistics sharedGameStatistics].levelTitle = [level getTitle];
     
     // event listeners
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(ballAtGoal:) name:@"ballAtGoal" object:nil];
@@ -435,6 +442,7 @@ enum {
                     [level.ball fling:v];
                     if ([GameStatistics sharedGameStatistics].ballFlings == 1) {
                         // first fling, so start timer
+                        [GameStatistics sharedGameStatistics].levelStarted = YES;
                         [GameStatistics sharedGameStatistics].startTime = [NSDate timeIntervalSinceReferenceDate];
                         NSLog(@"start time %.2f", [GameStatistics sharedGameStatistics].startTime);
                     }

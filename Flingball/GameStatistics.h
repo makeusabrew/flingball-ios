@@ -14,14 +14,21 @@
     
     NSTimeInterval startTime;
     NSTimeInterval endTime;
+    
+    BOOL levelStarted;
+    
+    NSString* levelTitle;
 }
 
 @property NSInteger ballFlings;
 @property NSInteger ballBounces;
 @property NSTimeInterval startTime;
 @property NSTimeInterval endTime;
+@property BOOL levelStarted;
+@property (nonatomic, copy) NSString* levelTitle;
 
 + (GameStatistics *) sharedGameStatistics;
 -(void) reset;
+-(double) getElapsedTime;
 
 @end

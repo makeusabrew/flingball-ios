@@ -42,5 +42,6 @@
 
 -(void) createBoundaries:(CGRect)rect;
 -(void) loadLevel: (NSInteger)levelIndex;
+-(NSString*) getTitle;
 
 @end

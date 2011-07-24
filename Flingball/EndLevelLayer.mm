@@ -79,7 +79,7 @@
     [label setColor:ccc3(0, 0, 255)];
     label.position = ccp(screenSize.width/2, (screenSize.height/2) + 0);
     
-    double timeTaken = [GameStatistics sharedGameStatistics].endTime - [GameStatistics sharedGameStatistics].startTime;
+    double timeTaken = [[GameStatistics sharedGameStatistics] getElapsedTime];
     str = [NSString stringWithFormat:@"Time Taken: %.2f seconds", timeTaken];
     label = [CCLabelTTF labelWithString:str fontName:@"Georgia" fontSize: scale(32)];
     [self addChild:label];

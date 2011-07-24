@@ -10,7 +10,7 @@
 
 @implementation GameStatistics
 
-@synthesize ballFlings, ballBounces, startTime, endTime;
+@synthesize ballFlings, ballBounces, startTime, endTime, levelStarted, levelTitle;
 
 static GameStatistics* sharedGameStatistics = nil;
 
@@ -26,7 +26,7 @@ static GameStatistics* sharedGameStatistics = nil;
 {
     self = [super init];
     if (self) {
-        // Initialization code here.
+        [self reset];
     }
     
     return self;
@@ -34,6 +34,18 @@ static GameStatistics* sharedGameStatistics = nil;
 
 -(void) reset {
     ballFlings = ballBounces = startTime = endTime = 0;
+    levelStarted = NO;
+    levelTitle = @"";
+}
+
+-(double) getElapsedTime {
+    double elapsedTime;
+    if (endTime > 0) {
+        elapsedTime = endTime - startTime;
+    } else {
+        elapsedTime = [NSDate timeIntervalSinceReferenceDate] - startTime;
+    }
+    return elapsedTime;
 }
 
 @end
