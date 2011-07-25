@@ -92,8 +92,13 @@
             [[[poly objectForKey:@"bodyDef"] objectForKey:@"x"] floatValue] / PTM_RATIO,
             [[[poly objectForKey:@"bodyDef"] objectForKey:@"y"] floatValue] / PTM_RATIO
         );
-        // @todo parse from file properly
-        bodyDef.type = b2_staticBody;
+
+        NSString* type = [[poly objectForKey:@"bodyDef"] objectForKey:@"type"];
+        if ([type isEqualToString:@"static"]) {
+            bodyDef.type = b2_staticBody;
+        } else if ([type isEqualToString:@"dynamic"]) {
+            bodyDef.type = b2_dynamicBody;
+        }
         
         b2PolygonShape shapeDef;
         NSArray* vertexArray = [[poly objectForKey:@"shapeDef"] objectForKey:@"vertices"];

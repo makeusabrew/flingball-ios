@@ -50,7 +50,7 @@
                  "bodyDef": {
                  "x": "1000",
                  "y": "400",
-                 "type": "static"
+                 "type": "dynamic"
                  },
                  "shapeDef": {
                  "vertexCount": 4,
