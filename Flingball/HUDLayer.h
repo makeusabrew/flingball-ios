@@ -13,5 +13,6 @@
 }
 
 -(NSString*) getStatus;
+-(void) update;
 
 @end

@@ -21,14 +21,12 @@
         
         hudStr = [CCLabelTTF labelWithString: [self getStatus] fontName:@"Georgia" fontSize: scale(32.0)];
         [self addChild: hudStr];
-        hudStr.position = ccp(screenSize.width / 2, scale(32.0));        
+        hudStr.position = ccp(screenSize.width / 2, scale(32.0));
+        
+        [self schedule: @selector(update) interval:0.1];
     }
     
     return self;
-}
-
--(void) draw {
-    hudStr.string = [self getStatus];
 }
 
 -(NSString*) getStatus {
@@ -43,6 +41,10 @@
                 [[GameState sharedGameState] getValueAsInt: @"ballFlings"],
                 [[GameState sharedGameState] getValueAsInt: @"ballBounces"],
                 elapsedTime];
+}
+
+-(void) update {
+    hudStr.string = [self getStatus];
 }
 
 @end
