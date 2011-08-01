@@ -55,7 +55,7 @@ enum {
 	// Apple recommends to re-assign "self" with the "super" return value
 	if( (self=[super init])) {
         
-        NSLog(@"Initialising new level");
+        CCLOG(@"Initialising new level");
 		
 		// enable touches
 		self.isTouchEnabled = YES;
@@ -71,7 +71,7 @@ enum {
         
         [camera setViewport: CGRectMake(0, 0, screenSize.width, screenSize.height)];
         
-        //NSLog(@"camera Z %.8f", [CCCamera getZEye]);
+        //CCLOG(@"camera Z %.8f", [CCCamera getZEye]);
         
         entitiesToDelete = [[NSMutableArray alloc] init];
         storedTouches = [[NSMutableArray alloc] init];
@@ -80,7 +80,7 @@ enum {
 }
 
 -(void) setLevel:(NSInteger)levelIndex {
-    NSLog(@"Setting level Index %d", levelIndex);
+    CCLOG(@"Setting level Index %d", levelIndex);
     
     [[GameState sharedGameState] reset];
     
@@ -160,10 +160,10 @@ enum {
 {
     // before anything, let's clean up any objects which need deleting
     for (Entity* object in entitiesToDelete) {
-        NSLog(@"removing object marked for deletion");
+        CCLOG(@"removing object marked for deletion");
         if ([object isKindOfClass: [SpriteEntity class]]) {
             SpriteEntity* spriteEntity = (SpriteEntity*) object;
-            NSLog(@"removing sprite");
+            CCLOG(@"removing sprite");
             [self removeChild: spriteEntity.sprite cleanup:YES];           
         }
         level.world->DestroyBody([object getBody]);
@@ -234,7 +234,7 @@ enum {
 {
     [storedTouches addObjectsFromArray: [touches allObjects]];
     
-    NSLog(@"touch count %d", [storedTouches count]);
+    CCLOG(@"touch count %d", [storedTouches count]);
     
     switch ([storedTouches count]) {
         case 1: {
@@ -251,7 +251,7 @@ enum {
             b2Vec2 ballPos = [level.ball getPosition];
             float32 radius = [level.ball radius];
             
-            NSLog(@"touch pos [%.2f, %.2f], ball pos [%.2f, %.2f], scale [%.2f]",
+            CCLOG(@"touch pos [%.2f, %.2f], ball pos [%.2f, %.2f], scale [%.2f]",
                   touchPosition.x, touchPosition.y,
                   ballPos.x, ballPos.y,
                   [camera scale]
@@ -363,7 +363,7 @@ enum {
             
             float32 previousDistance = sqrt((dx*dx) + (dy*dy));
             
-            //NSLog(@"zIndex %.2f, new dist %.2f", camera.zIndex, (currentDistance - previousDistance));
+            //CCLOG(@"zIndex %.2f, new dist %.2f", camera.zIndex, (currentDistance - previousDistance));
             
             camera.scale += (currentDistance - previousDistance) / 500;
             
@@ -405,8 +405,8 @@ enum {
                 float distPc = dist / maxDist;
                 float vel = distPc * MAX_FLING_VELOCITY;
                 
-                NSLog(@"drag distance %.2f (pc %.2f)", dist, distPc);                
-                NSLog(@"total fling velocity %.2f", vel);
+                CCLOG(@"drag distance %.2f (pc %.2f)", dist, distPc);                
+                CCLOG(@"total fling velocity %.2f", vel);
                 
                 b2Vec2 v;
                 v.SetZero();
@@ -436,7 +436,7 @@ enum {
                 
                 // only fling if we've got a velocity to apply        
                 if (v.x != 0 || v.y != 0) {
-                    NSLog(@"fling velocity [%.2f, %.2f]", v.x, v.y);
+                    CCLOG(@"fling velocity [%.2f, %.2f]", v.x, v.y);
                     
                     // since we're about to fling, track the ball again (if we weren't already)
                     [camera seekToEntity:level.ball];
@@ -445,7 +445,7 @@ enum {
                         // first fling, so start timer
                         [[GameState sharedGameState] updateKey: @"levelStarted" withBool: YES];
                         [[GameState sharedGameState] updateKey: @"startTime" withDouble: [NSDate timeIntervalSinceReferenceDate]];
-                        NSLog(@"start time %.2f", [[GameState sharedGameState] getValueAsDouble: @"startTime"]);
+                        CCLOG(@"start time %.2f", [[GameState sharedGameState] getValueAsDouble: @"startTime"]);
                     }
                 }
                 
@@ -476,11 +476,11 @@ enum {
     
     [storedTouches removeObjectsInArray: [touches allObjects]];
     
-    NSLog(@"touch count %d", [storedTouches count]);
+    CCLOG(@"touch count %d", [storedTouches count]);
 }
 
 -(void) loadEndLevel {
-    NSLog(@"Switching scene to end level %d", cLevel);
+    CCLOG(@"Switching scene to end level %d", cLevel);
     // great! load the end level scene.
     [[CCDirector sharedDirector] replaceScene:
      [CCTransitionCrossFade transitionWithDuration:1.0f scene:[EndLevelLayer scene:cLevel]]];
@@ -506,10 +506,10 @@ enum {
     }
     level.ball.atGoal = true;
     [[SimpleAudioEngine sharedEngine] playEffect:@"goal.wav"];
-    NSLog(@"At goal!");
+    CCLOG(@"At goal!");
     
     [[GameState sharedGameState] updateKey: @"endTime" withDouble: [NSDate timeIntervalSinceReferenceDate]];
-    NSLog(@"end time %.2f", [[GameState sharedGameState] getValueAsDouble: @"endTime"]);
+    CCLOG(@"end time %.2f", [[GameState sharedGameState] getValueAsDouble: @"endTime"]);
     
     id action1 = [CCDelayTime actionWithDuration:3.0];
     id action2 = [CCCallFunc actionWithTarget:self selector:@selector(loadEndLevel)];
@@ -517,7 +517,7 @@ enum {
 }
 
 -(void) ballHitPickup:(NSNotification *)notification {
-    NSLog(@"pickup callback");
+    CCLOG(@"pickup callback");
     
     // we can't just delete the pickup (sprite, body etc) here, because
     // we don't know when this event handler was actually triggered
@@ -531,7 +531,7 @@ enum {
 
 - (void) dealloc
 {
-    NSLog(@"LevelLayer::dealloc");
+    CCLOG(@"LevelLayer::dealloc");
     for (b2Body* b = level.world->GetBodyList(); b; b = b->GetNext()) {
         
 		if (b->GetUserData() != NULL) {            
@@ -540,7 +540,7 @@ enum {
                 // excellent, got a sprite?
                 SpriteEntity *spriteEntity = (SpriteEntity*)myEntity;
                 if (spriteEntity.sprite) {
-                    NSLog(@"removing sprite from layer");
+                    CCLOG(@"removing sprite from layer");
                     [self removeChild: spriteEntity.sprite cleanup:YES];
                 }
             }

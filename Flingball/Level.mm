@@ -43,7 +43,7 @@
     NSString *filePath = [[NSBundle mainBundle] pathForResource:str ofType:@"json"];
     NSData *levelData = [NSData dataWithContentsOfFile:filePath];
     
-    NSLog(@"Loading level data from file [%@] for level [%d]", filePath, levelIndex);
+    CCLOG(@"Loading level data from file [%@] for level [%d]", filePath, levelIndex);
     
     NSError *jsonError = nil;
     NSDictionary* jsonObject = [[CJSONDeserializer deserializer] deserialize:levelData error:&jsonError];
@@ -55,7 +55,7 @@
     width = [[[jsonObject objectForKey:@"dimensions"] objectForKey:@"width"] intValue];
     height = [[[jsonObject objectForKey:@"dimensions"] objectForKey:@"height"] intValue];
     
-    NSLog(@"parsed dimensions [%d, %d]", width, height);
+    CCLOG(@"parsed dimensions [%d, %d]", width, height);
     [self createBoundaries:CGRectMake(0, 0, width, height)];
     
     // then gravity
@@ -64,7 +64,7 @@
         [[[jsonObject objectForKey:@"gravity"] objectForKey:@"y"] floatValue]
     );
     
-    NSLog(@"parsed gravity [%.2f, %.2f]", gravity.x, gravity.y);
+    CCLOG(@"parsed gravity [%.2f, %.2f]", gravity.x, gravity.y);
     world->SetGravity(gravity);
     
     // now start & end positions
@@ -73,7 +73,7 @@
         [[[jsonObject objectForKey:@"start"] objectForKey:@"y"] floatValue]
     );
     
-    NSLog(@"parsed ball start pos [%.2f, %.2f]", startPos.x, startPos.y);
+    CCLOG(@"parsed ball start pos [%.2f, %.2f]", startPos.x, startPos.y);
     ball = [[Ball alloc] initWithPosition:startPos forWorld:world];
     
     endPos.Set(
@@ -87,7 +87,7 @@
         goalRadius = [[[jsonObject objectForKey:@"end"] objectForKey:@"radius"] floatValue];
     }
     
-    NSLog(@"parsed goal position [%.2f, %.2f] with radius [%.2f]", endPos.x, endPos.y, goalRadius);
+    CCLOG(@"parsed goal position [%.2f, %.2f] with radius [%.2f]", endPos.x, endPos.y, goalRadius);
     goal = [[GoalEntity alloc] initWithPosition:endPos forWorld:world withRadius: goalRadius];
     
     // have we got any poly data?
@@ -141,7 +141,7 @@
         
         [polygon createForWorld: world];
         
-        NSLog(@"adding polygon [%.2f, %.2f]", bodyDef.position.x, bodyDef.position.y);
+        CCLOG(@"adding polygon [%.2f, %.2f]", bodyDef.position.x, bodyDef.position.y);
         [entities addObject:polygon];
         
         [polygon release];
@@ -159,13 +159,13 @@
         
         [pickup initWithPosition:position forWorld: world];
         
-        NSLog(@"adding pickup [%.2f, %.2f]", position.x, position.y);
+        CCLOG(@"adding pickup [%.2f, %.2f]", position.x, position.y);
         [entities addObject: pickup];
         
         [pickup release];
     }
     
-    NSLog(@"Level [%d] parsed", levelIndex);
+    CCLOG(@"Level [%d] parsed", levelIndex);
 }
 
 - (void)createBoundaries:(CGRect)rect {

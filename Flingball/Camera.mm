@@ -101,7 +101,7 @@
 }
 
 -(void) update {
-    //NSLog(@"[%.2f, %.2f] [%.2f, %.2f], [%.2f, %.2f]", [self getLeftEdge], [self getBottomEdge], [self getRightEdge], [self getTopEdge], [self getCenterX], [self getCenterY]);
+    //CCLOG(@"[%.2f, %.2f] [%.2f, %.2f], [%.2f, %.2f]", [self getLeftEdge], [self getBottomEdge], [self getRightEdge], [self getTopEdge], [self getCenterX], [self getCenterY]);
     float xOver = 0.0;
     float yOver = 0.0;
     
