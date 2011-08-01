@@ -257,7 +257,8 @@ enum {
                   [camera scale]
                   );
             
-            if (touchPosition.x > (ballPos.x - radius) && 
+            if ([level.ball canFling] &&
+                touchPosition.x > (ballPos.x - radius) && 
                 touchPosition.x < (ballPos.x + radius) &&
                 touchPosition.y > (ballPos.y - radius) && 
                 touchPosition.y < (ballPos.y + radius)) {

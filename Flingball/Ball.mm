@@ -98,4 +98,10 @@
     body->SetAngularVelocity(v);
 }
 
+-(BOOL) canFling {
+    b2Vec2 v = body->GetLinearVelocity();
+    CCLOG(@"%.2f, %.2f", v.x, v.y);
+    return (v.x < FLING_SPEED_THRESHOLD && v.y < FLING_SPEED_THRESHOLD);
+}
+
 @end

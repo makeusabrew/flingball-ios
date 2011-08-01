@@ -46,4 +46,6 @@ const float32 MAX_CAMERA_ZEYE = 1.0f;
 const float32 MAX_CAMERA_SCALE = 1.0;
 const float32 MIN_CAMERA_SCALE = 0.25;
 
+const float32 FLING_SPEED_THRESHOLD = 0.25f;
+
 #endif
