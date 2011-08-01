@@ -26,8 +26,7 @@
     self = [self init];
     if (self) {   
         radius = _radius;
-        //sprite = [CCSprite spriteWithFile:@"goal.png" rect:CGRectMake(0, 0, DEFAULT_GOAL_RADIUS, DEFAULT_GOAL_RADIUS)];
-        sprite = [CCSprite spriteWithFile:@"goal.png"];
+        sprite = [CCSprite spriteWithSpriteFrameName:@"goal.png"];
         [sprite setScaleX: radius / DEFAULT_GOAL_RADIUS];
         [sprite setScaleY: radius / DEFAULT_GOAL_RADIUS];
         

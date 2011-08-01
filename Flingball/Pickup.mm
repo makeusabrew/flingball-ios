@@ -17,7 +17,7 @@
     self = [super init];
     if (self) {
         radius = 20.0;
-        sprite = [CCSprite spriteWithFile:@"pickup.png" rect:CGRectMake(0, 0, radius*2, radius*2)];
+        sprite = [CCSprite spriteWithSpriteFrameName:@"pickup.png"];
     }
     
     return self;

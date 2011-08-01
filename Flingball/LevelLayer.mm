@@ -82,6 +82,11 @@ enum {
 -(void) setLevel:(NSInteger)levelIndex {
     CCLOG(@"Setting level Index %d", levelIndex);
     
+    // we need to cache the individual sprites before any of their init methods
+    // are called within loadLevel
+    [[CCSpriteFrameCache sharedSpriteFrameCache] addSpriteFramesWithFile:@"levelAtlas.plist"];
+    CCSpriteBatchNode* levelSprites = [CCSpriteBatchNode batchNodeWithFile:@"levelAtlas.png"];
+    
     [[GameState sharedGameState] reset];
     
     cLevel = levelIndex;
@@ -98,6 +103,7 @@ enum {
     
     // loop through all the world bodies - if any are SpriteEntity objects
     // then we want to add their sprites to this layer
+    
     for (b2Body* b = level.world->GetBodyList(); b; b = b->GetNext()) {
         
 		if (b->GetUserData() != NULL) {            
@@ -106,7 +112,8 @@ enum {
                 // excellent, got a sprite?
                 SpriteEntity *spriteEntity = (SpriteEntity*)myEntity;
                 if (spriteEntity.sprite) {
-                    [self addChild: spriteEntity.sprite];
+                    //[self addChild: spriteEntity.sprite];
+                    [levelSprites addChild: spriteEntity.sprite];
                     // manually update the position of the entity so it draws correctly
                     // before the first tick happens
                     [spriteEntity updateBody:b];
@@ -114,6 +121,7 @@ enum {
             }
 		}
 	}
+    [self addChild: levelSprites];
     
     // Debug Draw functions
     m_debugDraw = new GLESDebugDraw( PTM_RATIO );

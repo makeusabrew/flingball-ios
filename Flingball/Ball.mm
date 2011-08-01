@@ -22,7 +22,7 @@
     if (self) {
         radius = DEFAULT_BALL_RADIUS;  // @todo obviously change this!
         atGoal = NO;
-        sprite = [CCSprite spriteWithFile:@"ball.png"];
+        sprite = [CCSprite spriteWithSpriteFrameName:@"ball.png"];
         [[SimpleAudioEngine sharedEngine] preloadEffect:@"goal.wav"];
     }
     
