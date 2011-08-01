@@ -48,4 +48,7 @@ const float32 MIN_CAMERA_SCALE = 0.25;
 
 const float32 FLING_SPEED_THRESHOLD = 0.25f;
 
+const float32 DEFAULT_GOAL_RADIUS = 64.0f;
+const float32 DEFAULT_BALL_RADIUS = 32.0f;
+
 #endif

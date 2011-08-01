@@ -1,1 +1,1 @@
-{"title":"Best level!!","dimensions":{"width":"1000","height":"600"},"gravity":{"x":"0","y":"-3"},"start":{"x":"32","y":"32"},"end":{"x":"900","y":"100"}}  
+{"title":"Best level!!","dimensions":{"width":"1000","height":"600"},"gravity":{"x":"0","y":"-15"},"start":{"x":"32","y":"32"},"end":{"x":"800","y":"150", "radius": "128"}}}  

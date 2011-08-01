@@ -81,8 +81,14 @@
         [[[jsonObject objectForKey:@"end"] objectForKey:@"y"] floatValue]
     );
     
-    NSLog(@"parsed goal position [%.2f, %.2f]", endPos.x, endPos.y);
-    goal = [[GoalEntity alloc] initWithPosition:endPos forWorld:world];
+    float32 goalRadius = DEFAULT_GOAL_RADIUS;
+    
+    if ([[jsonObject objectForKey:@"end"] objectForKey:@"radius"] != nil) {
+        goalRadius = [[[jsonObject objectForKey:@"end"] objectForKey:@"radius"] floatValue];
+    }
+    
+    NSLog(@"parsed goal position [%.2f, %.2f] with radius [%.2f]", endPos.x, endPos.y, goalRadius);
+    goal = [[GoalEntity alloc] initWithPosition:endPos forWorld:world withRadius: goalRadius];
     
     // have we got any poly data?
     NSArray* polyArray = [jsonObject objectForKey:@"polygons"];

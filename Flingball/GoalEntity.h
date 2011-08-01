@@ -12,6 +12,6 @@
     float32 radius;
 }
 
-- (id)initWithPosition: (b2Vec2)_position forWorld: (b2World*)world;
+- (id)initWithPosition: (b2Vec2)_position forWorld: (b2World*)world withRadius: (float32)_radius;
 
 @end

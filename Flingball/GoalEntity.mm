@@ -16,16 +16,20 @@
 {
     self = [super init];
     if (self) {
-        radius = 64.0;
-        sprite = [CCSprite spriteWithFile:@"goal.png" rect:CGRectMake(0, 0, radius*2, radius*2)];
+        // ?
     }
     
     return self;
 }
 
-- (id)initWithPosition: (b2Vec2)_position forWorld: (b2World*)world {
+- (id)initWithPosition: (b2Vec2)_position forWorld: (b2World*)world withRadius: (float32)_radius {
     self = [self init];
-    if (self) {        
+    if (self) {   
+        radius = _radius;
+        //sprite = [CCSprite spriteWithFile:@"goal.png" rect:CGRectMake(0, 0, DEFAULT_GOAL_RADIUS, DEFAULT_GOAL_RADIUS)];
+        sprite = [CCSprite spriteWithFile:@"goal.png"];
+        [sprite setScaleX: radius / DEFAULT_GOAL_RADIUS];
+        [sprite setScaleY: radius / DEFAULT_GOAL_RADIUS];
         
         b2BodyDef bodyDef;
         bodyDef.userData = self;

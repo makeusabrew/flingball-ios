@@ -20,9 +20,9 @@
 {
     self = [super init];
     if (self) {
-        radius = 32.0;  // @todo obviously change this!
+        radius = DEFAULT_BALL_RADIUS;  // @todo obviously change this!
         atGoal = NO;
-        sprite = [CCSprite spriteWithFile:@"ball.png" rect:CGRectMake(0, 0, radius*2, radius*2)];
+        sprite = [CCSprite spriteWithFile:@"ball.png"];
         [[SimpleAudioEngine sharedEngine] preloadEffect:@"goal.wav"];
     }
     
