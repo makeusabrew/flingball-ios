@@ -51,8 +51,7 @@ const float32 FLING_SPEED_THRESHOLD = 0.25f;
 const float32 DEFAULT_GOAL_RADIUS = 64.0f;
 const float32 DEFAULT_BALL_RADIUS = 32.0f;
 
-const float32 FLING_POWER_OFFSET_X = 90.0;
-const float32 FLING_POWER_OFFSET_Y = 40.0;
+const float32 FLING_POWER_OFFSET = 75.0;
 
 const int TAG_HUD_LAYER = 1;
 

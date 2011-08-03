@@ -326,8 +326,10 @@ enum {
                 CGPoint flingPosition = currentDragLocation;
                 
                 // re adjust to get rid of the camera offset
-                flingPosition.x -= [camera getLeftEdge] - FLING_POWER_OFFSET_X;
-                flingPosition.y -= [camera getBottomEdge] + FLING_POWER_OFFSET_Y;
+                flingPosition.x += cos(a) * FLING_POWER_OFFSET;
+                flingPosition.y += sin(a) * FLING_POWER_OFFSET;
+                flingPosition.x -= [camera getLeftEdge];
+                flingPosition.y -= [camera getBottomEdge];
                 
                 // grab the hud layer and update it
                 HUDLayer* hudLayer = (HUDLayer*) [[[CCDirector sharedDirector] runningScene] getChildByTag: TAG_HUD_LAYER];
