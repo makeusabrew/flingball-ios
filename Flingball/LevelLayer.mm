@@ -42,7 +42,8 @@ enum {
     
     HUDLayer* hudLayer = [HUDLayer node];
     
-    [scene addChild: hudLayer];
+    // make sure we tag the HUD layer so we can retrieve it layer
+    [scene addChild: hudLayer z: 1 tag: TAG_HUD_LAYER];
 	
 	// return the scene
 	return scene;
@@ -309,7 +310,6 @@ enum {
                 
                 if (dist > maxDist) {
                     dist = maxDist;
-                    //currentDragLocation = touchPosition;
                 }
                 
                 // now, get the angle between touchPos and startPos, and calculate
@@ -319,6 +319,20 @@ enum {
                 float a = atan2(dy, dx);
                 currentDragLocation.x = startDragLocation.x + (cos(a) * dist);
                 currentDragLocation.y = startDragLocation.y + (sin(a) * dist);
+                
+                // render the fling %ge power
+                // @see https://projects.paynedigital.com/issues/179
+                int flingPc = round((dist / maxDist) * 100);              
+                CGPoint flingPosition = currentDragLocation;
+                
+                // re adjust to get rid of the camera offset
+                flingPosition.x -= [camera getLeftEdge] - FLING_POWER_OFFSET_X;
+                flingPosition.y -= [camera getBottomEdge] + FLING_POWER_OFFSET_Y;
+                
+                // grab the hud layer and update it
+                HUDLayer* hudLayer = (HUDLayer*) [[[CCDirector sharedDirector] runningScene] getChildByTag: TAG_HUD_LAYER];
+                NSString* str = [NSString stringWithFormat:@"%d%%", flingPc];
+                [hudLayer setFlingString:str withPosition: flingPosition];                
                 
                 b2Vec2 distRequired = [camera getDistanceRequiredToFocusVector: b2Vec2(currentDragLocation.x, currentDragLocation.y)];
                 
@@ -456,6 +470,10 @@ enum {
                         CCLOG(@"start time %.2f", [[GameState sharedGameState] getValueAsDouble: @"startTime"]);
                     }
                 }
+                
+                // @see https://projects.paynedigital.com/issues/179
+                HUDLayer* hudLayer = (HUDLayer*) [[[CCDirector sharedDirector] runningScene] getChildByTag: TAG_HUD_LAYER];
+                [hudLayer setFlingString:nil withPosition: CGPointZero]; 
                 
                 isDragging = NO;
             } else {

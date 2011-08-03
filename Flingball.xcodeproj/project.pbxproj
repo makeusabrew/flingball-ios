@@ -559,18 +559,18 @@
 		01176D0F13CDC97F005BB432 /* Data */ = {
 			isa = PBXGroup;
 			children = (
-				01176D1113CDC988005BB432 /* level */,
+				01176D1113CDC988005BB432 /* Level */,
 			);
 			name = Data;
 			sourceTree = "<group>";
 		};
-		01176D1113CDC988005BB432 /* level */ = {
+		01176D1113CDC988005BB432 /* Level */ = {
 			isa = PBXGroup;
 			children = (
 				01FBE9EF13CF45B600E3CD0D /* level1.json */,
 				01F8BB1613D04D6B00FF18A0 /* level2.json */,
 			);
-			name = level;
+			name = Level;
 			sourceTree = "<group>";
 		};
 		0138A13713C4EDBE003135A7 = {

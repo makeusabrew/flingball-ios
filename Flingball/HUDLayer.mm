@@ -23,6 +23,9 @@
         [self addChild: hudStr];
         hudStr.position = ccp(screenSize.width / 2, scale(32.0));
         
+        flingStr = [CCLabelTTF labelWithString:@"" fontName:@"Georgia" fontSize:scale(32.0)];
+        [self addChild: flingStr];
+        
         [self schedule: @selector(update) interval:0.1];
     }
     
@@ -45,6 +48,11 @@
 
 -(void) update {
     hudStr.string = [self getStatus];
+}
+
+-(void) setFlingString:(NSString *)str withPosition:(CGPoint)position {
+    flingStr.position = position;
+    flingStr.string = str;
 }
 
 @end
