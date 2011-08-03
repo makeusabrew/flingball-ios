@@ -43,6 +43,19 @@
                 <key>sourceSize</key>
                 <string>{40,40}</string>
             </dict>
+            <key>retry.png</key>
+            <dict>
+                <key>frame</key>
+                <string>{{40,192},{32,32}}</string>
+                <key>offset</key>
+                <string>{0,0}</string>
+                <key>rotated</key>
+                <false/>
+                <key>sourceColorRect</key>
+                <string>{{0,0},{32,32}}</string>
+                <key>sourceSize</key>
+                <string>{32,32}</string>
+            </dict>
         </dict>
         <key>metadata</key>
         <dict>
@@ -53,7 +66,7 @@
             <key>size</key>
             <string>{128,256}</string>
             <key>smartupdate</key>
-            <string>$TexturePacker:SmartUpdate:d42dccbc3c016dee4d5f0a8f6fbccdb4$</string>
+            <string>$TexturePacker:SmartUpdate:2705837dc43be020def4d462fc639dc2$</string>
             <key>textureFileName</key>
             <string>levelAtlas.png</string>
         </dict>

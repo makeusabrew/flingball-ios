@@ -56,10 +56,8 @@ static GameState* sharedGameState = nil;
     [values setValue: 0 forKey: @"startTime"];
     [values setValue: 0 forKey: @"endTime"];
     [values setValue: 0 forKey: @"levelStarted"];
+    [values setValue: 0 forKey: @"currentLevel"];
     [values setValue: @"" forKey: @"levelTitle"];
-    //ballFlings = ballBounces = startTime = endTime = 0;
-    //levelStarted = NO;
-    //levelTitle = @"";
 }
 
 -(double) getElapsedTime {

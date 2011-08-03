@@ -97,6 +97,7 @@ enum {
     [self updateCamera];
     
     [[GameState sharedGameState] updateKey: @"levelTitle" withValue: [level getTitle]];
+    [[GameState sharedGameState] updateKey: @"currentLevel" withInt: levelIndex];
     
     // event listeners
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(ballAtGoal:) name:@"ballAtGoal" object:nil];
