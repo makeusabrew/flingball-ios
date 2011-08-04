@@ -11,7 +11,7 @@
 
 @implementation Camera
 
-@synthesize scale;
+@synthesize scale, offsetX, offsetY;
 
 - (id)init
 {
@@ -21,6 +21,10 @@
         scale = 1.0;
         //scale = 0.46875;  // more natural on iPhone
         edgeThreshold = 0.0;
+        
+        CGSize screenSize = [CCDirector sharedDirector].winSize;
+        offsetX = screenSize.width / 2.0;
+        offsetY = screenSize.height / 2.0;
     }
     
     return self;
@@ -45,33 +49,39 @@
 }
 
 -(float) getLeftEdge {
-    return position.x;
+    return offsetX + position.x - ((width / 2.0) / scale);
 }
 
 -(float) getRightEdge {
-    return position.x + (width/scale);
+    return offsetX + position.x + ((width / 2.0) / scale);
 }
 
 -(float) getBottomEdge {
-    return position.y;
+    return offsetY + position.y - ((height / 2.0) / scale);
 }
 
 -(float) getTopEdge {
-    return position.y + (height/scale);
+    return offsetY + position.y + ((height / 2.0) / scale);
 }
 
 -(float) getCenterX {
-    return position.x + ((width/scale) / 2);
+    return offsetX + position.x;
 }
 
 -(float) getCenterY {
-    return position.y + ((height/scale) / 2);
+    return offsetY + position.y;
 }
 
+/**
+ * we assume viewport means the actual bounds of the camera, so we have to
+ * adjust our actual position
+ */
 -(void) setViewport:(CGRect)viewport {    
-    position.x = viewport.origin.x;
-    position.y = viewport.origin.y;
+    position.x = viewport.origin.x;// + (viewport.size.width / 2.0);
+    position.y = viewport.origin.y;// + (viewport.size.height / 2.0);
     
+    // these terms are very loose - they will scale appropriately
+    // perhaps refactor as we only really care about half widths / heights?
     width = viewport.size.width;
     height = viewport.size.height;
 }
@@ -101,7 +111,7 @@
 }
 
 -(void) update {
-    //CCLOG(@"[%.2f, %.2f] [%.2f, %.2f], [%.2f, %.2f]", [self getLeftEdge], [self getBottomEdge], [self getRightEdge], [self getTopEdge], [self getCenterX], [self getCenterY]);
+    //CCLOG(@"[%.2f, %.2f] [%.2f, %.2f], [%.2f, %.2f]", [self getLeftEdge], [self getBottomEdge], [self getCenterX], [self getCenterY], [self getRightEdge], [self getTopEdge]);
     float xOver = 0.0;
     float yOver = 0.0;
     
@@ -135,6 +145,7 @@
             }
             
             [self translateBy:b2Vec2(xOver, yOver)];
+            break;
         }
         case CAMERA_MODE_SEEKING: {
             if (trackedEntity == nil) {

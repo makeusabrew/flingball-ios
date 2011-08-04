@@ -40,5 +40,6 @@
 -(void) ballHitPickup: (NSNotification*)notification;
 -(void) loadEndLevel;
 -(void) updateCamera;
+-(CGPoint) adjustPointForCamera: (CGPoint)point;
 
 @end

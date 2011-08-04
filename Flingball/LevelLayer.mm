@@ -156,6 +156,18 @@ enum {
         ccDrawLine(startDragLocation, currentDragLocation);
         glLineWidth(1.0);
     }
+    /*
+    glColor4f(1.0, 0.0, 0.0, 1.0);
+    CGPoint vertices[] = {
+        ccp([camera getLeftEdge], [camera getBottomEdge]), 
+        ccp([camera getRightEdge], [camera getBottomEdge]),
+        ccp([camera getRightEdge], [camera getTopEdge]),
+        ccp([camera getLeftEdge], [camera getTopEdge])
+    };
+    ccDrawPoly(vertices, 4, YES);
+    glColor4f(1.0, 0.0, 0.0, 1.0);
+    ccDrawCircle(ccp([camera getCenterX], [camera getCenterY]), 32, CC_DEGREES_TO_RADIANS(360), 60, NO);
+     */
 	
 	// restore default GL states
 	glEnable(GL_TEXTURE_2D);
@@ -238,34 +250,45 @@ enum {
     [self updateCamera];
 }
 
+-(CGPoint) adjustPointForCamera: (CGPoint)point {
+    // right then! We need to work out where this touch is relative
+    // to the camera and based on our current scale
+    // first of all, we want to 'center' the touch position
+    // so we take off half the screen dimensions
+    // then we divide by the scale to scale out this value
+    // then, we have to adjust the position based on the camera's centre
+    // and last of all we just shift the touch back to where it was
+    CGSize screenSize = [CCDirector sharedDirector].winSize;
+    float screenX = screenSize.width / 2.0;
+    float screenY = screenSize.height / 2.0;
+    
+    point.x = ((point.x - screenX) / [camera scale]) + [camera getCenterX];
+    point.y = ((point.y - screenY) / [camera scale]) + [camera getCenterY];
+    
+    return point;
+}
+
 #pragma mark touch handlers
 
 - (void)ccTouchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
 {
     [storedTouches addObjectsFromArray: [touches allObjects]];
     
-    CCLOG(@"touch count %d", [storedTouches count]);
+    //CCLOG(@"touch count %d", [storedTouches count]);
     
     switch ([storedTouches count]) {
         case 1: {
             UITouch* touch = [[touches allObjects] objectAtIndex:0];
-            CGPoint touchPosition = [touch locationInView: [touch view]];
+            CGPoint origPosition = [touch locationInView: [touch view]];
             
-            touchPosition = [[CCDirector sharedDirector] convertToGL: touchPosition];
+            origPosition = [[CCDirector sharedDirector] convertToGL: origPosition];
             
             // we *have* to convert the start location to a real world coordinate,
             // other wise it becomes a PITA later if the drag moves the camera
-            touchPosition.x += [camera getLeftEdge];
-            touchPosition.y += [camera getBottomEdge];
+            CGPoint touchPosition = [self adjustPointForCamera: origPosition];
             
             b2Vec2 ballPos = [level.ball getPosition];
             float32 radius = [level.ball radius];
-            
-            CCLOG(@"touch pos [%.2f, %.2f], ball pos [%.2f, %.2f], scale [%.2f]",
-                  touchPosition.x, touchPosition.y,
-                  ballPos.x, ballPos.y,
-                  [camera scale]
-                  );
             
             if ([level.ball canFling] &&
                 touchPosition.x > (ballPos.x - radius) && 
@@ -299,8 +322,7 @@ enum {
             CGPoint touchPosition = [touch locationInView:[touch view]];
             touchPosition = [[CCDirector sharedDirector] convertToGL: touchPosition];
             if (isDragging) {        
-                touchPosition.x += [camera getLeftEdge];
-                touchPosition.y += [camera getBottomEdge];
+                touchPosition = [self adjustPointForCamera: touchPosition];
                 
                 float32 dx = touchPosition.x - startDragLocation.x;
                 float32 dy = touchPosition.y - startDragLocation.y;
@@ -327,10 +349,11 @@ enum {
                 CGPoint flingPosition = currentDragLocation;
                 
                 // re adjust to get rid of the camera offset
-                flingPosition.x += cos(a) * FLING_POWER_OFFSET;
-                flingPosition.y += sin(a) * FLING_POWER_OFFSET;
-                flingPosition.x -= [camera getLeftEdge];
-                flingPosition.y -= [camera getBottomEdge];
+                // broken after fixing #98, will fix later
+                flingPosition.x += cos(a) * scale(FLING_POWER_OFFSET);
+                flingPosition.y += sin(a) * scale(FLING_POWER_OFFSET);
+                //CCLOG(@"fling pos [%.2f, %.2f]", flingPosition.x, flingPosition.y);
+    
                 
                 // grab the hud layer and update it
                 HUDLayer* hudLayer = (HUDLayer*) [[[CCDirector sharedDirector] runningScene] getChildByTag: TAG_HUD_LAYER];
@@ -363,6 +386,7 @@ enum {
         }
         case 2: {
             // ah, interesting. zoom the camera
+            // @see https://projects.paynedigital.com/issues/98
             UITouch* touch1 = [storedTouches objectAtIndex:0];
             UITouch* touch2 = [storedTouches objectAtIndex:1];
             
@@ -416,8 +440,7 @@ enum {
                 
                 location = [[CCDirector sharedDirector] convertToGL: location];
                 
-                location.x += [camera getLeftEdge];
-                location.y += [camera getBottomEdge];
+                location = [self adjustPointForCamera: location];
                 
                 float dx = location.x - startDragLocation.x;
                 float dy = location.y - startDragLocation.y;
@@ -505,8 +528,10 @@ enum {
     
     [storedTouches removeObjectsInArray: [touches allObjects]];
     
-    CCLOG(@"touch count %d", [storedTouches count]);
+    //CCLOG(@"touch count %d", [storedTouches count]);
 }
+
+#pragma mark
 
 -(void) loadEndLevel {
     CCLOG(@"Switching scene to end level %d", cLevel);
@@ -521,8 +546,8 @@ enum {
     [camera update];
     
     // sync cocos2d's camera with our own
-    [self.camera setEyeX:[camera getLeftEdge] eyeY:[camera getBottomEdge] eyeZ:1];
-    [self.camera setCenterX:[camera getLeftEdge] centerY:[camera getBottomEdge] centerZ:0];
+    [self.camera setEyeX:([camera getCenterX] - [camera offsetX]) eyeY:([camera getCenterY] - [camera offsetY]) eyeZ:1];
+    [self.camera setCenterX:([camera getCenterX] - [camera offsetX]) centerY:([camera getCenterY] - [camera offsetY]) centerZ:0];
     
     self.scale = camera.scale;
 }

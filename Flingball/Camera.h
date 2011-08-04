@@ -26,9 +26,14 @@
     
     // cache stuff
     float32 edgeThreshold;
+    
+    float32 offsetX;
+    float32 offsetY;
 }
 
 @property float32 scale;
+@property (readonly) float32 offsetX;
+@property (readonly) float32 offsetY;
 
 -(void) translateBy: (b2Vec2)vector;
 -(void) translateBy: (b2Vec2)vector withDistance: (float32)dist andAngle: (float32) angle;
