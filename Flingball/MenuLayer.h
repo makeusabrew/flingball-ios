@@ -15,3 +15,9 @@
 +(CCScene *) scene;
 
 @end
+
+@interface SettingsLayer : CCLayer <NSURLConnectionDelegate> {
+    NSMutableData* levelData;
+}
+
+@end;
