@@ -44,9 +44,18 @@
         }];
         startMenuItem.scale = scale(startMenuItem.scale);
         
-        startMenuItem.position = ccp(screenSize.width/2, (screenSize.height/2) - scale(100));
+        startMenuItem.position = ccp(screenSize.width/2 - scale(220), (screenSize.height/2) - scale(100));
         
-        CCMenu* menu = [CCMenu menuWithItems:startMenuItem, nil];
+        CCMenuItem *optionsMenuItem = [CCMenuItemImage itemFromNormalImage:@"optionsButton.png" selectedImage:@"optionsButton.png" block:^(id object) {
+            //[[CCDirector sharedDirector] replaceScene:
+            // [CCTransitionCrossFade transitionWithDuration:0.5f scene:[LevelLayer scene:1]]];
+            CCLOG(@"options button pressed");
+        }];
+        optionsMenuItem.scale = scale(optionsMenuItem.scale);
+        
+        optionsMenuItem.position = ccp(screenSize.width/2 + scale(220), (screenSize.height/2) - scale(100));
+        
+        CCMenu* menu = [CCMenu menuWithItems:startMenuItem, optionsMenuItem, nil];
         menu.position = CGPointZero;
         [self addChild: menu];
         

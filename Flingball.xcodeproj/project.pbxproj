@@ -175,6 +175,7 @@
 		01864C4913D82F4800F4E90E /* MenuLayer.mm in Sources */ = {isa = PBXBuildFile; fileRef = 01864C4813D82F4800F4E90E /* MenuLayer.mm */; };
 		01864C4E13D835F400F4E90E /* startButtonSelected.png in Resources */ = {isa = PBXBuildFile; fileRef = 01864C4D13D835F400F4E90E /* startButtonSelected.png */; };
 		01864C5013D8363E00F4E90E /* startButton.png in Resources */ = {isa = PBXBuildFile; fileRef = 01864C4F13D8363E00F4E90E /* startButton.png */; };
+		01CD8FEB13EABF3A00656D41 /* optionsButton.png in Resources */ = {isa = PBXBuildFile; fileRef = 01CD8FEA13EABF3A00656D41 /* optionsButton.png */; };
 		01E72D8013CDAEE500D1E763 /* EndLevelLayer.mm in Sources */ = {isa = PBXBuildFile; fileRef = 01E72D7F13CDAEE500D1E763 /* EndLevelLayer.mm */; };
 		01EAA30113E9993800175E72 /* retry.png in Resources */ = {isa = PBXBuildFile; fileRef = 01EAA30013E9993800175E72 /* retry.png */; };
 		01EAA30413E99A2000175E72 /* levelAtlas.plist in Resources */ = {isa = PBXBuildFile; fileRef = 01EAA30213E99A2000175E72 /* levelAtlas.plist */; };
@@ -525,6 +526,7 @@
 		01864C4813D82F4800F4E90E /* MenuLayer.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = MenuLayer.mm; sourceTree = "<group>"; };
 		01864C4D13D835F400F4E90E /* startButtonSelected.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = startButtonSelected.png; sourceTree = "<group>"; };
 		01864C4F13D8363E00F4E90E /* startButton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = startButton.png; sourceTree = "<group>"; };
+		01CD8FEA13EABF3A00656D41 /* optionsButton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = optionsButton.png; sourceTree = "<group>"; };
 		01E72D7E13CDAEE500D1E763 /* EndLevelLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EndLevelLayer.h; sourceTree = "<group>"; };
 		01E72D7F13CDAEE500D1E763 /* EndLevelLayer.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; lineEnding = 0; path = EndLevelLayer.mm; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
 		01EAA30013E9993800175E72 /* retry.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = retry.png; sourceTree = "<group>"; };
@@ -640,16 +642,11 @@
 		0138A15713C4EDBF003135A7 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				01A13E7613E6D8DB001C7839 /* Images */,
+				01CD8FE913EABEFB00656D41 /* Menu Images */,
+				01A13E7613E6D8DB001C7839 /* Game Images */,
 				01176D0F13CDC97F005BB432 /* Data */,
 				0180ABE313CC7A08002B3AB3 /* boing.wav */,
 				0180ABE513CC7A0F002B3AB3 /* goal.wav */,
-				01864C4F13D8363E00F4E90E /* startButton.png */,
-				01864C4D13D835F400F4E90E /* startButtonSelected.png */,
-				0180ABE913CC8470002B3AB3 /* ball.png */,
-				01EAA30013E9993800175E72 /* retry.png */,
-				0180ABE713CC7BF0002B3AB3 /* goal.png */,
-				01F8BB1B13D0553200FF18A0 /* pickup.png */,
 				0138A15813C4EDBF003135A7 /* Default.png */,
 				0138A15A13C4EDBF003135A7 /* fps_images.png */,
 				0138A15C13C4EDBF003135A7 /* Icon-72.png */,
@@ -1122,13 +1119,27 @@
 			name = Entity;
 			sourceTree = "<group>";
 		};
-		01A13E7613E6D8DB001C7839 /* Images */ = {
+		01A13E7613E6D8DB001C7839 /* Game Images */ = {
 			isa = PBXGroup;
 			children = (
 				01EAA30213E99A2000175E72 /* levelAtlas.plist */,
 				01EAA30313E99A2000175E72 /* levelAtlas.png */,
+				0180ABE913CC8470002B3AB3 /* ball.png */,
+				01EAA30013E9993800175E72 /* retry.png */,
+				0180ABE713CC7BF0002B3AB3 /* goal.png */,
+				01F8BB1B13D0553200FF18A0 /* pickup.png */,
 			);
-			name = Images;
+			name = "Game Images";
+			sourceTree = "<group>";
+		};
+		01CD8FE913EABEFB00656D41 /* Menu Images */ = {
+			isa = PBXGroup;
+			children = (
+				01CD8FEA13EABF3A00656D41 /* optionsButton.png */,
+				01864C4F13D8363E00F4E90E /* startButton.png */,
+				01864C4D13D835F400F4E90E /* startButtonSelected.png */,
+			);
+			name = "Menu Images";
 			sourceTree = "<group>";
 		};
 		01E72D7D13CDAA6800D1E763 /* Layer */ = {
@@ -1218,6 +1229,7 @@
 				01EAA30113E9993800175E72 /* retry.png in Resources */,
 				01EAA30413E99A2000175E72 /* levelAtlas.plist in Resources */,
 				01EAA30513E99A2000175E72 /* levelAtlas.png in Resources */,
+				01CD8FEB13EABF3A00656D41 /* optionsButton.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
