@@ -51,13 +51,7 @@ static GameState* sharedGameState = nil;
 }
 
 -(void) reset {
-    [values setValue: 0 forKey: @"ballFlings"];
-    [values setValue: 0 forKey: @"ballBounces"];
-    [values setValue: 0 forKey: @"startTime"];
-    [values setValue: 0 forKey: @"endTime"];
-    [values setValue: 0 forKey: @"levelStarted"];
-    [values setValue: 0 forKey: @"currentLevel"];
-    [values setValue: @"" forKey: @"levelTitle"];
+    [values removeAllObjects];
 }
 
 -(double) getElapsedTime {

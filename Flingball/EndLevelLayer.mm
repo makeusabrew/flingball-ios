@@ -8,6 +8,7 @@
 
 #import "EndLevelLayer.h"
 #import "LevelLayer.h"
+#import "MenuLayer.h"
 #import "Constants.h"
 #import "GameState.h"
 
@@ -89,9 +90,14 @@
 
 - (void)ccTouchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
 {
-    CCLOG(@"About to load level %d", cLevel+1);
-    [[CCDirector sharedDirector] replaceScene:
-     [CCTransitionCrossFade transitionWithDuration:1.0f scene:[LevelLayer scene:cLevel+1]]];
+    if ([[GameState sharedGameState] getValueAsBool: @"isDevMode"]) {
+        [[CCDirector sharedDirector] replaceScene:
+         [CCTransitionCrossFade transitionWithDuration:1.0f scene:[MenuLayer scene]]];
+    } else {
+        CCLOG(@"About to load level %d", cLevel+1);
+        [[CCDirector sharedDirector] replaceScene:
+         [CCTransitionCrossFade transitionWithDuration:1.0f scene:[LevelLayer scene:cLevel+1]]];
+    }   
 }
 
 -(void) draw

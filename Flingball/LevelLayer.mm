@@ -116,6 +116,9 @@ enum {
     isDevMode = YES;
     cLevel = -1;
     
+    [[GameState sharedGameState] updateKey: @"apiKey" withValue: key];
+    [[GameState sharedGameState] updateKey: @"apiIdentifier" withInt: identifier];
+    
     [level loadLevelWithKey: key andIdentifier: identifier];
     
     [self doLevelInitialisation];
@@ -142,6 +145,7 @@ enum {
     [self updateCamera];
     
     [[GameState sharedGameState] updateKey: @"levelTitle" withValue: [level getTitle]];
+    [[GameState sharedGameState] updateKey: @"isDevMode" withBool: isDevMode];
     
     // event listeners
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(ballAtGoal:) name:@"ballAtGoal" object:nil];

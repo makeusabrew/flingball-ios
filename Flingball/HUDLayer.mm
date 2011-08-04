@@ -29,8 +29,13 @@
 
         // add retry icon, @see https://projects.paynedigital.com/issues/180
         CCMenuItem* menuItem = [CCMenuItemImage itemFromNormalSprite: [CCSprite spriteWithSpriteFrameName:@"retry.png"] selectedSprite: [CCSprite spriteWithSpriteFrameName:@"retry.png"] block:^(id object) {
-            [[CCDirector sharedDirector] replaceScene:
-             [CCTransitionFlipX transitionWithDuration:0.5f scene:[LevelLayer scene: [[GameState sharedGameState] getValueAsInt:@"currentLevel"]]]];
+            if ([[GameState sharedGameState] getValueAsBool: @"isDevMode"]) {
+                [[CCDirector sharedDirector] replaceScene:
+                 [CCTransitionFlipX transitionWithDuration:0.5f scene:[LevelLayer sceneWithKey:[[GameState sharedGameState] getValue: @"apiKey"] andIdentifier:[[GameState sharedGameState] getValueAsInt: @"apiIdentifier"]]]];
+            } else {
+                [[CCDirector sharedDirector] replaceScene:
+                 [CCTransitionFlipX transitionWithDuration:0.5f scene:[LevelLayer scene: [[GameState sharedGameState] getValueAsInt:@"currentLevel"]]]];
+            }            
         }];
         
         menuItem.scale = scale(menuItem.scale);
