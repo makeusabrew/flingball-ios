@@ -49,6 +49,21 @@ enum {
 	return scene;
 }
 
++(CCScene*) sceneWithKey:(NSString *)key andIdentifier:(NSInteger)identifier {
+    // ooh, dev mode you say?
+    
+	CCScene *scene = [CCScene node];
+    LevelLayer *layer = [LevelLayer node];
+    
+    [layer setLevelWithKey: key andIdentifier: identifier];
+	
+	[scene addChild: layer];
+    
+    HUDLayer* hudLayer = [HUDLayer node];    
+    [scene addChild: hudLayer z: 1 tag: TAG_HUD_LAYER];	
+	return scene;
+}
+
 // on "init" you need to initialize your instance
 -(id) init
 {
@@ -72,32 +87,61 @@ enum {
         
         [camera setViewport: CGRectMake(0, 0, screenSize.width, screenSize.height)];
         
-        //CCLOG(@"camera Z %.8f", [CCCamera getZEye]);
-        
         entitiesToDelete = [[NSMutableArray alloc] init];
         storedTouches = [[NSMutableArray alloc] init];
+        
+        [[GameState sharedGameState] reset]; 
+        // we need to cache the individual sprites before any of their init methods
+        // are called within loadLevel
+        [[CCSpriteFrameCache sharedSpriteFrameCache] addSpriteFramesWithFile:@"levelAtlas.plist"];
+        levelSprites = [CCSpriteBatchNode batchNodeWithFile:@"levelAtlas.png"];
 	}
 	return self;
 }
 
 -(void) setLevel:(NSInteger)levelIndex {
     CCLOG(@"Setting level Index %d", levelIndex);
-    
-    // we need to cache the individual sprites before any of their init methods
-    // are called within loadLevel
-    [[CCSpriteFrameCache sharedSpriteFrameCache] addSpriteFramesWithFile:@"levelAtlas.plist"];
-    CCSpriteBatchNode* levelSprites = [CCSpriteBatchNode batchNodeWithFile:@"levelAtlas.png"];
-    
-    [[GameState sharedGameState] reset];
-    
+    isDevMode = NO;
     cLevel = levelIndex;
-    [level loadLevel:levelIndex];      
+    [[GameState sharedGameState] updateKey: @"currentLevel" withInt: levelIndex];
+    
+    [level loadLevel:levelIndex];   
+    
+    [self doLevelInitialisation];
+}
+
+-(void) setLevelWithKey:(NSString *)key andIdentifier:(NSInteger)identifier {
+    CCLOG(@"Setting level with key %@ and identifier %d", key, identifier);
+    
+    isDevMode = YES;
+    cLevel = -1;
+    
+    [level loadLevelWithKey: key andIdentifier: identifier];
+    
+    [self doLevelInitialisation];
+    //loadTimer = [NSTimer scheduledTimerWithTimeInterval:0.1 target:self selector:@selector(waitForLoad) userInfo:nil repeats: YES];
+}
+
+/**
+ * not used for now - wanted to make the dev load mechanism async but no good :(
+ */
+-(void) waitForLoad {
+    if (level.isLoaded == NO) {
+        return;
+    }
+    //[self unschedule:@selector(waitForLoad)];
+    CCLOG(@"invalidating timer");
+    [loadTimer invalidate];
+    [self doLevelInitialisation];
+}
+
+-(void) doLevelInitialisation {
+    CCLOG(@"proceeding with level init");
     [camera trackEntity:level.ball];
     // force the camera into the correct position
     [self updateCamera];
     
     [[GameState sharedGameState] updateKey: @"levelTitle" withValue: [level getTitle]];
-    [[GameState sharedGameState] updateKey: @"currentLevel" withInt: levelIndex];
     
     // event listeners
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(ballAtGoal:) name:@"ballAtGoal" object:nil];
@@ -105,6 +149,8 @@ enum {
     
     // loop through all the world bodies - if any are SpriteEntity objects
     // then we want to add their sprites to this layer
+    
+    CCLOG(@"adding level sprites");
     
     for (b2Body* b = level.world->GetBodyList(); b; b = b->GetNext()) {
         
@@ -118,10 +164,14 @@ enum {
                     [levelSprites addChild: spriteEntity.sprite];
                     // manually update the position of the entity so it draws correctly
                     // before the first tick happens
+                    CCLOG(@"setting up entity %@", NSStringFromClass([myEntity class]));
                     [spriteEntity updateBody:b];
+                } else {
+                    CCLOG(@"ignoring uninitialised sprite for %@", NSStringFromClass([myEntity class]));
                 }
             }
-		}
+		
+        }
 	}
     [self addChild: levelSprites];
     
@@ -133,6 +183,7 @@ enum {
     flags += b2DebugDraw::e_shapeBit;
     m_debugDraw->SetFlags(flags);
     
+    [self unschedule: @selector(doLevelInitialisation)];
     [self schedule: @selector(tick:)];
 }
 
@@ -210,6 +261,7 @@ enum {
             // bear in mind that obviously different sub classes of Entity
             // will implement their own version of updateBody
 			Entity *myEntity = (Entity*)b->GetUserData();
+            //CCLOG(@"updating entity %@", NSStringFromClass([myEntity class]));
             [myEntity updateBody:b];
 		}
 	}

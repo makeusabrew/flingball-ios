@@ -136,6 +136,8 @@
             CCMenuItemLabel* item = [CCMenuItemLabel itemWithLabel: label block:^(id sender) {
             //CCMenuItemFont* item = [CCMenuItemFont itemFromString: title block:^(id sender) {
                 CCLOG(@"clicky %@, %d", label.string, identifier);
+                [[CCDirector sharedDirector] replaceScene:
+                 [CCTransitionCrossFade transitionWithDuration:0.5f scene:[LevelLayer sceneWithKey:@"abc123" andIdentifier:identifier]]];
             }];
             [menu addChild: item];
             [menu alignItemsVerticallyWithPadding: 20.0];

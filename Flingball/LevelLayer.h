@@ -19,9 +19,12 @@
 {
 	GLESDebugDraw *m_debugDraw;
     
+    // is this a developer preview?
+    BOOL isDevMode;
+    
     // drag related logic, probably to be improved...
     CGPoint startDragLocation;
-    CGPoint currentDragLocation;    
+    CGPoint currentDragLocation;
     BOOL isDragging;
     
     Level* level;
@@ -31,15 +34,24 @@
     
     NSMutableArray* entitiesToDelete;
     NSMutableArray* storedTouches;
+    
+    CCSpriteBatchNode* levelSprites;
+    
+    NSTimer* loadTimer;
 }
 
 // returns a CCScene that contains the LevelLayer as the only child
 +(CCScene *) scene: (NSInteger)levelIndex;
+// dev level scenage!
++(CCScene *) sceneWithKey: (NSString *)key andIdentifier: (NSInteger)identifier;
 -(void) setLevel:(NSInteger)levelIndex;
+-(void) setLevelWithKey: (NSString *)key andIdentifier: (NSInteger)identifier;
+-(void) doLevelInitialisation;
 -(void) ballAtGoal: (NSNotification*)notification;
 -(void) ballHitPickup: (NSNotification*)notification;
 -(void) loadEndLevel;
 -(void) updateCamera;
+-(void) waitForLoad;
 -(CGPoint) adjustPointForCamera: (CGPoint)point;
 
 @end

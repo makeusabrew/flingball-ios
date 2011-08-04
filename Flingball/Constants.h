@@ -54,5 +54,6 @@ const float32 DEFAULT_BALL_RADIUS = 32.0f;
 const float32 FLING_POWER_OFFSET = 75.0;
 
 const int TAG_HUD_LAYER = 1;
+const int TAG_LEVEL_SPRITES = 2;
 
 #endif

@@ -14,12 +14,14 @@
 #import "Polygon.h"
 #import "Pickup.h"
 
-@interface Level : NSObject {
+@interface Level : NSObject <NSURLConnectionDelegate> {
     NSString* title;
     NSString* author;
     
     NSInteger width;
     NSInteger height;
+    
+    BOOL isLoaded;
     
     b2Vec2 gravity;
     b2Vec2 startPos;
@@ -32,6 +34,8 @@
     
     NSMutableArray* entities;
     
+    NSMutableData* levelData;  // we need to store this in case we load via URL & delegates
+    
     ContactListener* contactListener;
 }
 
@@ -39,9 +43,12 @@
 @property (nonatomic, assign) ContactListener* contactListener;
 @property (nonatomic, retain) Ball* ball;
 @property (nonatomic, retain) GoalEntity* goal;
+@property (readonly) BOOL isLoaded;
 
 -(void) createBoundaries:(CGRect)rect;
 -(void) loadLevel: (NSInteger)levelIndex;
+-(void) loadLevelWithKey:(NSString *)key andIdentifier:(NSInteger)identifier;
+-(void) loadLevelWithData: (NSDictionary *)jsonObject;
 -(NSString*) getTitle;
 
 @end

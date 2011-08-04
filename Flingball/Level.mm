@@ -13,12 +13,14 @@
 
 @implementation Level
 
-@synthesize world, ball, contactListener, goal;
+@synthesize world, ball, contactListener, goal, isLoaded;
 
 - (id)init
 {
     self = [super init];
     if (self) {
+        
+        isLoaded = NO;
 		
 		// Do we want to let bodies sleep?
 		// This will speed up the physics simulation
@@ -37,19 +39,64 @@
 
 -(void) loadLevel:(NSInteger)levelIndex {
     
-    entities = [[NSMutableArray alloc] init];
-    
     NSString *str = [NSString stringWithFormat:@"level%d", levelIndex];
     NSString *filePath = [[NSBundle mainBundle] pathForResource:str ofType:@"json"];
-    NSData *levelData = [NSData dataWithContentsOfFile:filePath];
+    levelData = [NSData dataWithContentsOfFile:filePath];
     
-    CCLOG(@"Loading level data from file [%@] for level [%d]", filePath, levelIndex);
-    
+    CCLOG(@"Loading level data from file [%@] for level [%d]", filePath, levelIndex);    
     NSError *jsonError = nil;
-    NSDictionary* jsonObject = [[CJSONDeserializer deserializer] deserialize:levelData error:&jsonError];
+    NSDictionary* jsonObject = [[CJSONDeserializer deserializer] deserialize: levelData error:&jsonError];
+    
+    [self loadLevelWithData: jsonObject];
+    
+    CCLOG(@"Level [%d] parsed", levelIndex);    
+}
+
+-(void) loadLevelWithKey:(NSString *)key andIdentifier:(NSInteger)identifier {
+    levelData = [[NSMutableData alloc] init];
+    NSString *str = [NSString stringWithFormat:@"http://fbtest.paynedigital.com/api/1.0/levels/view?key=%@&identifier=%d", key, identifier];
+    NSURLRequest* request = [[[NSURLRequest alloc] initWithURL: [NSURL URLWithString: str]] autorelease];     
+    /**
+     * the below will perform an async request but means the level layer invoking
+     * this load call needs to take care of blocking until the level tells it it has
+     * loaded
+     */
+    
+    //[[NSURLConnection alloc] initWithRequest: request delegate: self];
+    // over to the delegate methods now...
+    
+    
+    /**
+     * all this can be deleted when async works...
+     */
+    
+    NSURLResponse* response = nil;
+    NSData* data = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:nil];
+    NSError *jsonError = nil;
+    NSDictionary* jsonObject = [[CJSONDeserializer deserializer] deserialize:data error:&jsonError];
+    BOOL success = [[jsonObject objectForKey:@"success"] boolValue];
+    
+    NSString *msg = [NSString stringWithString: [jsonObject objectForKey:@"msg"]];
+    
+    if (success == NO) {        
+        CCLOG(@"Level loading failed, reason: %@", msg);
+        return;
+    }
+    
+    CCLOG(@"data received with message: %@", msg);
+    
+    CCLOG(@"Loading level from JSON data...");
+    [self loadLevelWithData: [jsonObject objectForKey:@"level"]];
+     
+}
+
+-(void) loadLevelWithData:(NSDictionary *)jsonObject {
+    entities = [[NSMutableArray alloc] init];
     
     // hello title
     title = [NSString stringWithString: [jsonObject objectForKey:@"title"]];
+    
+    CCLOG(@"parsed title %@", title);
     
     // dimensions first
     width = [[[jsonObject objectForKey:@"dimensions"] objectForKey:@"width"] intValue];
@@ -60,26 +107,26 @@
     
     // then gravity
     gravity.Set(
-        [[[jsonObject objectForKey:@"gravity"] objectForKey:@"x"] floatValue],
-        [[[jsonObject objectForKey:@"gravity"] objectForKey:@"y"] floatValue]
-    );
+                [[[jsonObject objectForKey:@"gravity"] objectForKey:@"x"] floatValue],
+                [[[jsonObject objectForKey:@"gravity"] objectForKey:@"y"] floatValue]
+                );
     
     CCLOG(@"parsed gravity [%.2f, %.2f]", gravity.x, gravity.y);
     world->SetGravity(gravity);
     
     // now start & end positions
     startPos.Set(
-        [[[jsonObject objectForKey:@"start"] objectForKey:@"x"] floatValue],
-        [[[jsonObject objectForKey:@"start"] objectForKey:@"y"] floatValue]
-    );
+                 [[[jsonObject objectForKey:@"start"] objectForKey:@"x"] floatValue],
+                 [[[jsonObject objectForKey:@"start"] objectForKey:@"y"] floatValue]
+                 );
     
     CCLOG(@"parsed ball start pos [%.2f, %.2f]", startPos.x, startPos.y);
     ball = [[Ball alloc] initWithPosition:startPos forWorld:world];
     
     endPos.Set(
-        [[[jsonObject objectForKey:@"end"] objectForKey:@"x"] floatValue],
-        [[[jsonObject objectForKey:@"end"] objectForKey:@"y"] floatValue]
-    );
+               [[[jsonObject objectForKey:@"end"] objectForKey:@"x"] floatValue],
+               [[[jsonObject objectForKey:@"end"] objectForKey:@"y"] floatValue]
+               );
     
     float32 goalRadius = DEFAULT_GOAL_RADIUS;
     
@@ -95,10 +142,10 @@
     for (NSDictionary* poly in polyArray) {
         b2BodyDef bodyDef;
         bodyDef.position.Set(
-            [[[poly objectForKey:@"bodyDef"] objectForKey:@"x"] floatValue] / PTM_RATIO,
-            [[[poly objectForKey:@"bodyDef"] objectForKey:@"y"] floatValue] / PTM_RATIO
-        );
-
+                             [[[poly objectForKey:@"bodyDef"] objectForKey:@"x"] floatValue] / PTM_RATIO,
+                             [[[poly objectForKey:@"bodyDef"] objectForKey:@"y"] floatValue] / PTM_RATIO
+                             );
+        
         NSString* type = [[poly objectForKey:@"bodyDef"] objectForKey:@"type"];
         if ([type isEqualToString:@"static"]) {
             bodyDef.type = b2_staticBody;
@@ -117,7 +164,7 @@
             float32 y = [[vertex objectForKey:@"y"] floatValue] / PTM_RATIO;
             _vertices[i++] = b2Vec2(x, y);
         }
-
+        
         shapeDef.Set(_vertices, vertexCount);
         
         delete [] _vertices;
@@ -151,9 +198,9 @@
     NSArray* pickupArray = [jsonObject objectForKey:@"pickups"];
     for (NSDictionary* pickupData in pickupArray) {
         b2Vec2 position = b2Vec2(
-            [[pickupData objectForKey:@"x"] floatValue],
-            [[pickupData objectForKey:@"y"] floatValue]
-        );
+                                 [[pickupData objectForKey:@"x"] floatValue],
+                                 [[pickupData objectForKey:@"y"] floatValue]
+                                 );
         
         Pickup *pickup = [[Pickup alloc] init];
         
@@ -164,8 +211,8 @@
         
         [pickup release];
     }
-    
-    CCLOG(@"Level [%d] parsed", levelIndex);
+    CCLOG(@"JSON parsed");
+    isLoaded = true;
 }
 
 - (void)createBoundaries:(CGRect)rect {
@@ -208,6 +255,35 @@
     return title;
 }
 
+#pragma mark
+#pragma mark URL Connection Delegates
+-(void) connection:(NSURLConnection *)connection didReceiveData:(NSData *)data {
+    [levelData appendData: data];
+    CCLOG(@"got level data");
+}
+
+-(void) connectionDidFinishLoading:(NSURLConnection *)connection {
+    NSString *url = [connection.originalRequest.URL absoluteString];
+    CCLOG(@"URL finished loading [%@]", url);
+    NSError *jsonError = nil;
+    NSDictionary* jsonObject = [[CJSONDeserializer deserializer] deserialize:levelData error:&jsonError];
+    BOOL success = [[jsonObject objectForKey:@"success"] boolValue];
+    
+    [connection release];
+    
+    NSString *msg = [NSString stringWithString: [jsonObject objectForKey:@"msg"]];
+    
+    if (success == NO) {        
+        CCLOG(@"Level loading failed, reason: %@", msg);
+        return;
+    }
+    
+    CCLOG(@"data received with message: %@", msg);
+    
+    CCLOG(@"Loading level from JSON data...");
+    [self loadLevelWithData: [jsonObject objectForKey:@"level"]];
+}
+
 #pragma mark dealloc
 - (void) dealloc
 {
@@ -227,6 +303,9 @@
     
     [entities release];
     entities = nil;
+    
+    [levelData release];
+    levelData = nil;
     
 	// don't forget to call "super dealloc"
 	[super dealloc];
