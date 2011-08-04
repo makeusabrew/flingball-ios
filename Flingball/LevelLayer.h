@@ -35,8 +35,6 @@
     NSMutableArray* entitiesToDelete;
     NSMutableArray* storedTouches;
     
-    CCSpriteBatchNode* levelSprites;
-    
     NSTimer* loadTimer;
 }
 
@@ -49,9 +47,9 @@
 -(void) doLevelInitialisation;
 -(void) ballAtGoal: (NSNotification*)notification;
 -(void) ballHitPickup: (NSNotification*)notification;
+-(void) levelLoaded: (NSNotification*)notification;
 -(void) loadEndLevel;
 -(void) updateCamera;
--(void) waitForLoad;
 -(CGPoint) adjustPointForCamera: (CGPoint)point;
 
 @end

@@ -93,8 +93,13 @@ enum {
         [[GameState sharedGameState] reset]; 
         // we need to cache the individual sprites before any of their init methods
         // are called within loadLevel
-        [[CCSpriteFrameCache sharedSpriteFrameCache] addSpriteFramesWithFile:@"levelAtlas.plist"];
-        levelSprites = [CCSpriteBatchNode batchNodeWithFile:@"levelAtlas.png"];
+        [[CCSpriteFrameCache sharedSpriteFrameCache] addSpriteFramesWithFile:@"levelAtlas.plist"];        
+        
+        // event listeners
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(ballAtGoal:) name:@"ballAtGoal" object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(ballHitPickup:) name:@"ballHitPickup" object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(levelLoaded:) name:@"levelLoaded" object:nil];
+        
 	}
 	return self;
 }
@@ -105,8 +110,7 @@ enum {
     cLevel = levelIndex;
     [[GameState sharedGameState] updateKey: @"currentLevel" withInt: levelIndex];
     
-    [level loadLevel:levelIndex];   
-    
+    [level loadLevel:levelIndex];
     [self doLevelInitialisation];
 }
 
@@ -120,21 +124,6 @@ enum {
     [[GameState sharedGameState] updateKey: @"apiIdentifier" withInt: identifier];
     
     [level loadLevelWithKey: key andIdentifier: identifier];
-    
-    [self doLevelInitialisation];
-    //loadTimer = [NSTimer scheduledTimerWithTimeInterval:0.1 target:self selector:@selector(waitForLoad) userInfo:nil repeats: YES];
-}
-
-/**
- * not used for now - wanted to make the dev load mechanism async but no good :(
- */
--(void) waitForLoad {
-    if (level.isLoaded == NO) {
-        return;
-    }
-    //[self unschedule:@selector(waitForLoad)];
-    CCLOG(@"invalidating timer");
-    [loadTimer invalidate];
     [self doLevelInitialisation];
 }
 
@@ -147,15 +136,11 @@ enum {
     [[GameState sharedGameState] updateKey: @"levelTitle" withValue: [level getTitle]];
     [[GameState sharedGameState] updateKey: @"isDevMode" withBool: isDevMode];
     
-    // event listeners
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(ballAtGoal:) name:@"ballAtGoal" object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(ballHitPickup:) name:@"ballHitPickup" object:nil];
-    
     // loop through all the world bodies - if any are SpriteEntity objects
     // then we want to add their sprites to this layer
     
     CCLOG(@"adding level sprites");
-    
+    CCSpriteBatchNode* levelSprites = [CCSpriteBatchNode batchNodeWithFile:@"levelAtlas.png"];
     for (b2Body* b = level.world->GetBodyList(); b; b = b->GetNext()) {
         
 		if (b->GetUserData() != NULL) {            
@@ -177,7 +162,7 @@ enum {
 		
         }
 	}
-    [self addChild: levelSprites];
+    [self addChild: levelSprites z: 0 tag: TAG_LEVEL_SPRITES];
     
     // Debug Draw functions
     m_debugDraw = new GLESDebugDraw( PTM_RATIO );
@@ -637,11 +622,18 @@ enum {
     [entitiesToDelete addObject:pickup];     
 }
 
+-(void) levelLoaded:(NSNotification *)notification {
+    CCLOG(@"level loaded callback");
+    // DO NOT USE FOR NOW! CAUSES MEMORY ISSUES
+    //[self doLevelInitialisation];
+}
+
 #pragma mark dealloc
 
 - (void) dealloc
 {
     CCLOG(@"LevelLayer::dealloc");
+    /*
     for (b2Body* b = level.world->GetBodyList(); b; b = b->GetNext()) {
         
 		if (b->GetUserData() != NULL) {            
@@ -656,6 +648,10 @@ enum {
             }
 		}
 	}
+     */
+    
+    //CCSpriteBatchNode* sprites = (CCSpriteBatchNode*) [[[CCDirector sharedDirector] runningScene] getChildByTag: TAG_LEVEL_SPRITES];
+    [self removeChildByTag:TAG_LEVEL_SPRITES cleanup: YES];
 	
 	[level release];
     level = nil;
@@ -671,6 +667,7 @@ enum {
     
     [[NSNotificationCenter defaultCenter] removeObserver:self name:@"ballAtGoal" object:nil];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:@"ballHitPickup" object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:@"levelLoaded" object:nil];
 	
 	delete m_debugDraw;
 

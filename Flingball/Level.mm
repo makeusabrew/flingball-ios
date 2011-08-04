@@ -53,7 +53,7 @@
 }
 
 -(void) loadLevelWithKey:(NSString *)key andIdentifier:(NSInteger)identifier {
-    levelData = [[NSMutableData alloc] init];
+    
     NSString *str = [NSString stringWithFormat:@"http://fbtest.paynedigital.com/api/1.0/levels/view?key=%@&identifier=%d", key, identifier];
     NSURLRequest* request = [[[NSURLRequest alloc] initWithURL: [NSURL URLWithString: str]] autorelease];     
     /**
@@ -61,7 +61,7 @@
      * this load call needs to take care of blocking until the level tells it it has
      * loaded
      */
-    
+    //levelData = [[NSMutableData alloc] init];
     //[[NSURLConnection alloc] initWithRequest: request delegate: self];
     // over to the delegate methods now...
     
@@ -86,8 +86,7 @@
     CCLOG(@"data received with message: %@", msg);
     
     CCLOG(@"Loading level from JSON data...");
-    [self loadLevelWithData: [jsonObject objectForKey:@"level"]];
-     
+    [self loadLevelWithData: [jsonObject objectForKey:@"level"]];     
 }
 
 -(void) loadLevelWithData:(NSDictionary *)jsonObject {
@@ -213,6 +212,7 @@
     }
     CCLOG(@"JSON parsed");
     isLoaded = true;
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"levelLoaded" object:self];
 }
 
 - (void)createBoundaries:(CGRect)rect {
