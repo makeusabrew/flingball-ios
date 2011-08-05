@@ -20,12 +20,17 @@
         
         CGSize screenSize = [[CCDirector sharedDirector] winSize];
         
-        hudStr = [CCLabelTTF labelWithString: [self getStatus] fontName:@"Georgia" fontSize: scale(32.0)];
+        hudStr = [CCLabelTTF labelWithString: [self getStatus] fontName:@"Georgia" fontSize: scale(24.0)];
         [self addChild: hudStr];
-        hudStr.position = ccp(screenSize.width / 2, scale(32.0));
+        hudStr.position = ccp(screenSize.width/2 - scale(100), scale(24.0));
         
-        flingStr = [CCLabelTTF labelWithString:@"" fontName:@"Georgia" fontSize:scale(32.0)];
-        [self addChild: flingStr];
+        // refactor power meter, @see https://projects.paynedigital.com/issues/195
+        powerMeter = [CCSprite spriteWithSpriteFrameName:@"power.png"];
+        [self addChild: powerMeter];
+        powerMeter.position = ccp(screenSize.width - scale(50.0), scale(100.0));
+        powerRect = [powerMeter textureRect];
+        
+        [self setFlingPower: 0];
 
         // add retry icon, @see https://projects.paynedigital.com/issues/180
         CCMenuItem* menuItem = [CCMenuItemImage itemFromNormalSprite: [CCSprite spriteWithSpriteFrameName:@"retry.png"] selectedSprite: [CCSprite spriteWithSpriteFrameName:@"retry.png"] block:^(id object) {
@@ -70,9 +75,16 @@
     hudStr.string = [self getStatus];
 }
 
--(void) setFlingString:(NSString *)str withPosition:(CGPoint)position {
-    flingStr.position = position;
-    flingStr.string = str;
+-(void) setFlingPower:(int)power {
+    flingPower = power;
+    int scaled = round((float)power * (powerRect.size.height / 100.f));
+    [powerMeter setTextureRect:CGRectMake(powerRect.origin.x, (powerRect.origin.y + powerRect.size.height) - scaled, powerRect.size.width, scaled)];
+    powerMeter.position = ccp(powerMeter.position.x, scale(100) + (scaled / 2));
+}
+
+-(void) flingFinished {
+    // @todo reduce the power shown in a nice smooth motion rather than instant
+    [self setFlingPower: 0];
 }
 
 @end

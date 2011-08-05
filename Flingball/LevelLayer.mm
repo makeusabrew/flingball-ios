@@ -437,20 +437,12 @@
                 
                 // render the fling %ge power
                 // @see https://projects.paynedigital.com/issues/179
-                int flingPc = round((dist / maxDist) * 100);              
-                CGPoint flingPosition = currentDragLocation;
-                
-                // re adjust to get rid of the camera offset
-                // broken after fixing #98, will fix later
-                flingPosition.x += cos(a) * scale(FLING_POWER_OFFSET);
-                flingPosition.y += sin(a) * scale(FLING_POWER_OFFSET);
-                //CCLOG(@"fling pos [%.2f, %.2f]", flingPosition.x, flingPosition.y);
-    
+                // @see https://projects.paynedigital.com/issues/195
+                int flingPc = round((dist / maxDist) * 100);
                 
                 // grab the hud layer and update it
-                HUDLayer* hudLayer = (HUDLayer*) [[[CCDirector sharedDirector] runningScene] getChildByTag: TAG_HUD_LAYER];
-                NSString* str = [NSString stringWithFormat:@"%d%%", flingPc];
-                [hudLayer setFlingString:str withPosition: flingPosition];                
+                HUDLayer* hudLayer = (HUDLayer*) [[[CCDirector sharedDirector] runningScene] getChildByTag: TAG_HUD_LAYER];                
+                [hudLayer setFlingPower: flingPc];
                 
                 b2Vec2 distRequired = [camera getDistanceRequiredToFocusVector: b2Vec2(currentDragLocation.x, currentDragLocation.y)];
                 
@@ -591,7 +583,7 @@
                 
                 // @see https://projects.paynedigital.com/issues/179
                 HUDLayer* hudLayer = (HUDLayer*) [[[CCDirector sharedDirector] runningScene] getChildByTag: TAG_HUD_LAYER];
-                [hudLayer setFlingString:nil withPosition: CGPointZero]; 
+                [hudLayer flingFinished];
                 
                 isDragging = NO;
             } else {

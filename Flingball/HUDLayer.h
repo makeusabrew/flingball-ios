@@ -10,11 +10,15 @@
 
 @interface HUDLayer : CCLayer {
     CCLabelTTF* hudStr;
-    CCLabelTTF* flingStr;
+    
+    CCSprite *powerMeter;
+    float flingPower;
+    CGRect powerRect;
 }
 
 -(NSString*) getStatus;
 -(void) update;
--(void) setFlingString: (NSString*)str withPosition: (CGPoint)position;
+-(void) setFlingPower: (int)power;
+-(void) flingFinished;
 
 @end
