@@ -22,11 +22,7 @@
 {
     CCLOG(@"LevelLayer::dealloc");
     
-    //CCSpriteBatchNode* sprites = (CCSpriteBatchNode*) [[[CCDirector sharedDirector] runningScene] getChildByTag: TAG_LEVEL_SPRITES];
-    [self removeChildByTag:TAG_LEVEL_SPRITES cleanup: YES];
-    
-    // why not the below?
-    //[self removeAllChildrenWithCleanup: YES];
+    [self removeAllChildrenWithCleanup: YES];
 	
 	[level release];
     level = nil;
@@ -290,16 +286,23 @@
 -(void) tick: (ccTime) dt
 {
     // before anything, let's clean up any objects which need deleting
-    for (Entity* object in entitiesToDelete) {
-        CCLOG(@"removing object marked for deletion");
-        if ([object isKindOfClass: [SpriteEntity class]]) {
-            SpriteEntity* spriteEntity = (SpriteEntity*) object;
-            CCLOG(@"removing sprite");
-            [self removeChild: spriteEntity.sprite cleanup:YES];           
+    if ([entitiesToDelete count] > 0) {
+        CCSpriteBatchNode* sprites = (CCSpriteBatchNode *)[self getChildByTag: TAG_LEVEL_SPRITES];
+        if (sprites == nil) {
+            CCLOG(@"sprite is nil");
         }
-        level.world->DestroyBody([object getBody]);
+    
+        for (Entity* object in entitiesToDelete) {
+            CCLOG(@"removing object marked for deletion");
+            if ([object isKindOfClass: [SpriteEntity class]]) {
+                SpriteEntity* spriteEntity = (SpriteEntity*) object;
+                CCLOG(@"removing sprite");
+                [sprites removeChild: spriteEntity.sprite cleanup:YES];
+            }
+            level.world->DestroyBody([object getBody]);
+        }
+        [entitiesToDelete removeAllObjects];
     }
-    [entitiesToDelete removeAllObjects];
     
     // now things can carry on as normal
     
@@ -641,6 +644,10 @@
     // instead, we need to schedule the pickup to be deleted on the next tick
     // when we know that the world won't be mid simulation or anything :)
     Pickup *pickup = (Pickup*)[notification object];
+    if (pickup.dead) {
+        return;
+    }
+    pickup.dead = YES;
     [entitiesToDelete addObject:pickup];     
 }
 

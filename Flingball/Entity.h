@@ -17,6 +17,8 @@
     BOOL dead;
 }
 
+@property BOOL dead;
+
 -(void) setPosition: (b2Vec2)_position;
 -(float) getX;
 -(float) getY;

@@ -11,6 +11,8 @@
 
 @implementation Entity
 
+@synthesize dead;
+
 - (id)init
 {
     self = [super init];
