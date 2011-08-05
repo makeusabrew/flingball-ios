@@ -166,30 +166,20 @@
                  [CCTransitionCrossFade transitionWithDuration:0.5f scene:[LevelLayer sceneWithKey:@"abc123" andIdentifier:identifier]]];
             }];
             [menu addChild: item];
-            [menu alignItemsVerticallyWithPadding: 20.0];
+            
             //item.scale = scale(item.scale);            
             //item.position = ccp(screenSize.width/2, (screenSize.height) - scale(i*100));
         }
     }
     
-    /*
-    CCMenu *menu = [CCMenu menuWithItems:
-                    title1, title2,
-                    item1, item2,
-                    title3, title4,
-                    item3, item4,
-                    back, nil]; // 9 items.
-    [menu alignItemsInColumns:
-     [NSNumber numberWithUnsignedInt:2],
-     [NSNumber numberWithUnsignedInt:2],
-     [NSNumber numberWithUnsignedInt:2],
-     [NSNumber numberWithUnsignedInt:2],
-     [NSNumber numberWithUnsignedInt:1],
-     nil
-     ]; // 2 + 2 + 2 + 2 + 1 = total count of 9.
-     */
+    // @see https://projects.paynedigital.com/issues/203
+    CCLabelTTF *label = [CCLabelTTF labelWithString: @"Go Back" fontName:@"Georgia" fontSize:scale(24)];
+    CCMenuItemLabel* item = [CCMenuItemLabel itemWithLabel: label block:^(id sender) {
+        [(CCLayerMultiplex*)parent_ switchTo: 0];
+    }];
+    [menu addChild: item];
     
-    
+    [menu alignItemsVerticallyWithPadding: 30.0];    
 }
 
 @end
