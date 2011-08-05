@@ -11,6 +11,7 @@
 #import "AppDelegate.h"
 #import "GameConfig.h"
 #import "MenuLayer.h"
+#import "GameState.h"
 #import "RootViewController.h"
 
 @implementation AppDelegate
@@ -41,6 +42,11 @@
 
 - (void) applicationDidFinishLaunching:(UIApplication*)application
 {
+    NSLog(@"hello world");
+    [[GameState sharedGameState] authenticateLocalUser];
+    if ([GameState sharedGameState] == nil) {
+        NSLog(@"game state is nil");
+    }
 	// Init the window
 	window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
 	

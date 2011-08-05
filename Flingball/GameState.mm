@@ -14,10 +14,21 @@ static GameState* sharedGameState = nil;
 
 + (GameState *) sharedGameState {
 	@synchronized(self)     {
-		if (!sharedGameState)
-			sharedGameState = [[GameState alloc] init];
+		if (!sharedGameState) {
+			[[self alloc] init];
+        }
+        return sharedGameState;
 	}
-	return sharedGameState;
+	return nil;
+}
+
++(id) alloc {
+    @synchronized ([GameState class]) {
+        NSAssert(sharedGameState == nil, @"Attempted to allocate second instance of GameState singleton");
+        sharedGameState = [super alloc];
+        return sharedGameState;
+    }
+    return nil;
 }
 
 - (id)init
@@ -26,15 +37,9 @@ static GameState* sharedGameState = nil;
     if (self) {
         values = [[NSMutableDictionary alloc] init];
         
-        // N.B not yet used
-        allowedKeys = [[NSArray alloc] initWithObjects: 
-                       @"ballFlings", 
-                       @"ballBounces",
-                       @"starTime",
-                       @"endTime",
-                       @"levelStarted",
-                       @"levelTitle",
-                       nil];
+        // listen out for game center action!
+        [[NSNotificationCenter defaultCenter] addObserver: self selector: @selector(authenticationChanged) name: GKPlayerAuthenticationDidChangeNotificationName object: nil];
+        
         [self reset];
     }
     
@@ -44,8 +49,6 @@ static GameState* sharedGameState = nil;
 -(void) dealloc {
     [values release];
     values = nil;
-    [allowedKeys release];
-    allowedKeys = nil;
     
     [super dealloc];
 }
@@ -103,6 +106,22 @@ static GameState* sharedGameState = nil;
 -(void) addBounce {
     NSInteger flings = [[self getValue: @"ballBounces"] intValue] +1;
     [self updateKey: @"ballBounces" withInt: flings];
+}
+
+# pragma mark Game Center stuff
+
+-(void) authenticateLocalUser {
+    NSLog(@"checking local user state");
+    if ([GKLocalPlayer localPlayer].authenticated == NO) {
+        NSLog(@"authing local user...");
+        [[GKLocalPlayer localPlayer] authenticateWithCompletionHandler: nil];
+    }
+}
+
+-(void) authenticationChanged {
+    dispatch_async(dispatch_get_main_queue(), ^(void) {
+        gameCenterAuthed = [GKLocalPlayer localPlayer].isAuthenticated;
+    });
 }
 
 @end

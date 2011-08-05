@@ -7,32 +7,15 @@
 //
 
 #import <Foundation/Foundation.h>
+#import <GameKit/GameKit.h>
 
 @interface GameState : NSObject {
-    /*
-    NSInteger ballFlings;
-    NSInteger ballBounces;
     
-    NSTimeInterval startTime;
-    NSTimeInterval endTime;
-    
-    BOOL levelStarted;
-    
-    NSString* levelTitle;
-     */
+    BOOL gameCenterAuthed;
+
     NSMutableDictionary* values;
     NSArray *allowedKeys;
 }
-
-/*
-@property NSInteger ballFlings;
-@property NSInteger ballBounces;
-@property NSTimeInterval startTime;
-@property NSTimeInterval endTime;
-@property BOOL levelStarted;
-@property (nonatomic, copy) NSString* levelTitle;
-*/
-//@property (nonatomic, retain) NSMutableDictionary* values;
 
 + (GameState *) sharedGameState;
 -(void) reset;
@@ -49,5 +32,8 @@
 
 -(void) addFling;
 -(void) addBounce;
+
+-(void) authenticateLocalUser;
+-(void) authenticationChanged;
 
 @end

@@ -165,6 +165,7 @@
 		01433ACF13DB8D7800E3EA19 /* HUDLayer.mm in Sources */ = {isa = PBXBuildFile; fileRef = 01433ACE13DB8D7800E3EA19 /* HUDLayer.mm */; };
 		014D65A413EC01E000AB6CE8 /* levelAtlas.plist in Resources */ = {isa = PBXBuildFile; fileRef = 014D65A213EC01E000AB6CE8 /* levelAtlas.plist */; };
 		014D65A513EC01E000AB6CE8 /* levelAtlas.png in Resources */ = {isa = PBXBuildFile; fileRef = 014D65A313EC01E000AB6CE8 /* levelAtlas.png */; };
+		014D65A713EC2AD100AB6CE8 /* GameKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 014D65A613EC2AD000AB6CE8 /* GameKit.framework */; settings = {ATTRIBUTES = (Required, ); }; };
 		015F605B13CB588500990C17 /* Level.mm in Sources */ = {isa = PBXBuildFile; fileRef = 015F605A13CB588500990C17 /* Level.mm */; };
 		015F605F13CB6E2300990C17 /* ContactListener.mm in Sources */ = {isa = PBXBuildFile; fileRef = 015F605E13CB6E2300990C17 /* ContactListener.mm */; };
 		0180ABDB13CB96CF002B3AB3 /* Camera.mm in Sources */ = {isa = PBXBuildFile; fileRef = 0180ABDA13CB96CF002B3AB3 /* Camera.mm */; };
@@ -506,6 +507,7 @@
 		01433ACE13DB8D7800E3EA19 /* HUDLayer.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = HUDLayer.mm; sourceTree = "<group>"; };
 		014D65A213EC01E000AB6CE8 /* levelAtlas.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = levelAtlas.plist; sourceTree = "<group>"; };
 		014D65A313EC01E000AB6CE8 /* levelAtlas.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = levelAtlas.png; sourceTree = "<group>"; };
+		014D65A613EC2AD000AB6CE8 /* GameKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GameKit.framework; path = System/Library/Frameworks/GameKit.framework; sourceTree = SDKROOT; };
 		015F605913CB588500990C17 /* Level.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Level.h; sourceTree = "<group>"; };
 		015F605A13CB588500990C17 /* Level.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = Level.mm; sourceTree = "<group>"; };
 		015F605D13CB6E2200990C17 /* ContactListener.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ContactListener.h; sourceTree = "<group>"; };
@@ -538,6 +540,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				014D65A713EC2AD100AB6CE8 /* GameKit.framework in Frameworks */,
 				0138A14713C4EDBF003135A7 /* QuartzCore.framework in Frameworks */,
 				0138A14913C4EDBF003135A7 /* OpenGLES.framework in Frameworks */,
 				0138A14B13C4EDBF003135A7 /* OpenAL.framework in Frameworks */,
@@ -589,6 +592,7 @@
 		0138A14513C4EDBF003135A7 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				014D65A613EC2AD000AB6CE8 /* GameKit.framework */,
 				0138A14613C4EDBF003135A7 /* QuartzCore.framework */,
 				0138A14813C4EDBF003135A7 /* OpenGLES.framework */,
 				0138A14A13C4EDBF003135A7 /* OpenAL.framework */,
