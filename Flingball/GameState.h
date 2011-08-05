@@ -13,8 +13,10 @@
     
     BOOL gameCenterAuthed;
 
+    // local values we want to manipulate
     NSMutableDictionary* values;
-    NSArray *allowedKeys;
+    // game center achievements we need to be less gung-ho about
+    NSMutableDictionary* achievements;
 }
 
 + (GameState *) sharedGameState;
@@ -33,7 +35,9 @@
 -(void) addFling;
 -(void) addBounce;
 
+-(double) getAchievementPercentage: (NSString*) identifier;
+
 -(void) authenticateLocalUser;
 -(void) authenticationChanged;
-
+-(void) reportAchievementIdentifier: (NSString*) identifier percentComplete: (float) percent;
 @end

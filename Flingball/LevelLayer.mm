@@ -628,8 +628,16 @@
     [[SimpleAudioEngine sharedEngine] playEffect:@"goal.wav"];
     CCLOG(@"At goal!");
     
-    [[GameState sharedGameState] updateKey: @"endTime" withDouble: [NSDate timeIntervalSinceReferenceDate]];
-    CCLOG(@"end time %.2f", [[GameState sharedGameState] getValueAsDouble: @"endTime"]);
+    [[GameState sharedGameState] updateKey: STATE_ENDTIME withDouble: [NSDate timeIntervalSinceReferenceDate]];
+    CCLOG(@"end time %.2f", [[GameState sharedGameState] getValueAsDouble: STATE_ENDTIME]);
+    
+    // check for achievement stuff
+    if ([[GameState sharedGameState] getValueAsInt: STATE_BOUNCES] == 0 &&
+        [[GameState sharedGameState] getAchievementPercentage: ACHIEVEMENT_NO_BOUNCES] == 0.0) {
+        // woohoo! well done!
+        CCLOG(@"got no bounce achievement!");
+        [[GameState sharedGameState] reportAchievementIdentifier: ACHIEVEMENT_NO_BOUNCES percentComplete:100.0];
+    }
     
     id action1 = [CCDelayTime actionWithDuration:3.0];
     id action2 = [CCCallFunc actionWithTarget:self selector:@selector(loadEndLevel)];

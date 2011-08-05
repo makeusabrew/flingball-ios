@@ -56,4 +56,11 @@ const float32 FLING_POWER_OFFSET = 75.0;
 const int TAG_HUD_LAYER = 1;
 const int TAG_LEVEL_SPRITES = 2;
 
+#define STATE_BOUNCES @"ballBounces"
+#define STATE_FLINGS  @"ballFlings"
+#define STATE_ENDTIME @"endTime"
+#define STATE_STARTTIME @"startTime"
+
+#define ACHIEVEMENT_NO_BOUNCES @"com.paynedigital.flingball.nobounces"
+
 #endif
