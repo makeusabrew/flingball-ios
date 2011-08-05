@@ -61,13 +61,15 @@
      * this load call needs to take care of blocking until the level tells it it has
      * loaded
      */
+    // WHEN UNCOMMENTING THIS, REMEMBER TO RELEASE IN DEALLOC!!!
     //levelData = [[NSMutableData alloc] init];
     //[[NSURLConnection alloc] initWithRequest: request delegate: self];
     // over to the delegate methods now...
     
     
     /**
-     * all this can be deleted when async works...
+     * all this can be deleted when async works, as all it's doing is duplicating
+     * functionality found in connectionDidFinishLoading...
      */
     
     NSURLResponse* response = nil;
@@ -304,8 +306,9 @@
     [entities release];
     entities = nil;
     
-    [levelData release];
-    levelData = nil;
+    // THIS MUST BE UNCOMMENTED IF WE SWITCH BACK TO ASYNC
+    //[levelData release];
+    //levelData = nil;
     
 	// don't forget to call "super dealloc"
 	[super dealloc];
