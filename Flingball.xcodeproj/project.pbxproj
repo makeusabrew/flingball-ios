@@ -163,9 +163,8 @@
 		0138A32613C4EDC3003135A7 /* GLES-Render.mm in Sources */ = {isa = PBXBuildFile; fileRef = 0138A32513C4EDC3003135A7 /* GLES-Render.mm */; };
 		0138A32913C4EDC3003135A7 /* blocks.png in Resources */ = {isa = PBXBuildFile; fileRef = 0138A32813C4EDC3003135A7 /* blocks.png */; };
 		01433ACF13DB8D7800E3EA19 /* HUDLayer.mm in Sources */ = {isa = PBXBuildFile; fileRef = 01433ACE13DB8D7800E3EA19 /* HUDLayer.mm */; };
-		014D659C13EBF47A00AB6CE8 /* power.png in Resources */ = {isa = PBXBuildFile; fileRef = 014D659B13EBF47A00AB6CE8 /* power.png */; };
-		014D65A013EBF50000AB6CE8 /* levelAtlas.plist in Resources */ = {isa = PBXBuildFile; fileRef = 014D659E13EBF50000AB6CE8 /* levelAtlas.plist */; };
-		014D65A113EBF50000AB6CE8 /* levelAtlas.png in Resources */ = {isa = PBXBuildFile; fileRef = 014D659F13EBF50000AB6CE8 /* levelAtlas.png */; };
+		014D65A413EC01E000AB6CE8 /* levelAtlas.plist in Resources */ = {isa = PBXBuildFile; fileRef = 014D65A213EC01E000AB6CE8 /* levelAtlas.plist */; };
+		014D65A513EC01E000AB6CE8 /* levelAtlas.png in Resources */ = {isa = PBXBuildFile; fileRef = 014D65A313EC01E000AB6CE8 /* levelAtlas.png */; };
 		015F605B13CB588500990C17 /* Level.mm in Sources */ = {isa = PBXBuildFile; fileRef = 015F605A13CB588500990C17 /* Level.mm */; };
 		015F605F13CB6E2300990C17 /* ContactListener.mm in Sources */ = {isa = PBXBuildFile; fileRef = 015F605E13CB6E2300990C17 /* ContactListener.mm */; };
 		0180ABDB13CB96CF002B3AB3 /* Camera.mm in Sources */ = {isa = PBXBuildFile; fileRef = 0180ABDA13CB96CF002B3AB3 /* Camera.mm */; };
@@ -173,16 +172,12 @@
 		0180ABE213CC67A4002B3AB3 /* GoalEntity.mm in Sources */ = {isa = PBXBuildFile; fileRef = 0180ABE113CC67A4002B3AB3 /* GoalEntity.mm */; };
 		0180ABE413CC7A08002B3AB3 /* boing.wav in Resources */ = {isa = PBXBuildFile; fileRef = 0180ABE313CC7A08002B3AB3 /* boing.wav */; };
 		0180ABE613CC7A0F002B3AB3 /* goal.wav in Resources */ = {isa = PBXBuildFile; fileRef = 0180ABE513CC7A0F002B3AB3 /* goal.wav */; };
-		0180ABE813CC7BF0002B3AB3 /* goal.png in Resources */ = {isa = PBXBuildFile; fileRef = 0180ABE713CC7BF0002B3AB3 /* goal.png */; };
-		0180ABEA13CC8470002B3AB3 /* ball.png in Resources */ = {isa = PBXBuildFile; fileRef = 0180ABE913CC8470002B3AB3 /* ball.png */; };
 		01864C4913D82F4800F4E90E /* MenuLayer.mm in Sources */ = {isa = PBXBuildFile; fileRef = 01864C4813D82F4800F4E90E /* MenuLayer.mm */; };
 		01864C4E13D835F400F4E90E /* startButtonSelected.png in Resources */ = {isa = PBXBuildFile; fileRef = 01864C4D13D835F400F4E90E /* startButtonSelected.png */; };
 		01864C5013D8363E00F4E90E /* startButton.png in Resources */ = {isa = PBXBuildFile; fileRef = 01864C4F13D8363E00F4E90E /* startButton.png */; };
 		01CD8FEB13EABF3A00656D41 /* optionsButton.png in Resources */ = {isa = PBXBuildFile; fileRef = 01CD8FEA13EABF3A00656D41 /* optionsButton.png */; };
 		01E72D8013CDAEE500D1E763 /* EndLevelLayer.mm in Sources */ = {isa = PBXBuildFile; fileRef = 01E72D7F13CDAEE500D1E763 /* EndLevelLayer.mm */; };
-		01EAA30113E9993800175E72 /* retry.png in Resources */ = {isa = PBXBuildFile; fileRef = 01EAA30013E9993800175E72 /* retry.png */; };
 		01F8BB1713D04D6B00FF18A0 /* level2.json in Resources */ = {isa = PBXBuildFile; fileRef = 01F8BB1613D04D6B00FF18A0 /* level2.json */; };
-		01F8BB1C13D0553200FF18A0 /* pickup.png in Resources */ = {isa = PBXBuildFile; fileRef = 01F8BB1B13D0553200FF18A0 /* pickup.png */; };
 		01F8BB1F13D0763600FF18A0 /* GameState.mm in Sources */ = {isa = PBXBuildFile; fileRef = 01F8BB1E13D0763500FF18A0 /* GameState.mm */; };
 		01FBE9EB13CF17BB00E3CD0D /* Pickup.mm in Sources */ = {isa = PBXBuildFile; fileRef = 01FBE9EA13CF17BA00E3CD0D /* Pickup.mm */; };
 		01FBE9F013CF45B600E3CD0D /* level1.json in Resources */ = {isa = PBXBuildFile; fileRef = 01FBE9EF13CF45B600E3CD0D /* level1.json */; };
@@ -509,9 +504,8 @@
 		0138A32813C4EDC3003135A7 /* blocks.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = blocks.png; path = Resources/blocks.png; sourceTree = "<group>"; };
 		01433ACD13DB8D7800E3EA19 /* HUDLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HUDLayer.h; sourceTree = "<group>"; };
 		01433ACE13DB8D7800E3EA19 /* HUDLayer.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = HUDLayer.mm; sourceTree = "<group>"; };
-		014D659B13EBF47A00AB6CE8 /* power.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = power.png; sourceTree = "<group>"; };
-		014D659E13EBF50000AB6CE8 /* levelAtlas.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = levelAtlas.plist; sourceTree = "<group>"; };
-		014D659F13EBF50000AB6CE8 /* levelAtlas.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = levelAtlas.png; sourceTree = "<group>"; };
+		014D65A213EC01E000AB6CE8 /* levelAtlas.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = levelAtlas.plist; sourceTree = "<group>"; };
+		014D65A313EC01E000AB6CE8 /* levelAtlas.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = levelAtlas.png; sourceTree = "<group>"; };
 		015F605913CB588500990C17 /* Level.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Level.h; sourceTree = "<group>"; };
 		015F605A13CB588500990C17 /* Level.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = Level.mm; sourceTree = "<group>"; };
 		015F605D13CB6E2200990C17 /* ContactListener.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ContactListener.h; sourceTree = "<group>"; };
@@ -524,8 +518,6 @@
 		0180ABE113CC67A4002B3AB3 /* GoalEntity.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = GoalEntity.mm; sourceTree = "<group>"; };
 		0180ABE313CC7A08002B3AB3 /* boing.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = boing.wav; sourceTree = "<group>"; };
 		0180ABE513CC7A0F002B3AB3 /* goal.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = goal.wav; sourceTree = "<group>"; };
-		0180ABE713CC7BF0002B3AB3 /* goal.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = goal.png; sourceTree = "<group>"; };
-		0180ABE913CC8470002B3AB3 /* ball.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ball.png; sourceTree = "<group>"; };
 		01864C4713D82F4800F4E90E /* MenuLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MenuLayer.h; sourceTree = "<group>"; };
 		01864C4813D82F4800F4E90E /* MenuLayer.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = MenuLayer.mm; sourceTree = "<group>"; };
 		01864C4D13D835F400F4E90E /* startButtonSelected.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = startButtonSelected.png; sourceTree = "<group>"; };
@@ -533,9 +525,7 @@
 		01CD8FEA13EABF3A00656D41 /* optionsButton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = optionsButton.png; sourceTree = "<group>"; };
 		01E72D7E13CDAEE500D1E763 /* EndLevelLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EndLevelLayer.h; sourceTree = "<group>"; };
 		01E72D7F13CDAEE500D1E763 /* EndLevelLayer.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; lineEnding = 0; path = EndLevelLayer.mm; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
-		01EAA30013E9993800175E72 /* retry.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = retry.png; sourceTree = "<group>"; };
 		01F8BB1613D04D6B00FF18A0 /* level2.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = level2.json; sourceTree = "<group>"; };
-		01F8BB1B13D0553200FF18A0 /* pickup.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = pickup.png; sourceTree = "<group>"; };
 		01F8BB1D13D0763400FF18A0 /* GameState.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameState.h; sourceTree = "<group>"; };
 		01F8BB1E13D0763500FF18A0 /* GameState.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = GameState.mm; sourceTree = "<group>"; };
 		01FBE9E913CF17BA00E3CD0D /* Pickup.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Pickup.h; sourceTree = "<group>"; };
@@ -1124,13 +1114,8 @@
 		01A13E7613E6D8DB001C7839 /* Game Images */ = {
 			isa = PBXGroup;
 			children = (
-				014D659E13EBF50000AB6CE8 /* levelAtlas.plist */,
-				014D659F13EBF50000AB6CE8 /* levelAtlas.png */,
-				014D659B13EBF47A00AB6CE8 /* power.png */,
-				0180ABE913CC8470002B3AB3 /* ball.png */,
-				01EAA30013E9993800175E72 /* retry.png */,
-				0180ABE713CC7BF0002B3AB3 /* goal.png */,
-				01F8BB1B13D0553200FF18A0 /* pickup.png */,
+				014D65A213EC01E000AB6CE8 /* levelAtlas.plist */,
+				014D65A313EC01E000AB6CE8 /* levelAtlas.png */,
 			);
 			name = "Game Images";
 			sourceTree = "<group>";
@@ -1222,18 +1207,13 @@
 				0138A32913C4EDC3003135A7 /* blocks.png in Resources */,
 				0180ABE413CC7A08002B3AB3 /* boing.wav in Resources */,
 				0180ABE613CC7A0F002B3AB3 /* goal.wav in Resources */,
-				0180ABE813CC7BF0002B3AB3 /* goal.png in Resources */,
-				0180ABEA13CC8470002B3AB3 /* ball.png in Resources */,
 				01FBE9F013CF45B600E3CD0D /* level1.json in Resources */,
 				01F8BB1713D04D6B00FF18A0 /* level2.json in Resources */,
-				01F8BB1C13D0553200FF18A0 /* pickup.png in Resources */,
 				01864C4E13D835F400F4E90E /* startButtonSelected.png in Resources */,
 				01864C5013D8363E00F4E90E /* startButton.png in Resources */,
-				01EAA30113E9993800175E72 /* retry.png in Resources */,
 				01CD8FEB13EABF3A00656D41 /* optionsButton.png in Resources */,
-				014D659C13EBF47A00AB6CE8 /* power.png in Resources */,
-				014D65A013EBF50000AB6CE8 /* levelAtlas.plist in Resources */,
-				014D65A113EBF50000AB6CE8 /* levelAtlas.png in Resources */,
+				014D65A413EC01E000AB6CE8 /* levelAtlas.plist in Resources */,
+				014D65A513EC01E000AB6CE8 /* levelAtlas.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

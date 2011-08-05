@@ -227,7 +227,7 @@
     CCLOG(@"Switching scene to end level %d", cLevel);
     // great! load the end level scene.
     [[CCDirector sharedDirector] replaceScene:
-     [CCTransitionCrossFade transitionWithDuration:1.0f scene:[EndLevelLayer scene:cLevel]]];
+     [CCTransitionFade transitionWithDuration:1.0f scene:[EndLevelLayer scene:cLevel]]];
 }
 
 -(void) updateCamera {    

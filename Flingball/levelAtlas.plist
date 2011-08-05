@@ -56,10 +56,23 @@
                 <key>sourceSize</key>
                 <string>{32,128}</string>
             </dict>
-            <key>retry.png</key>
+            <key>quit.png</key>
             <dict>
                 <key>frame</key>
                 <string>{{32,128},{32,32}}</string>
+                <key>offset</key>
+                <string>{0,0}</string>
+                <key>rotated</key>
+                <false/>
+                <key>sourceColorRect</key>
+                <string>{{0,0},{32,32}}</string>
+                <key>sourceSize</key>
+                <string>{32,32}</string>
+            </dict>
+            <key>retry.png</key>
+            <dict>
+                <key>frame</key>
+                <string>{{64,128},{32,32}}</string>
                 <key>offset</key>
                 <string>{0,0}</string>
                 <key>rotated</key>
@@ -79,7 +92,7 @@
             <key>size</key>
             <string>{256,256}</string>
             <key>smartupdate</key>
-            <string>$TexturePacker:SmartUpdate:98ff9f9ca32e7926354f4ce4e3332f5a$</string>
+            <string>$TexturePacker:SmartUpdate:19bf99281242db02a9b09b5c782c9fe5$</string>
             <key>textureFileName</key>
             <string>levelAtlas.png</string>
         </dict>

@@ -10,8 +10,22 @@
 #import "Constants.h"
 #import "GameState.h"
 #import "LevelLayer.h"
+#import "MenuLayer.h"
 
 @implementation HUDLayer
+
+#pragma mark dealloc
+
+- (void) dealloc
+{
+    CCLOG(@"HUDLayer::dealloc");
+
+    [self removeAllChildrenWithCleanup: YES];
+	
+	[super dealloc];
+}
+
+#pragma mark -
 
 - (id)init
 {
@@ -33,7 +47,7 @@
         [self setFlingPower: 0];
 
         // add retry icon, @see https://projects.paynedigital.com/issues/180
-        CCMenuItem* menuItem = [CCMenuItemImage itemFromNormalSprite: [CCSprite spriteWithSpriteFrameName:@"retry.png"] selectedSprite: [CCSprite spriteWithSpriteFrameName:@"retry.png"] block:^(id object) {
+        CCMenuItem* retryItem = [CCMenuItemImage itemFromNormalSprite: [CCSprite spriteWithSpriteFrameName:@"retry.png"] selectedSprite: [CCSprite spriteWithSpriteFrameName:@"retry.png"] block:^(id object) {
             if ([[GameState sharedGameState] getValueAsBool: @"isDevMode"]) {
                 [[CCDirector sharedDirector] replaceScene:
                  [CCTransitionFlipX transitionWithDuration:0.5f scene:[LevelLayer sceneWithKey:[[GameState sharedGameState] getValue: @"apiKey"] andIdentifier:[[GameState sharedGameState] getValueAsInt: @"apiIdentifier"]]]];
@@ -43,11 +57,19 @@
             }            
         }];
         
-        menuItem.scale = scale(menuItem.scale);
+        retryItem.scale = scale(retryItem.scale);        
+        retryItem.position = ccp(screenSize.width - scale(50), scale(50));
         
-        menuItem.position = ccp(screenSize.width - scale(50), scale(50));
+        // add quit icon, @see https://projects.paynedigital.com/issues/202
+        CCMenuItem* quitItem = [CCMenuItemImage itemFromNormalSprite: [CCSprite spriteWithSpriteFrameName:@"quit.png"] selectedSprite: [CCSprite spriteWithSpriteFrameName:@"quit.png"] block:^(id object) {
+            [[CCDirector sharedDirector] replaceScene:
+            [CCTransitionFade transitionWithDuration:1.0f scene:[MenuLayer scene]]];           
+        }];
         
-        CCMenu* menu = [CCMenu menuWithItems:menuItem, nil];
+        quitItem.scale = scale(quitItem.scale);        
+        quitItem.position = ccp(screenSize.width - scale(150), scale(50));
+        
+        CCMenu* menu = [CCMenu menuWithItems:retryItem, quitItem, nil];
         menu.position = CGPointZero;        
         [self addChild: menu];
         

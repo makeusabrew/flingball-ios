@@ -13,6 +13,19 @@
 
 @implementation MenuLayer
 
+#pragma mark dealloc
+
+- (void) dealloc
+{
+    CCLOG(@"MenuLayer::dealloc");
+    
+    [self removeAllChildrenWithCleanup: YES];
+	
+	[super dealloc];
+}
+
+#pragma mark -
+
 +(CCScene *) scene
 {
 	// 'scene' is an autorelease object.
@@ -42,7 +55,7 @@
         
         CCMenuItem *startMenuItem = [CCMenuItemImage itemFromNormalImage:@"startButton.png" selectedImage:@"startButtonSelected.png" block:^(id object) {
             [[CCDirector sharedDirector] replaceScene:
-             [CCTransitionCrossFade transitionWithDuration:0.5f scene:[LevelLayer scene:1]]];
+             [CCTransitionFade transitionWithDuration:1.0f scene:[LevelLayer scene:1]]];
         }];
         startMenuItem.scale = scale(startMenuItem.scale);
         
@@ -77,6 +90,19 @@
 @end
 
 @implementation SettingsLayer
+
+#pragma mark dealloc
+
+- (void) dealloc
+{
+    CCLOG(@"SettingsLayer::dealloc");
+    
+    [self removeAllChildrenWithCleanup: YES];
+	
+	[super dealloc];
+}
+
+#pragma mark -
 
 - (id)init
 {
