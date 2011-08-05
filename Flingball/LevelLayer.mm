@@ -6,8 +6,6 @@
 //  Copyright Payne Digital Ltd 2011. All rights reserved.
 //
 
-
-// Import the interfaces
 #import "LevelLayer.h"
 #import "Constants.h"
 #import "Level.h"
@@ -16,16 +14,43 @@
 #import "GameState.h"
 #import "HUDLayer.h"
 
-// enums that will be used as tags
-enum {
-	kTagTileMap = 1,
-	kTagBatchNode = 1,
-	kTagAnimation1 = 1,
-};
-
-
-// LevelLayer implementation
 @implementation LevelLayer
+
+#pragma mark dealloc
+
+- (void) dealloc
+{
+    CCLOG(@"LevelLayer::dealloc");
+    
+    //CCSpriteBatchNode* sprites = (CCSpriteBatchNode*) [[[CCDirector sharedDirector] runningScene] getChildByTag: TAG_LEVEL_SPRITES];
+    [self removeChildByTag:TAG_LEVEL_SPRITES cleanup: YES];
+    
+    // why not the below?
+    //[self removeAllChildrenWithCleanup: YES];
+	
+	[level release];
+    level = nil;
+    
+    [camera release];
+    camera = nil;
+    
+    [entitiesToDelete release];
+    entitiesToDelete = nil;
+    
+    [storedTouches release];
+    storedTouches = nil;
+    
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:@"ballAtGoal" object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:@"ballHitPickup" object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:@"levelLoaded" object:nil];
+	
+	delete m_debugDraw;
+    
+	// don't forget to call "super dealloc"
+	[super dealloc];
+}
+
+#pragma mark Scene initialisation methods
 
 +(CCScene *) scene:(NSInteger)levelIndex
 {
@@ -63,6 +88,8 @@ enum {
     [scene addChild: hudLayer z: 1 tag: TAG_HUD_LAYER];	
 	return scene;
 }
+
+#pragma mark init
 
 // on "init" you need to initialize your instance
 -(id) init
@@ -103,6 +130,9 @@ enum {
 	}
 	return self;
 }
+
+#pragma mark -
+#pragma mark Main class methods
 
 -(void) setLevel:(NSInteger)levelIndex {
     CCLOG(@"Setting level Index %d", levelIndex);
@@ -172,9 +202,48 @@ enum {
     flags += b2DebugDraw::e_shapeBit;
     m_debugDraw->SetFlags(flags);
     
-    [self unschedule: @selector(doLevelInitialisation)];
     [self schedule: @selector(tick:)];
 }
+
+-(CGPoint) adjustPointForCamera: (CGPoint)point {
+    // right then! We need to work out where this touch is relative
+    // to the camera and based on our current scale
+    // first of all, we want to 'center' the touch position
+    // so we take off half the screen dimensions
+    // then we divide by the scale to scale out this value
+    // then, we have to adjust the position based on the camera's centre
+    // and last of all we just shift the touch back to where it was
+    CGSize screenSize = [CCDirector sharedDirector].winSize;
+    float screenX = screenSize.width / 2.0;
+    float screenY = screenSize.height / 2.0;
+    
+    point.x = ((point.x - screenX) / [camera scale]) + [camera getCenterX];
+    point.y = ((point.y - screenY) / [camera scale]) + [camera getCenterY];
+    
+    return point;
+}
+
+-(void) loadEndLevel {
+    CCLOG(@"Switching scene to end level %d", cLevel);
+    // great! load the end level scene.
+    [[CCDirector sharedDirector] replaceScene:
+     [CCTransitionCrossFade transitionWithDuration:1.0f scene:[EndLevelLayer scene:cLevel]]];
+}
+
+-(void) updateCamera {    
+    // update the camera class - it's been set up (in setLevel) to track the
+    // level's ball entity
+    [camera update];
+    
+    // sync cocos2d's camera with our own
+    [self.camera setEyeX:([camera getCenterX] - [camera offsetX]) eyeY:([camera getCenterY] - [camera offsetY]) eyeZ:1];
+    [self.camera setCenterX:([camera getCenterX] - [camera offsetX]) centerY:([camera getCenterY] - [camera offsetY]) centerZ:0];
+    
+    self.scale = camera.scale;
+}
+
+#pragma mark -
+#pragma mark Draw method
 
 -(void) draw
 {
@@ -216,7 +285,7 @@ enum {
 
 }
 
-#pragma mark main game loop
+#pragma mark Main game loop
 
 -(void) tick: (ccTime) dt
 {
@@ -291,25 +360,7 @@ enum {
     [self updateCamera];
 }
 
--(CGPoint) adjustPointForCamera: (CGPoint)point {
-    // right then! We need to work out where this touch is relative
-    // to the camera and based on our current scale
-    // first of all, we want to 'center' the touch position
-    // so we take off half the screen dimensions
-    // then we divide by the scale to scale out this value
-    // then, we have to adjust the position based on the camera's centre
-    // and last of all we just shift the touch back to where it was
-    CGSize screenSize = [CCDirector sharedDirector].winSize;
-    float screenX = screenSize.width / 2.0;
-    float screenY = screenSize.height / 2.0;
-    
-    point.x = ((point.x - screenX) / [camera scale]) + [camera getCenterX];
-    point.y = ((point.y - screenY) / [camera scale]) + [camera getCenterY];
-    
-    return point;
-}
-
-#pragma mark touch handlers
+#pragma mark Touch handlers
 
 - (void)ccTouchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
 {
@@ -572,27 +623,6 @@ enum {
     //CCLOG(@"touch count %d", [storedTouches count]);
 }
 
-#pragma mark
-
--(void) loadEndLevel {
-    CCLOG(@"Switching scene to end level %d", cLevel);
-    // great! load the end level scene.
-    [[CCDirector sharedDirector] replaceScene:
-     [CCTransitionCrossFade transitionWithDuration:1.0f scene:[EndLevelLayer scene:cLevel]]];
-}
-
--(void) updateCamera {    
-    // update the camera class - it's been set up (in setLevel) to track the
-    // level's ball entity
-    [camera update];
-    
-    // sync cocos2d's camera with our own
-    [self.camera setEyeX:([camera getCenterX] - [camera offsetX]) eyeY:([camera getCenterY] - [camera offsetY]) eyeZ:1];
-    [self.camera setCenterX:([camera getCenterX] - [camera offsetX]) centerY:([camera getCenterY] - [camera offsetY]) centerZ:0];
-    
-    self.scale = camera.scale;
-}
-
 #pragma mark Event Callbacks
 
 -(void) ballAtGoal:(NSNotification *)notification {
@@ -628,50 +658,4 @@ enum {
     //[self doLevelInitialisation];
 }
 
-#pragma mark dealloc
-
-- (void) dealloc
-{
-    CCLOG(@"LevelLayer::dealloc");
-    /*
-    for (b2Body* b = level.world->GetBodyList(); b; b = b->GetNext()) {
-        
-		if (b->GetUserData() != NULL) {            
-			Entity *myEntity = (Entity*)b->GetUserData();
-            if ([myEntity isKindOfClass: [SpriteEntity class]]) {
-                // excellent, got a sprite?
-                SpriteEntity *spriteEntity = (SpriteEntity*)myEntity;
-                if (spriteEntity.sprite) {
-                    CCLOG(@"removing sprite from layer");
-                    [self removeChild: spriteEntity.sprite cleanup:YES];
-                }
-            }
-		}
-	}
-     */
-    
-    //CCSpriteBatchNode* sprites = (CCSpriteBatchNode*) [[[CCDirector sharedDirector] runningScene] getChildByTag: TAG_LEVEL_SPRITES];
-    [self removeChildByTag:TAG_LEVEL_SPRITES cleanup: YES];
-	
-	[level release];
-    level = nil;
-    
-    [camera release];
-    camera = nil;
-    
-    [entitiesToDelete release];
-    entitiesToDelete = nil;
-    
-    [storedTouches release];
-    storedTouches = nil;
-    
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:@"ballAtGoal" object:nil];
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:@"ballHitPickup" object:nil];
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:@"levelLoaded" object:nil];
-	
-	delete m_debugDraw;
-
-	// don't forget to call "super dealloc"
-	[super dealloc];
-}
 @end
