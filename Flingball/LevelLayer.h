@@ -51,5 +51,6 @@
 -(void) loadEndLevel;
 -(void) updateCamera;
 -(CGPoint) adjustPointForCamera: (CGPoint)point;
+-(void) showAchievementNotification: (NSString*)notification;
 
 @end

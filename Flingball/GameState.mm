@@ -139,13 +139,15 @@ static GameState* sharedGameState = nil;
                     }
                     NSLog(@"loaded achievements");
                     for (GKAchievement *achievement in _achievements) {
-                        NSLog(@"loading achievement %@ with percentage %.2f", achievement.identifier, achievement.percentComplete);
+                        NSLog(@"loading achievement %@, %@ with percentage %.2f", achievement.identifier, achievement.description, achievement.percentComplete);
                         [achievements setValue: achievement forKey: achievement.identifier]; 
                     }
                 }];
             }
+             
             
-            /* DEBUG - use to reset achievements
+            // DEBUG - use to reset achievements
+            /*
             [GKAchievement resetAchievementsWithCompletionHandler:^(NSError *error) {
                 if (error != nil) {
                     NSLog(@"error resetting achievements");
@@ -153,7 +155,8 @@ static GameState* sharedGameState = nil;
                 }
                 NSLog(@"reset achievements");
             }];
-            */
+             */
+                    
         }];
     }
 }

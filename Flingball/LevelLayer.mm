@@ -238,6 +238,11 @@
     self.scale = camera.scale;
 }
 
+-(void) showAchievementNotification:(NSString *)notification {
+    HUDLayer* hudLayer = (HUDLayer*) [[[CCDirector sharedDirector] runningScene] getChildByTag: TAG_HUD_LAYER];
+    [hudLayer showAchievementNotification: notification];
+}
+
 #pragma mark -
 #pragma mark Draw method
 
@@ -647,13 +652,13 @@
     CCLOG(@"At goal!");
     
     [[GameState sharedGameState] updateKey: STATE_ENDTIME withDouble: [NSDate timeIntervalSinceReferenceDate]];
-    CCLOG(@"end time %.2f", [[GameState sharedGameState] getValueAsDouble: STATE_ENDTIME]);
     
     // check for achievement stuff
     if ([[GameState sharedGameState] getValueAsInt: STATE_BOUNCES] == 0 &&
         [[GameState sharedGameState] getAchievementPercentage: ACHIEVEMENT_NO_BOUNCES] == 0.0) {
         // woohoo! well done!
         CCLOG(@"got no bounce achievement!");
+        [self showAchievementNotification: ACHIEVEMENT_NO_BOUNCES];
         [[GameState sharedGameState] reportAchievementIdentifier: ACHIEVEMENT_NO_BOUNCES percentComplete:100.0];
     }
     

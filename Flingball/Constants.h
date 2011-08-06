@@ -64,5 +64,6 @@ const int TAG_LEVEL_SPRITES = 2;
 #define STATE_STARTTIME @"startTime"
 
 #define ACHIEVEMENT_NO_BOUNCES @"com.paynedigital.flingball.nobounces"
+#define ACHIEVEMENT_WIMPED_OUT @"com.paynedigital.flingball.wimpedout"
 
 #endif

@@ -45,6 +45,12 @@
         powerRect = [powerMeter textureRect];
         
         [self setFlingPower: 0];
+        
+        // @see https://projects.paynedigital.com/issues/208
+        achievementLabel = [CCLabelTTF labelWithString: nil fontName:@"Georgia" fontSize: scale(24.0)];
+        [self addChild: achievementLabel];
+        [achievementLabel runAction: [CCFadeOut actionWithDuration: 0.0]];
+        achievementLabel.position = ccp(screenSize.width / 2, scale(700.0));
 
         // add retry icon, @see https://projects.paynedigital.com/issues/180
         CCMenuItem* retryItem = [CCMenuItemImage itemFromNormalSprite: [CCSprite spriteWithSpriteFrameName:@"retry.png"] selectedSprite: [CCSprite spriteWithSpriteFrameName:@"retry.png"] block:^(id object) {
@@ -107,6 +113,22 @@
 -(void) flingFinished {
     // @todo reduce the power shown in a nice smooth motion rather than instant
     [self setFlingPower: 0];
+}
+
+-(void) showAchievementNotification:(NSString *)identifier {
+    if ([identifier isEqualToString: ACHIEVEMENT_NO_BOUNCES]) {
+        //CCLayer* layer = [[CCLayer alloc] init];
+        achievementLabel.string = @"Achievement Unlocked: 'Bounceaphobic'!";
+    } else if ([identifier isEqualToString: ACHIEVEMENT_WIMPED_OUT]) {
+        
+    }
+    
+    // fade in, wait, fade out
+    [achievementLabel runAction:[CCSequence actions:
+                                 [CCFadeIn actionWithDuration: 0.5], 
+                                 [CCDelayTime actionWithDuration: 2.0], 
+                                 [CCFadeOut actionWithDuration: 0.5],
+                                 nil]];
 }
 
 @end

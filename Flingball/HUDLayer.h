@@ -10,6 +10,7 @@
 
 @interface HUDLayer : CCLayer {
     CCLabelTTF* hudStr;
+    CCLabelTTF* achievementLabel;
     
     CCSprite *powerMeter;
     float flingPower;
@@ -20,5 +21,6 @@
 -(void) update;
 -(void) setFlingPower: (int)power;
 -(void) flingFinished;
+-(void) showAchievementNotification: (NSString *)identifier;
 
 @end
