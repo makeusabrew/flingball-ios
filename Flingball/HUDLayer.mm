@@ -54,6 +54,22 @@
 
         // add retry icon, @see https://projects.paynedigital.com/issues/180
         CCMenuItem* retryItem = [CCMenuItemImage itemFromNormalSprite: [CCSprite spriteWithSpriteFrameName:@"retry.png"] selectedSprite: [CCSprite spriteWithSpriteFrameName:@"retry.png"] block:^(id object) {
+            
+            // @see https://projects.paynedigital.com/issues/222
+            if ([[GameState sharedGameState] getValueAsInt: STATE_FLINGS] == 0 &&
+                [[GameState sharedGameState] getAchievementPercentage: ACHIEVEMENT_WIMPED_OUT] == 0.0) {
+                // what a wimp!
+                CCLOG(@"got wimp achievement!");
+                // we can't just show the achievement here because we immediately load a level layer scene :(
+                // instead we have to queue it up and then let the LevelLayer handle it
+                // @todo actually make this work
+                [[GameState sharedGameState] queueNotification: ACHIEVEMENT_WIMPED_OUT];                
+                
+                // but we CAN obviously report the achievement now
+                [[GameState sharedGameState] reportAchievementIdentifier: ACHIEVEMENT_WIMPED_OUT percentComplete:100.0];
+                
+            }
+            
             if ([[GameState sharedGameState] getValueAsBool: @"isDevMode"]) {
                 [[CCDirector sharedDirector] replaceScene:
                  [CCTransitionFlipX transitionWithDuration:0.5f scene:[LevelLayer sceneWithKey:[[GameState sharedGameState] getValue: @"apiKey"] andIdentifier:[[GameState sharedGameState] getValueAsInt: @"apiIdentifier"]]]];
@@ -120,8 +136,10 @@
         //CCLayer* layer = [[CCLayer alloc] init];
         achievementLabel.string = @"Achievement Unlocked: 'Bounceaphobic'!";
     } else if ([identifier isEqualToString: ACHIEVEMENT_WIMPED_OUT]) {
-        
+        achievementLabel.string = @"Achievement Unlocked: 'Wimped Out'!";
     }
+    
+    CCLOG(@"achievement string: %@", achievementLabel.string);
     
     // fade in, wait, fade out
     [achievementLabel runAction:[CCSequence actions:

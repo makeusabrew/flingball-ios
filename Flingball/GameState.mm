@@ -11,6 +11,8 @@
 
 @implementation GameState
 
+@synthesize queuedNotifications;
+
 static GameState* sharedGameState = nil;
 
 + (GameState *) sharedGameState {
@@ -38,6 +40,7 @@ static GameState* sharedGameState = nil;
     if (self) {
         values = [[NSMutableDictionary alloc] init];
         achievements = [[NSMutableDictionary alloc] init];
+        queuedNotifications = [[NSMutableArray alloc] init];
         
         // listen out for game center action!
         [[NSNotificationCenter defaultCenter] addObserver: self selector: @selector(authenticationChanged) name: GKPlayerAuthenticationDidChangeNotificationName object: nil];
@@ -54,6 +57,9 @@ static GameState* sharedGameState = nil;
     
     [achievements release];
      achievements = nil;
+    
+    [queuedNotifications release];
+    queuedNotifications = nil;
     
     [super dealloc];
 }
@@ -119,6 +125,11 @@ static GameState* sharedGameState = nil;
     return elapsedTime;
 }
 
+-(void) queueNotification:(NSString *)identifier {
+    NSLog(@"queuing notification %@", identifier);
+    [queuedNotifications addObject: identifier];
+}
+
 # pragma mark Game Center stuff
 
 -(void) authenticateLocalUser {
@@ -139,7 +150,7 @@ static GameState* sharedGameState = nil;
                     }
                     NSLog(@"loaded achievements");
                     for (GKAchievement *achievement in _achievements) {
-                        NSLog(@"loading achievement %@, %@ with percentage %.2f", achievement.identifier, achievement.description, achievement.percentComplete);
+                        NSLog(@"loading achievement %@ with percentage %.2f", achievement.identifier, achievement.percentComplete);
                         [achievements setValue: achievement forKey: achievement.identifier]; 
                     }
                 }];

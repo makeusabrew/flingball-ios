@@ -17,7 +17,11 @@
     NSMutableDictionary* values;
     // game center achievements we need to be less gung-ho about
     NSMutableDictionary* achievements;
+    // any queued notifications which a LevelLayer should process?
+    NSMutableArray* queuedNotifications;
 }
+
+@property (nonatomic, retain) NSMutableArray* queuedNotifications;
 
 + (GameState *) sharedGameState;
 -(void) reset;
@@ -40,4 +44,5 @@
 -(void) authenticateLocalUser;
 -(void) authenticationChanged;
 -(void) reportAchievementIdentifier: (NSString*) identifier percentComplete: (float) percent;
+-(void) queueNotification: (NSString*) identifier;
 @end

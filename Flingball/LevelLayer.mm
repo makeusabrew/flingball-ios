@@ -198,6 +198,14 @@
     flags += b2DebugDraw::e_shapeBit;
     m_debugDraw->SetFlags(flags);
     
+    // any queued up notifications ready to go?
+    NSMutableArray* notifications = [[GameState sharedGameState] queuedNotifications];
+    for (NSString* notification in notifications) {
+        [self showAchievementNotification: notification];
+    }
+    [notifications removeAllObjects];
+    
+    
     [self schedule: @selector(tick:)];
 }
 
@@ -239,6 +247,7 @@
 }
 
 -(void) showAchievementNotification:(NSString *)notification {
+    CCLOG(@"showing achievement notification %@", notification);
     HUDLayer* hudLayer = (HUDLayer*) [[[CCDirector sharedDirector] runningScene] getChildByTag: TAG_HUD_LAYER];
     [hudLayer showAchievementNotification: notification];
 }
