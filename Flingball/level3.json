@@ -1,0 +1,2 @@
+
+{"title":"Teaser","dimensions":{"width":"512","height":"768"},"gravity":{"x":"0","y":"-15"},"start":{"x":"38","y":"36"},"end":{"x":"71","y":"697","radius":"64"},"polygons":[{"bodyDef":{"x":"128","y":"320","type":"static"},"shapeDef":{"vertexCount":"4","vertices":[{"x":"128","y":"-16"},{"x":"128","y":"16"},{"x":"-128","y":"16"},{"x":"-128","y":"-16"}]},"fixtureDef":{"density":"10","friction":"1.0","restitution":"0.5"}}]}

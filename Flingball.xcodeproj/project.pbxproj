@@ -162,6 +162,7 @@
 		0138A32313C4EDC3003135A7 /* LevelLayer.mm in Sources */ = {isa = PBXBuildFile; fileRef = 0138A32213C4EDC3003135A7 /* LevelLayer.mm */; };
 		0138A32613C4EDC3003135A7 /* GLES-Render.mm in Sources */ = {isa = PBXBuildFile; fileRef = 0138A32513C4EDC3003135A7 /* GLES-Render.mm */; };
 		0138A32913C4EDC3003135A7 /* blocks.png in Resources */ = {isa = PBXBuildFile; fileRef = 0138A32813C4EDC3003135A7 /* blocks.png */; };
+		01429FAC13ED5F5600A27688 /* level3.json in Resources */ = {isa = PBXBuildFile; fileRef = 01429FAB13ED5F5600A27688 /* level3.json */; };
 		01433ACF13DB8D7800E3EA19 /* HUDLayer.mm in Sources */ = {isa = PBXBuildFile; fileRef = 01433ACE13DB8D7800E3EA19 /* HUDLayer.mm */; };
 		014D65A413EC01E000AB6CE8 /* levelAtlas.plist in Resources */ = {isa = PBXBuildFile; fileRef = 014D65A213EC01E000AB6CE8 /* levelAtlas.plist */; };
 		014D65A513EC01E000AB6CE8 /* levelAtlas.png in Resources */ = {isa = PBXBuildFile; fileRef = 014D65A313EC01E000AB6CE8 /* levelAtlas.png */; };
@@ -503,6 +504,7 @@
 		0138A32513C4EDC3003135A7 /* GLES-Render.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = "GLES-Render.mm"; sourceTree = "<group>"; };
 		0138A32713C4EDC3003135A7 /* GameConfig.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GameConfig.h; sourceTree = "<group>"; };
 		0138A32813C4EDC3003135A7 /* blocks.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = blocks.png; path = Resources/blocks.png; sourceTree = "<group>"; };
+		01429FAB13ED5F5600A27688 /* level3.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = level3.json; sourceTree = "<group>"; };
 		01433ACD13DB8D7800E3EA19 /* HUDLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HUDLayer.h; sourceTree = "<group>"; };
 		01433ACE13DB8D7800E3EA19 /* HUDLayer.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = HUDLayer.mm; sourceTree = "<group>"; };
 		014D65A213EC01E000AB6CE8 /* levelAtlas.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = levelAtlas.plist; sourceTree = "<group>"; };
@@ -568,6 +570,7 @@
 			children = (
 				01FBE9EF13CF45B600E3CD0D /* level1.json */,
 				01F8BB1613D04D6B00FF18A0 /* level2.json */,
+				01429FAB13ED5F5600A27688 /* level3.json */,
 			);
 			name = Level;
 			sourceTree = "<group>";
@@ -1218,6 +1221,7 @@
 				01CD8FEB13EABF3A00656D41 /* optionsButton.png in Resources */,
 				014D65A413EC01E000AB6CE8 /* levelAtlas.plist in Resources */,
 				014D65A513EC01E000AB6CE8 /* levelAtlas.png in Resources */,
+				01429FAC13ED5F5600A27688 /* level3.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
