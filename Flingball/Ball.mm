@@ -45,8 +45,8 @@
         b2FixtureDef shapeDef;
         shapeDef.shape = &circle;
         shapeDef.density = 1.0f;
-        shapeDef.friction = 0.2f;
-        shapeDef.restitution = 0.7f;
+        shapeDef.friction = 0.4f;
+        shapeDef.restitution = 0.5f;
         body->CreateFixture(&shapeDef);
         
         [self setPosition: _position];

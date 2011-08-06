@@ -260,6 +260,24 @@
         // the locations have already been adjusted for camera offset
         ccDrawLine(startDragLocation, currentDragLocation);
         glLineWidth(1.0);
+        
+        // draw a simple projection from ball
+        // @see https://projects.paynedigital.com/issues/219
+        if (currentDragLocation.x != startDragLocation.x ||
+            currentDragLocation.y != startDragLocation.y) {
+            
+            float32 dx = currentDragLocation.x - startDragLocation.x;
+            float32 dy = currentDragLocation.y - startDragLocation.y;        
+            float32 a = atan2(dy, dx);
+        
+        
+            glColor4f(1.0, 0.0, 0.0, 1.0);
+            for (float32 i = FLING_PROJECTION_OFFSET; i < FLING_PROJECTION_DISTANCE; i += FLING_PROJECTION_GAP) {
+                float32 drawX = [level.ball getX] - (cos(a) * i);
+                float32 drawY = [level.ball getY] - (sin(a) * i);
+                ccDrawCircle(ccp(drawX, drawY), FLING_PROJECTION_RADIUS, CC_DEGREES_TO_RADIANS(360), 60, NO);
+            }
+        }
     }
     /*
     glColor4f(1.0, 0.0, 0.0, 1.0);

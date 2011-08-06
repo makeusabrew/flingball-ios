@@ -30,9 +30,13 @@ const float32 BALL_ROLLING_FRICTION = 0.04f;
 const int CAMERA_EDGE_THRESHOLD = 180.0;
 const int CAMERA_DRAG_EDGE_THRESHOLD = 90.0;
 
-const float32 MAX_DRAG_DISTANCE = 300.0;
-const float32 MAX_FLING_VELOCITY = 120.0f;  // m/s?
-//const float32 DIST_TO_FLING_FACTOR = MAX_FLING_VELOCITY / MAX_DRAG_DISTANCE;
+const float32 MAX_DRAG_DISTANCE = 320.0;
+const float32 MAX_FLING_VELOCITY = 160.0f;  // m/s?
+
+const float32 FLING_PROJECTION_DISTANCE = 320.0f;
+const float32 FLING_PROJECTION_RADIUS = 4;
+const float32 FLING_PROJECTION_GAP = 64.0f;
+const float32 FLING_PROJECTION_OFFSET = 64.0f;
 
 const float32 DEFAULT_CAMERA_SEEK_SPEED = 30.0;
 const float32 CAMERA_SLOWDOWN_SPEED = 0.45;
@@ -51,14 +55,12 @@ const float32 FLING_SPEED_THRESHOLD = 0.25f;
 const float32 DEFAULT_GOAL_RADIUS = 64.0f;
 const float32 DEFAULT_BALL_RADIUS = 32.0f;
 
-const float32 FLING_POWER_OFFSET = 75.0;
-
 const int TAG_HUD_LAYER = 1;
 const int TAG_LEVEL_SPRITES = 2;
 
-#define STATE_BOUNCES @"ballBounces"
-#define STATE_FLINGS  @"ballFlings"
-#define STATE_ENDTIME @"endTime"
+#define STATE_BOUNCES   @"ballBounces"
+#define STATE_FLINGS    @"ballFlings"
+#define STATE_ENDTIME   @"endTime"
 #define STATE_STARTTIME @"startTime"
 
 #define ACHIEVEMENT_NO_BOUNCES @"com.paynedigital.flingball.nobounces"
