@@ -116,10 +116,13 @@
         label.position = ccp(screenSize.width/2, (screenSize.height/2) + scale(300));
         
         
+        // @see https://projects.paynedigital.com/issues/218
+        if ([[NSUserDefaults standardUserDefaults] stringForKey:@"api_key_preference"] != nil) {
+            // device might not have this preference at all so check it's non nil first
+            apiKey = [NSString stringWithString: [[NSUserDefaults standardUserDefaults] stringForKey:@"api_key_preference"]];
+        }
         
-        apiKey = [NSString stringWithString: [[NSUserDefaults standardUserDefaults] stringForKey:@"api_key_preference"]];
-        
-        if ([apiKey length]) {
+        if (apiKey != nil && [apiKey length]) {
             NSString *str = [NSString stringWithFormat:@"http://fbtest.paynedigital.com/api/1.0/levels?key=%@", apiKey];
             
             levelData = [[NSMutableData alloc] init];            
