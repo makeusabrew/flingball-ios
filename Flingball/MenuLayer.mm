@@ -115,18 +115,26 @@
         [self addChild: label];
         label.position = ccp(screenSize.width/2, (screenSize.height/2) + scale(300));
         
-        levelData = [[NSMutableData alloc] init];
+        
+        
+        apiKey = [NSString stringWithString: [[NSUserDefaults standardUserDefaults] stringForKey:@"api_key_preference"]];
+        
+        if ([apiKey length]) {
+            NSString *str = [NSString stringWithFormat:@"http://fbtest.paynedigital.com/api/1.0/levels?key=%@", apiKey];
             
-        NSURLRequest* request = [[[NSURLRequest alloc] initWithURL: [NSURL URLWithString:@"http://fbtest.paynedigital.com/api/1.0/levels?key=abc123"]] autorelease];            
-        [[NSURLConnection alloc] initWithRequest: request delegate: self];        
+            levelData = [[NSMutableData alloc] init];            
+            NSURLRequest* request = [[[NSURLRequest alloc] initWithURL: [NSURL URLWithString: str]] autorelease];            
+            [[NSURLConnection alloc] initWithRequest: request delegate: self];
+        }
     }
     
     return self;
 }
 
+#pragma mark URL delegate handlers
+
 -(void) connection:(NSURLConnection *)connection didReceiveData:(NSData *)data {
     [levelData appendData: data];
-    CCLOG(@"got DATA");
 }
 
 -(void) connectionDidFinishLoading:(NSURLConnection *)connection {
@@ -150,7 +158,7 @@
     [self addChild: menu];
     //CGSize screenSize = [[CCDirector sharedDirector] winSize];
     
-    if ([url isEqualToString: @"http://fbtest.paynedigital.com/api/1.0/levels?key=abc123"]) {
+    if ([url isEqualToString: [NSString stringWithFormat:@"http://fbtest.paynedigital.com/api/1.0/levels?key=%@", apiKey]]) {
         //
         CCLOG(@"now getting level info");
         NSArray* levelArray = [jsonObject objectForKey:@"levels"];
@@ -163,7 +171,7 @@
             //CCMenuItemFont* item = [CCMenuItemFont itemFromString: title block:^(id sender) {
                 CCLOG(@"clicky %@, %d", label.string, identifier);
                 [[CCDirector sharedDirector] replaceScene:
-                 [CCTransitionCrossFade transitionWithDuration:0.5f scene:[LevelLayer sceneWithKey:@"abc123" andIdentifier:identifier]]];
+                 [CCTransitionCrossFade transitionWithDuration:0.5f scene:[LevelLayer sceneWithKey: apiKey andIdentifier: identifier]]];
             }];
             [menu addChild: item];
             

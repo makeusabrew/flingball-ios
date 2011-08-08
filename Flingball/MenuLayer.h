@@ -18,6 +18,7 @@
 
 @interface SettingsLayer : CCLayer <NSURLConnectionDelegate> {
     NSMutableData* levelData;
+    NSString *apiKey;
 }
 
 @end;

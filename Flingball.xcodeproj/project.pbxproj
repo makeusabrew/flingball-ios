@@ -179,6 +179,7 @@
 		01864C5013D8363E00F4E90E /* startButton.png in Resources */ = {isa = PBXBuildFile; fileRef = 01864C4F13D8363E00F4E90E /* startButton.png */; };
 		01CD8FEB13EABF3A00656D41 /* optionsButton.png in Resources */ = {isa = PBXBuildFile; fileRef = 01CD8FEA13EABF3A00656D41 /* optionsButton.png */; };
 		01E72D8013CDAEE500D1E763 /* EndLevelLayer.mm in Sources */ = {isa = PBXBuildFile; fileRef = 01E72D7F13CDAEE500D1E763 /* EndLevelLayer.mm */; };
+		01E7AD8513F0637F00F1FC1D /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 01E7AD8413F0637E00F1FC1D /* Settings.bundle */; };
 		01F8BB1713D04D6B00FF18A0 /* level2.json in Resources */ = {isa = PBXBuildFile; fileRef = 01F8BB1613D04D6B00FF18A0 /* level2.json */; };
 		01F8BB1F13D0763600FF18A0 /* GameState.mm in Sources */ = {isa = PBXBuildFile; fileRef = 01F8BB1E13D0763500FF18A0 /* GameState.mm */; };
 		01FBE9EB13CF17BB00E3CD0D /* Pickup.mm in Sources */ = {isa = PBXBuildFile; fileRef = 01FBE9EA13CF17BA00E3CD0D /* Pickup.mm */; };
@@ -529,6 +530,7 @@
 		01CD8FEA13EABF3A00656D41 /* optionsButton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = optionsButton.png; sourceTree = "<group>"; };
 		01E72D7E13CDAEE500D1E763 /* EndLevelLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EndLevelLayer.h; sourceTree = "<group>"; };
 		01E72D7F13CDAEE500D1E763 /* EndLevelLayer.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; lineEnding = 0; path = EndLevelLayer.mm; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
+		01E7AD8413F0637E00F1FC1D /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
 		01F8BB1613D04D6B00FF18A0 /* level2.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = level2.json; sourceTree = "<group>"; };
 		01F8BB1D13D0763400FF18A0 /* GameState.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameState.h; sourceTree = "<group>"; };
 		01F8BB1E13D0763500FF18A0 /* GameState.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = GameState.mm; sourceTree = "<group>"; };
@@ -657,6 +659,7 @@
 				0138A16813C4EDBF003135A7 /* Info.plist */,
 				0138A16913C4EDBF003135A7 /* iTunesArtwork */,
 				0138A32813C4EDC3003135A7 /* blocks.png */,
+				01E7AD8413F0637E00F1FC1D /* Settings.bundle */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -1222,6 +1225,7 @@
 				014D65A413EC01E000AB6CE8 /* levelAtlas.plist in Resources */,
 				014D65A513EC01E000AB6CE8 /* levelAtlas.png in Resources */,
 				01429FAC13ED5F5600A27688 /* level3.json in Resources */,
+				01E7AD8513F0637F00F1FC1D /* Settings.bundle in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
