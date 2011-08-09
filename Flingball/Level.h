@@ -12,7 +12,6 @@
 #import "ContactListener.h"
 #import "GoalEntity.h"
 #import "Polygon.h"
-#import "Pickup.h"
 
 @interface Level : NSObject <NSURLConnectionDelegate> {
     NSString* title;

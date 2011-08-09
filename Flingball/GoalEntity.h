@@ -6,12 +6,10 @@
 //  Copyright 2011 Payne Digital Ltd. All rights reserved.
 //
 
-#import "SpriteEntity.h"
+#import "CircleEntity.h"
 
-@interface GoalEntity : SpriteEntity {
-    float32 radius;
+@interface GoalEntity : CircleEntity {
+    
 }
-
-- (id)initWithPosition: (b2Vec2)_position forWorld: (b2World*)world withRadius: (float32)_radius;
 
 @end

@@ -54,6 +54,8 @@ const float32 FLING_SPEED_THRESHOLD = 0.25f;
 
 const float32 DEFAULT_GOAL_RADIUS = 64.0f;
 const float32 DEFAULT_BALL_RADIUS = 32.0f;
+const float32 DEFAULT_PICKUP_RADIUS = 20.0f;
+const float32 DEFAULT_VORTEX_RADIUS = 96.0f;
 
 const int TAG_HUD_LAYER = 1;
 const int TAG_LEVEL_SPRITES = 2;

@@ -10,6 +10,8 @@
 #import "Constants.h"
 #import "GoalEntity.h"
 #import "CJSONDeserializer.h"
+#import "Pickup.h"
+#import "Vortex.h"
 
 @implementation Level
 
@@ -122,7 +124,7 @@
                  );
     
     CCLOG(@"parsed ball start pos [%.2f, %.2f]", startPos.x, startPos.y);
-    ball = [[Ball alloc] initWithPosition:startPos forWorld:world];
+    ball = [[Ball alloc] initWithPosition:startPos forWorld:world withRadius: DEFAULT_BALL_RADIUS];
     
     endPos.Set(
                [[[jsonObject objectForKey:@"end"] objectForKey:@"x"] floatValue],
@@ -205,12 +207,31 @@
         
         Pickup *pickup = [[Pickup alloc] init];
         
-        [pickup initWithPosition:position forWorld: world];
+        [pickup initWithPosition:position forWorld: world withRadius: DEFAULT_PICKUP_RADIUS];
         
         CCLOG(@"adding pickup [%.2f, %.2f]", position.x, position.y);
         [entities addObject: pickup];
         
         [pickup release];
+    }
+    
+    NSArray* vorticesArray = [jsonObject objectForKey: @"vortices"];
+    for (NSDictionary* vortexData in vorticesArray) {
+        b2Vec2 position = b2Vec2(
+                                 [[vortexData objectForKey:@"x"] floatValue],
+                                 [[vortexData objectForKey:@"y"] floatValue]
+                                 );
+        
+        Vortex *vortex = [[Vortex alloc] init];
+        vortex.pullStrength = [[vortexData objectForKey:@"strength"] floatValue];
+        
+        [vortex initWithPosition:position forWorld: world withRadius: DEFAULT_VORTEX_RADIUS];
+        
+        CCLOG(@"adding vortex [%.2f, %.2f]", position.x, position.y);
+        [entities addObject: vortex];
+        
+        [vortex release];
+        
     }
     CCLOG(@"JSON parsed");
     isLoaded = true;

@@ -1,16 +1,17 @@
 //
-//  Pickup.mm
+//  Vortex.m
 //  Flingball
 //
-//  Created by Nicholas Payne on 14/07/2011.
+//  Created by Nicholas Payne on 09/08/2011.
 //  Copyright 2011 Payne Digital Ltd. All rights reserved.
-//
+//  @see https://projects.paynedigital.com/issues/223
 
-#import "Pickup.h"
+#import "Vortex.h"
 #import "Constants.h"
-#import "Ball.h"
 
-@implementation Pickup
+@implementation Vortex
+
+@synthesize pullStrength;
 
 #pragma mark init methods
 
@@ -18,15 +19,18 @@
 {
     self = [super init];
     if (self) {
-        sprite = [CCSprite spriteWithSpriteFrameName:@"pickup.png"];
+        sprite = [CCSprite spriteWithSpriteFrameName:@"goal.png"];
     }
     
     return self;
 }
 
-- (id)initWithPosition: (b2Vec2)_position forWorld: (b2World*)world withRadius:(float32)_radius {
+- (id)initWithPosition: (b2Vec2)_position forWorld: (b2World*)world withRadius: (float32)_radius {
     self = [super initWithPosition: _position forWorld: world withRadius: _radius];
-    if (self) {        
+    if (self) {
+        CGRect spriteRect = [sprite textureRect];
+        [sprite setScaleX: radius / spriteRect.size.width];
+        [sprite setScaleY: radius / spriteRect.size.height];
         
         b2BodyDef bodyDef;
         bodyDef.userData = self;
@@ -41,21 +45,11 @@
         shapeDef.isSensor = true;
         body->CreateFixture(&shapeDef);
         
-        [self setPosition: _position];        
+        [self setPosition: _position];
+        
     }
     
     return self;
-}
-
-#pragma mark collision callbacks
-
--(void) onCollision:(Entity *)target {
-    if (dead) {
-        return;
-    }
-    if ([target class] == [Ball class]) {
-        [[NSNotificationCenter defaultCenter] postNotificationName:@"ballHitPickup" object:self];
-    }
 }
 
 @end

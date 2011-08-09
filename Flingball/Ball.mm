@@ -8,29 +8,26 @@
 
 #import "Ball.h"
 #import "Constants.h"
-#import "SimpleAudioEngine.h"
 #import "Polygon.h"
 #import "GameState.h"
 
 @implementation Ball
 
-@synthesize atGoal, radius;
+@synthesize atGoal;
 
 - (id)init
 {
     self = [super init];
     if (self) {
-        radius = DEFAULT_BALL_RADIUS;  // @todo obviously change this!
         atGoal = NO;
         sprite = [CCSprite spriteWithSpriteFrameName:@"ball.png"];
-        [[SimpleAudioEngine sharedEngine] preloadEffect:@"goal.wav"];
     }
     
     return self;
 }
 
-- (id)initWithPosition: (b2Vec2)_position forWorld: (b2World*)world {
-    self = [self init];
+- (id)initWithPosition: (b2Vec2)_position forWorld: (b2World*)world withRadius:(float32)_radius {
+    self = [super initWithPosition: _position forWorld: world withRadius: _radius];
     if (self) {
         
         b2BodyDef bodyDef;
@@ -58,8 +55,6 @@
 
 - (void)fling:(b2Vec2)vector {
     body->ApplyLinearImpulse(vector, body->GetPosition());
-    [[SimpleAudioEngine sharedEngine] playEffect:@"boing.wav"];
-    [[GameState sharedGameState] addFling];
 }
 
 -(void) onCollisionStart:(Entity *)target {

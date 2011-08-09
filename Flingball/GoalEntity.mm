@@ -12,21 +12,22 @@
 
 @implementation GoalEntity
 
+#pragma mark init methods
+
 - (id)init
 {
     self = [super init];
     if (self) {
-        // ?
+        sprite = [CCSprite spriteWithSpriteFrameName:@"goal.png"];
     }
     
     return self;
 }
 
 - (id)initWithPosition: (b2Vec2)_position forWorld: (b2World*)world withRadius: (float32)_radius {
-    self = [self init];
-    if (self) {   
-        radius = _radius;
-        sprite = [CCSprite spriteWithSpriteFrameName:@"goal.png"];
+    self = [super initWithPosition: _position forWorld: world withRadius: _radius];
+    if (self) {
+        
         [sprite setScaleX: radius / DEFAULT_GOAL_RADIUS];
         [sprite setScaleY: radius / DEFAULT_GOAL_RADIUS];
         
@@ -43,11 +44,14 @@
         shapeDef.isSensor = true;
         body->CreateFixture(&shapeDef);
         
-        [self setPosition: _position];        
+        [self setPosition: _position];
+        
     }
     
     return self;
 }
+
+#pragma mark collision callbacks
 
 -(void) onCollision:(Entity *)target {
     if ([target class] == [Ball class]) {

@@ -18,8 +18,7 @@
     self = [super init];
     if (self) {
         mode = CAMERA_MODE_NORMAL;
-        scale = 1.0;
-        //scale = 0.46875;  // more natural on iPhone
+        scale = scale(1.0);
         edgeThreshold = 0.0;
         
         CGSize screenSize = [CCDirector sharedDirector].winSize;

@@ -6,12 +6,10 @@
 //  Copyright 2011 Payne Digital Ltd. All rights reserved.
 //
 
-#import "SpriteEntity.h"
+#import "CircleEntity.h"
 
-@interface Pickup : SpriteEntity {
-    float32 radius;
+@interface Pickup : CircleEntity {
+
 }
-
-- (id)initWithPosition: (b2Vec2)_position forWorld: (b2World*)world;
 
 @end

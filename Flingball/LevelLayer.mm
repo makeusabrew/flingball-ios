@@ -13,6 +13,7 @@
 #import "EndLevelLayer.h"
 #import "GameState.h"
 #import "HUDLayer.h"
+#import "Pickup.h"
 
 @implementation LevelLayer
 
@@ -100,6 +101,7 @@
 		self.isTouchEnabled = YES;
         
         [[SimpleAudioEngine sharedEngine] preloadEffect:@"goal.wav"];
+        [[SimpleAudioEngine sharedEngine] preloadEffect:@"boing.wav"];
         
         // game logic initialisation
         level = [[Level alloc] init];
@@ -199,6 +201,7 @@
     m_debugDraw->SetFlags(flags);
     
     // any queued up notifications ready to go?
+    // @todo FIXME this doesn't seem to work - too early perhaps? how do we delay without a timer etc?
     NSMutableArray* notifications = [[GameState sharedGameState] queuedNotifications];
     for (NSString* notification in notifications) {
         [self showAchievementNotification: notification];
@@ -604,6 +607,10 @@
                 // only fling if we've got a velocity to apply        
                 if (v.x != 0 || v.y != 0) {
                     CCLOG(@"fling velocity [%.2f, %.2f]", v.x, v.y);
+                    
+                    // makes sense that sounds etc are handled as much as possible by the controller
+                    [[SimpleAudioEngine sharedEngine] playEffect:@"boing.wav"];
+                    [[GameState sharedGameState] addFling];
                     
                     // since we're about to fling, track the ball again (if we weren't already)
                     [camera seekToEntity:level.ball];

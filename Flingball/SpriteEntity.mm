@@ -13,6 +13,7 @@
 
 @synthesize sprite;
 
+#pragma mark init methods
 - (id)init
 {
     self = [super init];
@@ -23,7 +24,10 @@
     return self;
 }
 
--(void) setPositon: (b2Vec2)_position {
+#pragma mark -
+#pragma mark main class methods
+
+- (void)setPositon: (b2Vec2)_position {
     [super setPosition: _position];    
     [self setSpritePosition:_position withAngle:0];
 }
