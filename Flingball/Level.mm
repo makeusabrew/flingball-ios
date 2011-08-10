@@ -225,9 +225,11 @@
         Vortex *vortex = [[Vortex alloc] init];
         vortex.pullStrength = [[vortexData objectForKey:@"strength"] floatValue];
         
-        [vortex initWithPosition:position forWorld: world withRadius: DEFAULT_VORTEX_RADIUS];
+        float32 radius = [[vortexData objectForKey:@"radius"] floatValue];
         
-        CCLOG(@"adding vortex [%.2f, %.2f]", position.x, position.y);
+        [vortex initWithPosition:position forWorld: world withRadius: radius];
+        
+        CCLOG(@"adding vortex [%.2f, %.2f] with strength [%.2f] and radius [%.2f]", position.x, position.y, vortex.pullStrength, radius);
         [entities addObject: vortex];
         
         [vortex release];

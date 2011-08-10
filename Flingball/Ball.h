@@ -17,6 +17,7 @@
 @property BOOL atGoal;
 
 -(void) fling: (b2Vec2)vector;
+-(void) applyImpulse: (b2Vec2)vector;
 -(void) doRollingFriction;
 -(BOOL) canFling;
 

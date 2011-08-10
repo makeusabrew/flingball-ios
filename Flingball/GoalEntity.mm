@@ -28,8 +28,9 @@
     self = [super initWithPosition: _position forWorld: world withRadius: _radius];
     if (self) {
         
-        [sprite setScaleX: radius / DEFAULT_GOAL_RADIUS];
-        [sprite setScaleY: radius / DEFAULT_GOAL_RADIUS];
+        CGRect spriteRect = [sprite textureRect];
+        [sprite setScaleX: (radius*2) / spriteRect.size.width];
+        [sprite setScaleY: (radius*2) / spriteRect.size.height];
         
         b2BodyDef bodyDef;
         bodyDef.userData = self;

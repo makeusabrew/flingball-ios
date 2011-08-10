@@ -8,6 +8,7 @@
 
 #import "Vortex.h"
 #import "Constants.h"
+#import "Ball.h"
 
 @implementation Vortex
 
@@ -19,7 +20,7 @@
 {
     self = [super init];
     if (self) {
-        sprite = [CCSprite spriteWithSpriteFrameName:@"goal.png"];
+        sprite = [CCSprite spriteWithSpriteFrameName:@"vortex.png"];
     }
     
     return self;
@@ -28,9 +29,10 @@
 - (id)initWithPosition: (b2Vec2)_position forWorld: (b2World*)world withRadius: (float32)_radius {
     self = [super initWithPosition: _position forWorld: world withRadius: _radius];
     if (self) {
+        
         CGRect spriteRect = [sprite textureRect];
-        [sprite setScaleX: radius / spriteRect.size.width];
-        [sprite setScaleY: radius / spriteRect.size.height];
+        [sprite setScaleX: (radius*2) / spriteRect.size.width];
+        [sprite setScaleY: (radius*2) / spriteRect.size.height];
         
         b2BodyDef bodyDef;
         bodyDef.userData = self;
@@ -50,6 +52,33 @@
     }
     
     return self;
+}
+
+#pragma mark collision callbacks
+
+-(void) onCollision:(Entity *)target {
+    if ([target class] == [Ball class]) {
+        Ball* ball = (Ball*) target;
+        
+        float32 dx = [ball getX] - [self getX];
+        float32 dy = [ball getY] - [self getY];
+        float32 dist = sqrt((dx*dx) + (dy*dy));
+        
+        // take off the ball's radius - we care if *any* edge touches
+        // here for clarity
+        dist -= [ball radius];
+        
+        // if the ball is anywhere in our radius, take action!
+        if (dist < radius) {
+            float32 a = atan2f(dy, dx);
+            float32 strength = ((radius - dist) / radius) * pullStrength;
+            CCLOG(@"vortex strength [%.2f]", strength);
+            b2Vec2 v;
+            v.x = -(cos(a) * strength);
+            v.y = -(sin(a) * strength);
+            [ball applyImpulse:v];
+        }
+    }
 }
 
 @end

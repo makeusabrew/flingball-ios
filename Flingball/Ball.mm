@@ -53,8 +53,13 @@
     return self;
 }
 
-- (void)fling:(b2Vec2)vector {
-    body->ApplyLinearImpulse(vector, body->GetPosition());
+-(void) fling:(b2Vec2)vector {
+    // this is nothing more than an alias now really
+    [self applyImpulse: vector];
+}
+
+-(void) applyImpulse:(b2Vec2)vector {
+    body->ApplyLinearImpulse(vector, body->GetPosition());  
 }
 
 -(void) onCollisionStart:(Entity *)target {
