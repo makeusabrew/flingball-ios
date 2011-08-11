@@ -10,6 +10,7 @@
 
 @interface Vortex : CircleEntity {
     float32 pullStrength;
+    float32 angle;
 }
 
 @property float32 pullStrength;

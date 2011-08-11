@@ -54,6 +54,19 @@
     return self;
 }
 
+#pragma mark update methods
+
+-(void) updateBody:(b2Body *)b withDelta:(ccTime)dt {
+    // why do we need to set position below? It should be set when calling setPosition initially, surely?
+    //position.Set(b->GetPosition().x * PTM_RATIO, b->GetPosition().y * PTM_RATIO);
+    
+    b->SetTransform(b2Vec2(b->GetPosition().x, b->GetPosition().y), CC_DEGREES_TO_RADIANS(angle));
+    
+    float a = -1 * CC_RADIANS_TO_DEGREES(b->GetAngle());
+    [self setSpritePosition: position withAngle: a];
+    angle += pullStrength * dt;
+}
+
 #pragma mark collision callbacks
 
 -(void) onCollision:(Entity *)target {

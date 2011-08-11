@@ -182,7 +182,7 @@
                     // manually update the position of the entity so it draws correctly
                     // before the first tick happens
                     CCLOG(@"setting up entity %@", NSStringFromClass([myEntity class]));
-                    [spriteEntity updateBody:b];
+                    [spriteEntity updateBody:b withDelta: 0.0];
                 } else {
                     CCLOG(@"ignoring uninitialised sprite for %@", NSStringFromClass([myEntity class]));
                 }
@@ -358,7 +358,7 @@
             // will implement their own version of updateBody
 			Entity *myEntity = (Entity*)b->GetUserData();
             //CCLOG(@"updating entity %@", NSStringFromClass([myEntity class]));
-            [myEntity updateBody:b];
+            [myEntity updateBody:b withDelta: dt];
 		}
 	}
     

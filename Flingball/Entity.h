@@ -23,7 +23,7 @@
 -(float) getX;
 -(float) getY;
 -(b2Vec2) getPosition;
--(void) updateBody: (b2Body*)b;
+-(void) updateBody: (b2Body*)b withDelta: (ccTime) dt;
 -(void) onCollision: (Entity*)target;
 -(void) onCollisionStart: (Entity*)target;
 -(void) onCollisionEnd: (Entity*)target;

@@ -26,8 +26,9 @@
     return self;
 }
 
-- (void)setPosition: (b2Vec2)_position {    
-    b2Vec2 ptmPos = b2Vec2(_position.x / PTM_RATIO, _position.y / PTM_RATIO);
+- (void)setPosition: (b2Vec2)_position {
+    position = _position;
+    b2Vec2 ptmPos = b2Vec2(position.x / PTM_RATIO, position.y / PTM_RATIO);
     body->SetTransform(ptmPos, 0);    
 }
 
@@ -43,7 +44,7 @@
     return position;
 }
 
--(void) updateBody:(b2Body*)b {
+-(void) updateBody:(b2Body*)b withDelta:(ccTime)dt {
     // update entity position
     position.Set(b->GetPosition().x * PTM_RATIO, b->GetPosition().y * PTM_RATIO);
 }

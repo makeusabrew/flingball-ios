@@ -37,11 +37,13 @@
     sprite.rotation = angle;
 }
 
-- (void)updateBody:(b2Body *)b {
+- (void)updateBody:(b2Body *)b withDelta:(ccTime)dt {
     // parent should update actual entity position
-    [super updateBody:b];
+    [super updateBody:b withDelta: dt];
     
     // now worry about sprite stuff
+    // -1 ensures the rotation is the same direction for the sprite as
+    // it is the actual Box2D body
     float angle = -1 * CC_RADIANS_TO_DEGREES(b->GetAngle());
     [self setSpritePosition:position withAngle:angle];
 }
