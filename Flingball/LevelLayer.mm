@@ -489,8 +489,17 @@
                     [camera trackEntity: nil];
                     [camera translateBy: distRequired];
                 }
+            } else if ([level.ball isMoving]) {
+                // can we spin?
+                if ([level.ball canApplySpin]) {
+                    // top stuff! let's do it then.
+                    CGPoint prevPosition = [touch previousLocationInView: [touch view]];
+                    prevPosition = [[CCDirector sharedDirector] convertToGL: prevPosition];
+                    float32 dx = (prevPosition.x - touchPosition.x) * SPIN_MOVE_SCALE;
+                    [level.ball applySpin: dx];
+                }
             } else {
-                // hey ho, detach the camera
+                // ball is stationary, not in fling mode - so move the camera
                 CGPoint prevPosition = [touch previousLocationInView: [touch view]];
                 prevPosition = [[CCDirector sharedDirector] convertToGL: prevPosition];
                 
@@ -628,6 +637,8 @@
                 [hudLayer flingFinished];
                 
                 isDragging = NO;
+            } else if ([level.ball isMoving]) {
+                // any action if the ball was moving? probably not.
             } else {
                 // one drag let go means we were moving the camera - so add some
                 // speed to it

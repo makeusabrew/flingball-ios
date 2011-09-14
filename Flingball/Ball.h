@@ -12,6 +12,7 @@
 {
     BOOL atGoal;
     NSInteger inContactTicks; // crude way of determining "on the floor" (ish)
+    double lastFlingTime;
 }
 
 @property BOOL atGoal;
@@ -20,5 +21,8 @@
 -(void) applyImpulse: (b2Vec2)vector;
 -(void) doRollingFriction;
 -(BOOL) canFling;
+-(BOOL) isMoving;
+-(BOOL) canApplySpin;
+-(void) applySpin:(float32)v;
 
 @end

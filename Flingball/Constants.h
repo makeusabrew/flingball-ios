@@ -38,6 +38,11 @@ const float32 FLING_PROJECTION_RADIUS = 4;
 const float32 FLING_PROJECTION_GAP = 64.0f;
 const float32 FLING_PROJECTION_OFFSET = 64.0f;
 
+// how long after a fling can a player add spin for?
+const float32 MAX_SPIN_TIME = 0.8f;
+// the ratio of distance a player swipes Vs amount of angular velocity applied
+const float32 SPIN_MOVE_SCALE = 0.06f;
+
 const float32 DEFAULT_CAMERA_SEEK_SPEED = 30.0;
 const float32 CAMERA_SLOWDOWN_SPEED = 0.45;
 

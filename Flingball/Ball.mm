@@ -54,7 +54,8 @@
 }
 
 -(void) fling:(b2Vec2)vector {
-    // this is nothing more than an alias now really
+    // record the fling time
+    lastFlingTime = [NSDate timeIntervalSinceReferenceDate];
     [self applyImpulse: vector];
 }
 
@@ -100,7 +101,24 @@
 
 -(BOOL) canFling {
     b2Vec2 v = body->GetLinearVelocity();
-    return (v.x < FLING_SPEED_THRESHOLD && v.y < FLING_SPEED_THRESHOLD);
+    return (v.x <= FLING_SPEED_THRESHOLD && v.y <= FLING_SPEED_THRESHOLD);
+}
+
+-(BOOL) isMoving {
+    b2Vec2 v = body->GetLinearVelocity();
+    return (v.x != 0 || v.y != 0);
+    
+}
+
+-(BOOL) canApplySpin {
+    double timeSinceFling = [NSDate timeIntervalSinceReferenceDate] - lastFlingTime;
+    return (timeSinceFling <= MAX_SPIN_TIME);
+}
+
+-(void) applySpin:(float32) v {
+    float32 cv = body->GetAngularVelocity();
+    cv += v;
+    body->SetAngularVelocity(cv);
 }
 
 @end
