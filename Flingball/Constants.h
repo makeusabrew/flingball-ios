@@ -62,15 +62,25 @@ const float32 DEFAULT_BALL_RADIUS = 32.0f;
 const float32 DEFAULT_PICKUP_RADIUS = 20.0f;
 const float32 DEFAULT_VORTEX_RADIUS = 96.0f;
 
+const float32 ACHIEVEMENT_EVEREST_HEIGHT = 8848.0;
+
 const int TAG_HUD_LAYER = 1;
 const int TAG_LEVEL_SPRITES = 2;
 
-#define STATE_BOUNCES   @"ballBounces"
-#define STATE_FLINGS    @"ballFlings"
-#define STATE_ENDTIME   @"endTime"
-#define STATE_STARTTIME @"startTime"
+// ball states
+const int BALL_STOPPED = 0;
+const int BALL_MOVING = 1;
+
+// game states
+
+#define STATE_BOUNCES      @"ballBounces"
+#define STATE_FLINGS       @"ballFlings"
+#define STATE_ENDTIME      @"endTime"
+#define STATE_STARTTIME    @"startTime"
+#define STATE_HEIGHTGAINED @"heightGained"
 
 #define ACHIEVEMENT_NO_BOUNCES @"com.paynedigital.flingball.nobounces"
 #define ACHIEVEMENT_WIMPED_OUT @"com.paynedigital.flingball.wimpedout"
+#define ACHIEVEMENT_EVEREST @"com.paynedigital.flingball.fbeverest"
 
 #endif

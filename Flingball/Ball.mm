@@ -23,6 +23,7 @@
         sprite = [CCSprite spriteWithSpriteFrameName:@"ball.png"];
         distanceMoved.SetZero();
         lastPosition.SetZero();
+        currentState = BALL_STOPPED;
     }
     
     return self;
@@ -63,12 +64,43 @@
     distanceMoved.y += fabs(b->GetPosition().y - lastPosition.y);
     lastPosition = b->GetPosition();
     
+    if (currentState == BALL_STOPPED) {
+        if ([self isMoving]) {
+            CCLOG(@"Ball started moving");
+            currentState = BALL_MOVING;
+        }
+    } else if (currentState == BALL_MOVING) {
+        if (![self isMoving]) {
+            CCLOG(@"Ball stopped moving");
+            currentState = BALL_STOPPED;
+            b2Vec2 flingDistance = b->GetPosition() - lastFlingPosition;
+            
+            if (flingDistance.y > 0.00) {
+                heightGained += flingDistance.y;
+                
+                if ([[GameState sharedGameState] getAchievementPercentage: ACHIEVEMENT_EVEREST] < 100.0) {
+                    // @see https://projects.paynedigital.com/issues/206
+                    if (heightGained >= ACHIEVEMENT_EVEREST_HEIGHT) {
+                        CCLOG(@"got everest achievement!");
+                        [[GameState sharedGameState] reportAchievementIdentifier: ACHIEVEMENT_EVEREST percentComplete:100.0];
+                    } else {
+                        float32 pc = (heightGained / ACHIEVEMENT_EVEREST_HEIGHT) * 100.0f;
+                        [[GameState sharedGameState] reportAchievementIdentifier:ACHIEVEMENT_EVEREST percentComplete:pc];
+                        CCLOG(@"Everest percentage [%.2f]", pc);
+                    }
+                }
+            }
+            CCLOG(@"fling distance [%.2f, %.2f]", flingDistance.x, flingDistance.y);
+        }
+    }
+    
     [super updateBody:b withDelta: dt];
 }
 
 -(void) fling:(b2Vec2)vector {
     // record the fling time
     lastFlingTime = [NSDate timeIntervalSinceReferenceDate];
+    lastFlingPosition = body->GetPosition();
     [self applyImpulse: vector];
 }
 
