@@ -13,6 +13,8 @@
     BOOL atGoal;
     NSInteger inContactTicks; // crude way of determining "on the floor" (ish)
     double lastFlingTime;
+    b2Vec2 distanceMoved;
+    b2Vec2 lastPosition;
 }
 
 @property BOOL atGoal;

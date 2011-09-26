@@ -21,6 +21,8 @@
     if (self) {
         atGoal = NO;
         sprite = [CCSprite spriteWithSpriteFrameName:@"ball.png"];
+        distanceMoved.SetZero();
+        lastPosition.SetZero();
     }
     
     return self;
@@ -51,6 +53,17 @@
     }
     
     return self;
+}
+
+- (void)updateBody:(b2Body *)b withDelta:(ccTime)dt {
+    // can't find a clean method of tracking distance - using velocity etc
+    // doesn't seem to work. So we have to keep track of the *last* position
+    // and then take a manual delta. Less than ideal.
+    distanceMoved.x += fabs(b->GetPosition().x - lastPosition.x);
+    distanceMoved.y += fabs(b->GetPosition().y - lastPosition.y);
+    lastPosition = b->GetPosition();
+    
+    [super updateBody:b withDelta: dt];
 }
 
 -(void) fling:(b2Vec2)vector {
