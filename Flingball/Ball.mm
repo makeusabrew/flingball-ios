@@ -15,6 +15,7 @@
 
 @synthesize atGoal;
 
+#pragma mark init methods
 - (id)init
 {
     self = [super init];
@@ -55,6 +56,9 @@
     
     return self;
 }
+
+#pragma mark -
+#pragma mark Main class methods
 
 - (void)updateBody:(b2Body *)b withDelta:(ccTime)dt {
     // can't find a clean method of tracking distance - using velocity etc
@@ -97,6 +101,45 @@
     [super updateBody:b withDelta: dt];
 }
 
+-(void) doRollingFriction {
+    float32 v = body->GetAngularVelocity();
+    if (v > 0) {
+        v -= BALL_ROLLING_FRICTION;
+    } else if (v < 0) {
+        v += BALL_ROLLING_FRICTION;
+    }
+    if (abs(v) <= BALL_ROLLING_FRICTION) {
+        v = 0.0f;
+    }
+    body->SetAngularVelocity(v);
+}
+
+#pragma mark Query methods
+
+-(BOOL) isMoving {
+    b2Vec2 v = body->GetLinearVelocity();
+    return (v.x != 0 || v.y != 0);
+    
+}
+
+-(BOOL) canFling {
+    b2Vec2 v = body->GetLinearVelocity();
+    return (v.x <= FLING_SPEED_THRESHOLD && v.y <= FLING_SPEED_THRESHOLD);
+}
+
+-(BOOL) canApplySpin {
+    double timeSinceFling = [NSDate timeIntervalSinceReferenceDate] - lastFlingTime;
+    return (timeSinceFling <= MAX_SPIN_TIME);
+}
+
+#pragma mark User interactions
+
+-(void) applySpin:(float32) v {
+    float32 cv = body->GetAngularVelocity();
+    cv += v;
+    body->SetAngularVelocity(cv);
+}
+
 -(void) fling:(b2Vec2)vector {
     // record the fling time
     lastFlingTime = [NSDate timeIntervalSinceReferenceDate];
@@ -107,6 +150,8 @@
 -(void) applyImpulse:(b2Vec2)vector {
     body->ApplyLinearImpulse(vector, body->GetPosition());  
 }
+
+#pragma mark Collision Handlers
 
 -(void) onCollisionStart:(Entity *)target {
     if ([target isKindOfClass:[Polygon class]]) {
@@ -129,41 +174,6 @@
 
 -(void) onCollisionEnd:(Entity *)target {
     inContactTicks = 0;
-}
-
--(void) doRollingFriction {
-    float32 v = body->GetAngularVelocity();
-    if (v > 0) {
-        v -= BALL_ROLLING_FRICTION;
-    } else if (v < 0) {
-        v += BALL_ROLLING_FRICTION;
-    }
-    if (abs(v) <= BALL_ROLLING_FRICTION) {
-        v = 0.0f;
-    }
-    body->SetAngularVelocity(v);
-}
-
--(BOOL) canFling {
-    b2Vec2 v = body->GetLinearVelocity();
-    return (v.x <= FLING_SPEED_THRESHOLD && v.y <= FLING_SPEED_THRESHOLD);
-}
-
--(BOOL) isMoving {
-    b2Vec2 v = body->GetLinearVelocity();
-    return (v.x != 0 || v.y != 0);
-    
-}
-
--(BOOL) canApplySpin {
-    double timeSinceFling = [NSDate timeIntervalSinceReferenceDate] - lastFlingTime;
-    return (timeSinceFling <= MAX_SPIN_TIME);
-}
-
--(void) applySpin:(float32) v {
-    float32 cv = body->GetAngularVelocity();
-    cv += v;
-    body->SetAngularVelocity(cv);
 }
 
 @end
