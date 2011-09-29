@@ -17,6 +17,37 @@
 
 @synthesize world, ball, contactListener, goal, isLoaded;
 
+#pragma mark dealloc
+
+- (void) dealloc
+{
+	// in case you have something to dealloc, do it in this method
+	delete world;
+	world = NULL;
+    
+    delete contactListener;
+    contactListener = NULL;
+    
+    [ball release];
+    ball = nil;    
+    [bounds release];
+    bounds = nil;
+    [goal release];
+    goal = nil;    
+    
+    [entities release];
+    entities = nil;
+    
+    // THIS MUST BE UNCOMMENTED IF WE SWITCH BACK TO ASYNC
+    //[levelData release];
+    //levelData = nil;
+    
+	// don't forget to call "super dealloc"
+	[super dealloc];
+}
+
+#pragma mark init method
+
 - (id)init
 {
     self = [super init];
@@ -38,6 +69,8 @@
     
     return self;
 }
+
+#pragma mark load methods
 
 -(void) loadLevel:(NSInteger)levelIndex {
     
@@ -240,6 +273,8 @@
     [[NSNotificationCenter defaultCenter] postNotificationName:@"levelLoaded" object:self];
 }
 
+#pragma mark main class methods
+
 - (void)createBoundaries:(CGRect)rect {
     // Define the ground body.
     
@@ -307,34 +342,6 @@
     
     CCLOG(@"Loading level from JSON data...");
     [self loadLevelWithData: [jsonObject objectForKey:@"level"]];
-}
-
-#pragma mark dealloc
-- (void) dealloc
-{
-	// in case you have something to dealloc, do it in this method
-	delete world;
-	world = NULL;
-    
-    delete contactListener;
-    contactListener = NULL;
-    
-    [ball release];
-    ball = nil;    
-    [bounds release];
-    bounds = nil;
-    [goal release];
-    goal = nil;    
-    
-    [entities release];
-    entities = nil;
-    
-    // THIS MUST BE UNCOMMENTED IF WE SWITCH BACK TO ASYNC
-    //[levelData release];
-    //levelData = nil;
-    
-	// don't forget to call "super dealloc"
-	[super dealloc];
 }
 
 @end

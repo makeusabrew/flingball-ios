@@ -24,7 +24,7 @@
 	[super dealloc];
 }
 
-#pragma mark -
+#pragma mark scene initialisation method
 
 +(CCScene *) scene
 {
@@ -41,6 +41,8 @@
 	// return the scene
 	return scene;
 }
+
+#pragma mark init methods
 
 - (id)init
 {
@@ -89,6 +91,9 @@
 
 @end
 
+#pragma mark -
+#pragma mark -
+
 @implementation SettingsLayer
 
 #pragma mark dealloc
@@ -102,7 +107,7 @@
 	[super dealloc];
 }
 
-#pragma mark -
+#pragma mark init method
 
 - (id)init
 {

@@ -24,8 +24,7 @@
     return self;
 }
 
-#pragma mark -
-#pragma mark main class methods
+#pragma mark update methods
 
 - (void)setPositon: (b2Vec2)_position {
     [super setPosition: _position];    

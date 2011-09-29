@@ -13,8 +13,25 @@
 
 @synthesize queuedNotifications;
 
+#pragma mark dealloc
+
+-(void) dealloc {
+    [values release];
+    values = nil;
+    
+    [achievements release];
+    achievements = nil;
+    
+    [queuedNotifications release];
+    queuedNotifications = nil;
+    
+    [super dealloc];
+}
+
+#pragma mark static variable declaration
 static GameState* sharedGameState = nil;
 
+#pragma mark static singleton method
 + (GameState *) sharedGameState {
 	@synchronized(self)     {
 		if (!sharedGameState) {
@@ -25,6 +42,7 @@ static GameState* sharedGameState = nil;
 	return nil;
 }
 
+#pragma mark static alloc method
 +(id) alloc {
     @synchronized ([GameState class]) {
         NSAssert(sharedGameState == nil, @"Attempted to allocate second instance of GameState singleton");
@@ -33,6 +51,8 @@ static GameState* sharedGameState = nil;
     }
     return nil;
 }
+
+#pragma mark init method
 
 - (id)init
 {
@@ -49,23 +69,6 @@ static GameState* sharedGameState = nil;
     }
     
     return self;
-}
-
--(void) dealloc {
-    [values release];
-    values = nil;
-    
-    [achievements release];
-     achievements = nil;
-    
-    [queuedNotifications release];
-    queuedNotifications = nil;
-    
-    [super dealloc];
-}
-
--(void) reset {
-    [values removeAllObjects];
 }
 
 # pragma mark Core setters
@@ -199,6 +202,12 @@ static GameState* sharedGameState = nil;
         return 0.0;
     }
     return achievement.percentComplete;
+}
+
+#pragma mark reset
+
+-(void) reset {
+    [values removeAllObjects];
 }
 
 @end

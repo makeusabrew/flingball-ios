@@ -57,8 +57,7 @@
     return self;
 }
 
-#pragma mark -
-#pragma mark Main class methods
+#pragma mark update methods
 
 - (void)updateBody:(b2Body *)b withDelta:(ccTime)dt {
     // can't find a clean method of tracking distance - using velocity etc

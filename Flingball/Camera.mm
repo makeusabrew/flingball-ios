@@ -13,6 +13,7 @@
 
 @synthesize scale, offsetX, offsetY;
 
+#pragma mark init method
 - (id)init
 {
     self = [super init];
@@ -28,6 +29,8 @@
     
     return self;
 }
+
+#pragma mark translation methods
 
 -(void) translateBy: (b2Vec2)vector {
     position.x += vector.x;
@@ -46,6 +49,8 @@
     position.x = vector.x;
     position.y = vector.y;
 }
+
+#pragma mark getters
 
 -(float) getLeftEdge {
     return offsetX + position.x - ((width / 2.0) / scale);
@@ -71,6 +76,33 @@
     return offsetY + position.y;
 }
 
+-(float32) getEdgeThreshold {
+    if (edgeThreshold == 0.0) {  
+        edgeThreshold = scale(CAMERA_EDGE_THRESHOLD);
+    }
+    return edgeThreshold;
+}
+
+-(b2Vec2) getDistanceRequiredToFocusVector:(b2Vec2)vector {
+    b2Vec2 over;
+    over.SetZero();
+    float32 threshold = [self getEdgeThreshold];
+    if (vector.x > [self getRightEdge] - threshold) {
+        over.x = vector.x - ([self getRightEdge] - threshold);        
+    } else if (vector.x < [self getLeftEdge] + threshold) {
+        over.x = vector.x - ([self getLeftEdge] + threshold);
+    }
+    
+    if (vector.y > [self getTopEdge] - threshold) {
+        over.y = vector.y - ([self getTopEdge] - threshold);        
+    } else if (vector.y < [self getBottomEdge] + threshold) {
+        over.y = vector.y - ([self getBottomEdge] + threshold);
+    }
+    return over;
+}
+
+#pragma mark setters
+
 /**
  * we assume viewport means the actual bounds of the camera, so we have to
  * adjust our actual position
@@ -84,6 +116,8 @@
     width = viewport.size.width;
     height = viewport.size.height;
 }
+
+#pragma mark entity tracking methods
 
 -(void) seekToEntity:(Entity *)entity {
     mode = CAMERA_MODE_SEEKING;
@@ -108,6 +142,8 @@
     }
     return NO;
 }
+
+#pragma mark update camera position
 
 -(void) update {
     //CCLOG(@"[%.2f, %.2f] [%.2f, %.2f], [%.2f, %.2f]", [self getLeftEdge], [self getBottomEdge], [self getCenterX], [self getCenterY], [self getRightEdge], [self getTopEdge]);
@@ -170,31 +206,6 @@
             break;
         }
     }
-}
-
--(float32) getEdgeThreshold {
-    if (edgeThreshold == 0.0) {  
-        edgeThreshold = scale(CAMERA_EDGE_THRESHOLD);
-    }
-    return edgeThreshold;
-}
-
--(b2Vec2) getDistanceRequiredToFocusVector:(b2Vec2)vector {
-    b2Vec2 over;
-    over.SetZero();
-    float32 threshold = [self getEdgeThreshold];
-    if (vector.x > [self getRightEdge] - threshold) {
-        over.x = vector.x - ([self getRightEdge] - threshold);        
-    } else if (vector.x < [self getLeftEdge] + threshold) {
-        over.x = vector.x - ([self getLeftEdge] + threshold);
-    }
-    
-    if (vector.y > [self getTopEdge] - threshold) {
-        over.y = vector.y - ([self getTopEdge] - threshold);        
-    } else if (vector.y < [self getBottomEdge] + threshold) {
-        over.y = vector.y - ([self getBottomEdge] + threshold);
-    }
-    return over;
 }
 
 @end

@@ -13,15 +13,7 @@
 
 @synthesize bodyDef, shapeDef, fixtureDef;
 
-- (id)init
-{
-    self = [super init];
-    if (self) {
-        //vertices = [[NSMutableArray alloc] init];
-    }
-    
-    return self;
-}
+#pragma mark add to world
 
 -(void) createForWorld: (b2World*)world {
     CCLOG(@"adding polygon to world at %.2f, %.2f", bodyDef.position.x, bodyDef.position.y);
@@ -34,13 +26,6 @@
     body = world->CreateBody(&bodyDef);    
     fixtureDef.shape = &shapeDef;
     body->CreateFixture(&fixtureDef);
-}
-
--(void) dealloc {
-    //[vertices release];
-    //vertices = nil;
-    
-    [super dealloc];
 }
 
 @end

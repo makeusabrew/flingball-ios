@@ -25,7 +25,7 @@
 	[super dealloc];
 }
 
-#pragma mark -
+#pragma mark init method
 
 - (id)init
 {
@@ -100,6 +100,8 @@
     
     return self;
 }
+
+#pragma mark main class methods
 
 -(NSString*) getStatus {
     double elapsedTime = 0.0;

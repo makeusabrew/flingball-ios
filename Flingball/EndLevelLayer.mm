@@ -14,6 +14,20 @@
 
 @implementation EndLevelLayer
 
+#pragma mark dealloc
+
+- (void) dealloc
+{
+    CCLOG(@"EndLevelLayer::dealloc");
+	
+	delete m_debugDraw;
+    
+	// don't forget to call "super dealloc"
+	[super dealloc];
+}
+
+#pragma mark Scene initialisation methods
+
 +(CCScene *) scene: (NSInteger)levelIndex
 {
 	// 'scene' is an autorelease object.
@@ -31,7 +45,8 @@
 	return scene;
 }
 
-// on "init" you need to initialize your instance
+#pragma mark init methods
+
 -(id) init
 {
 	// always call "super" init
@@ -55,6 +70,8 @@
 	}
 	return self;
 }
+
+#pragma mark Main class methods
 
 -(void) setLevel:(NSInteger)levelIndex {
     CCLOG(@"Setting End Level index to %d", levelIndex);
@@ -88,17 +105,7 @@
     label.position = ccp(screenSize.width/2, (screenSize.height/2) - scale(50));
 }
 
-- (void)ccTouchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
-{
-    if ([[GameState sharedGameState] getValueAsBool: @"isDevMode"]) {
-        [[CCDirector sharedDirector] replaceScene:
-         [CCTransitionCrossFade transitionWithDuration:1.0f scene:[MenuLayer scene]]];
-    } else {
-        CCLOG(@"About to load level %d", cLevel+1);
-        [[CCDirector sharedDirector] replaceScene:
-         [CCTransitionCrossFade transitionWithDuration:1.0f scene:[LevelLayer scene:cLevel+1]]];
-    }   
-}
+#pragma mark Draw method
 
 -(void) draw
 {
@@ -116,6 +123,20 @@
 	glEnableClientState(GL_COLOR_ARRAY);
 	glEnableClientState(GL_TEXTURE_COORD_ARRAY);
     
+}
+
+#pragma mark touch handlers
+
+- (void)ccTouchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
+{
+    if ([[GameState sharedGameState] getValueAsBool: @"isDevMode"]) {
+        [[CCDirector sharedDirector] replaceScene:
+         [CCTransitionCrossFade transitionWithDuration:1.0f scene:[MenuLayer scene]]];
+    } else {
+        CCLOG(@"About to load level %d", cLevel+1);
+        [[CCDirector sharedDirector] replaceScene:
+         [CCTransitionCrossFade transitionWithDuration:1.0f scene:[LevelLayer scene:cLevel+1]]];
+    }   
 }
 
 @end

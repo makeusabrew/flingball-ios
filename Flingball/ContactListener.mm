@@ -18,7 +18,6 @@ ContactListener::~ContactListener() {
     
 }
 
-
 void ContactListener::BeginContact(b2Contact *contact) {
     Contact _contact = {
         contact->GetFixtureA(),
